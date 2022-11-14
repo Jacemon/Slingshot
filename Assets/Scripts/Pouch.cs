@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class Pouch : MonoBehaviour
 {
     public bool PouchFill = false;
