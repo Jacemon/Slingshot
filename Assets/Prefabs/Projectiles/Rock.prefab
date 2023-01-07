@@ -88,7 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectileName: Rock
   DragSpeed: 20
-  FlightTime: 2
+  FlightTime: 1
   FinalScale: 0.5
   StartPosition: {x: 0, y: -2}
   Velocity: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7743727049057210235}
   - component: {fileID: 7743727049057210237}
   m_Layer: 7
-  m_Name: testRc
+  m_Name: testPj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

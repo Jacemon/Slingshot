@@ -7,8 +7,9 @@ public class Projectile : MonoBehaviour
     [Header("Settigs")]
     public string ProjectileName = "None";
     public float DragSpeed = 20.0f;
-    public float FlightTime = 2.0f;
+    public float FlightTime = 1.0f;
     public float FinalScale = 0.3f;
+    public int Damage = 1;
     public Vector2 StartPosition = new Vector2(0, -2);
 
     [Header("Current parameters")]

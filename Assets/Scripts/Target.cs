@@ -3,7 +3,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     [Header("Settigs")]
-    public int MaxHealth = 1;
+    public int MaxHealth = 3;
     public int Health;
 
     private void Awake()
@@ -17,7 +17,14 @@ public class Target : MonoBehaviour
         {
             return;
         }
+
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        Health-= projectile.Damage;
+        if (Health <= 0)
+        {
+            GetComponent<Rigidbody2D>().isKinematic = false;
+        }
+
         projectile.transform.parent = transform;
         projectile.GetComponent<Rigidbody2D>().isKinematic = true;
         projectile.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
