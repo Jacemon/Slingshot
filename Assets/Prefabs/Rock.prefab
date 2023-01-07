@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6490992875696440851}
   - component: {fileID: 7929748582947890234}
   m_Layer: 7
-  m_Name: Projectile
+  m_Name: Rock
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,9 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70162d84dca33b42b99a9957f8e6813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MouseDown: 0
+  ProjectileName: Rock
   DragSpeed: 20
-  FlyTime: 2
+  FlightTime: 2
+  FinalScale: 0.5
   StartPosition: {x: 0, y: -2}
   Velocity: 0
   Pouch: {fileID: 0}
@@ -212,7 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9428ef69f2d7a7b4fa8cb728d21373a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineCount: 10
+  LineCount: 10
+  LineRenderer: {fileID: 6490992875696440851}
 --- !u!1 &7743727049057210234
 GameObject:
   m_ObjectHideFlags: 0

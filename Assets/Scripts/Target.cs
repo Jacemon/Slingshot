@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    [Header("Settigs")]
     public int MaxHealth = 1;
     public int Health;
 
@@ -12,7 +13,7 @@ public class Target : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision == null || !collision.gameObject.CompareTag("Throwed projectile"))
+        if (collision == null || !collision.gameObject.CompareTag("Thrown Projectile"))
         {
             return;
         }

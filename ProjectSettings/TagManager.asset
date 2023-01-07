@@ -7,7 +7,7 @@ TagManager:
   - Projectile
   - Pouch
   - Target
-  - Throwed projectile
+  - Thrown Projectile
   layers:
   - Default
   - TransparentFX
