@@ -1,26 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ProjectileManager : MonoBehaviour
 {
-    [Header("Settigs")]
-    public List<GameObject> ProjectilePrefabs = new List<GameObject>();
-    public Vector3 ProjectileSpawnPoint = Vector3.zero;
+    [Header("Settings")]
+    public List<GameObject> projectilePrefabs = new List<GameObject>();
 
-    private static Dictionary<string, GameObject> ProjectileDictionary = new Dictionary<string, GameObject>();
+    public Vector3 projectileSpawnPoint;
 
-    // Переделать
+    private static Dictionary<string, GameObject> _projectileDictionary = new Dictionary<string, GameObject>();
+
+    // РџРµСЂРµРґРµР»Р°С‚СЊ
     public void Start()
     {
-        // Проверка префаба на то, что он снаряд
-        foreach (var projectilePrefab in ProjectilePrefabs)
+        // РџСЂРѕРІРµСЂРєР° РїСЂРµС„Р°Р±Р° РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅ СЃРЅР°СЂСЏРґ
+        foreach (var projectilePrefab in projectilePrefabs)
         {
             Projectile projectile = projectilePrefab.GetComponent<Projectile>();
             if (projectile != null)
             {
-                // Добавление снаряда в список
-                ProjectileDictionary[projectile.ProjectileName] = projectilePrefab;
-                Debug.Log("Projectile " + projectile.ProjectileName + " was loaded");
+                // Р”РѕР±Р°РІР»РµРЅРёРµ СЃРЅР°СЂСЏРґР° РІ СЃРїРёСЃРѕРє
+                _projectileDictionary[projectile.projectileName] = projectilePrefab;
+                Debug.Log("Projectile " + projectile.projectileName + " was loaded");
             }
             else
             {
@@ -31,6 +33,6 @@ public class ProjectileManager : MonoBehaviour
 
     public static GameObject SpawnProjectile(string projectileName)
     {
-        return Instantiate(ProjectileDictionary[projectileName]);
+        return Instantiate(_projectileDictionary[projectileName]);
     }
 }

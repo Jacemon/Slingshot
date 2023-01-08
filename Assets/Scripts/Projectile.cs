@@ -1,83 +1,84 @@
-using System;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Serialization;
 
 public class Projectile : MonoBehaviour
 {
-    [Header("Settigs")]
-    public string ProjectileName = "None";
-    public float DragSpeed = 20.0f;
-    public float FlightTime = 1.0f;
-    public float FinalScale = 0.3f;
-    public int Damage = 1;
-    public Vector2 StartPosition = new Vector2(0, -2);
+    [Header("Settings")]
+    public string projectileName = "None";
+    public float dragSpeed = 20.0f;
+    public float flightTime = 1.0f;
+    public float finalScale = 0.3f;
+    public int damage = 1;
 
     [Header("Current parameters")]
-    public float Velocity = 0.0f;
-    public Pouch Pouch;
+    public float velocity;
+    public Pouch pouch;
+    public Vector2 startPosition;
 
-    private Vector2 Direction;
-    private float ScaleVelocity;
-    private bool InFlight = false;
+    private Vector2 _direction;
+    private float _scaleVelocity;
+    private bool _inPouch = false;
+    private bool _inFlight = false;
 
-    private bool MouseDown = false;
-    private Rigidbody2D rb;
-    private Rigidbody2D pouchRb;
-    private LineRenderer lineRenderer;
+    private bool _mouseDown = false;
+    private Rigidbody2D _rb;
+    private Rigidbody2D _pouchRb;
+    private LineRenderer _lineRenderer;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        lineRenderer = GetComponent<LineRenderer>();
-        rb.isKinematic = false;
+        _rb = GetComponent<Rigidbody2D>();
+        _lineRenderer = GetComponent<LineRenderer>();
+        _rb.isKinematic = false;
 
-        ScaleVelocity = (1 - FinalScale) / FlightTime;
+        _scaleVelocity = (1 - finalScale) / flightTime;
     }
 
     private void Update()
     {
-        if (MouseDown)
+        if (_mouseDown)
         {
-            // Плавно следовать за мышью
+            // РџР»Р°РІРЅРѕ СЃР»РµРґРѕРІР°С‚СЊ Р·Р° РјС‹С€СЊСЋ
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            rb.transform.position = Vector2.MoveTowards(
-                rb.transform.position,
+            _rb.transform.position = Vector2.MoveTowards(
+                _rb.transform.position,
                 new Vector2(mousePos.x, mousePos.y),
-                Time.deltaTime * DragSpeed
+                Time.deltaTime * dragSpeed
             );
 
-            // Пока снаряд не вылетел из рогатки
-            if (Pouch != null)
+            // РџРѕРєР° СЃРЅР°СЂСЏРґ РЅРµ РІС‹Р»РµС‚РµР» РёР· СЂРѕРіР°С‚РєРё
+            if (_inPouch)
             {
-                // Расчёт угла поворота
-                Direction = StartPosition - new Vector2(transform.position.x, transform.position.y);
-                Direction.Normalize();
-                var angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg - 90.0f;
-                // И поворот рогатки на этот угол
+                // Р Р°СЃС‡С‘С‚ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р°
+                _direction = startPosition - new Vector2(transform.position.x, transform.position.y);
+                _direction.Normalize();
+                var angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90.0f;
+                // Р РїРѕРІРѕСЂРѕС‚ СЂРѕРіР°С‚РєРё РЅР° СЌС‚РѕС‚ СѓРіРѕР»
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                // Расчёт скорости с которой он может полететь
-                Velocity = Vector2.Distance(transform.position, StartPosition) * Pouch.ThrowSpeed;
+                // Р Р°СЃС‡С‘С‚ СЃРєРѕСЂРѕСЃС‚Рё СЃ РєРѕС‚РѕСЂРѕР№ РѕРЅ РјРѕР¶РµС‚ РїРѕР»РµС‚РµС‚СЊ
+                velocity = Vector2.Distance(transform.position, startPosition) * pouch.throwSpeed;
 
-                // Установка нормального положения снаряда в рогатке
-                Pouch.transform.localPosition = new Vector3(0, -0.5f, 0);
-                Pouch.transform.localRotation = Quaternion.identity;
+                // РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕСЂРјР°Р»СЊРЅРѕРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ СЃРЅР°СЂСЏРґР° РІ СЂРѕРіР°С‚РєРµ
+                pouch.transform.localPosition = new Vector2(0, -0.5f);
+                pouch.transform.localRotation = Quaternion.identity;
             }
         }
     }
 
     private void FixedUpdate()
     {
-        // Уменьшение снаряда во время полёта
-        if (InFlight)
+        // РЈРјРµРЅСЊС€РµРЅРёРµ СЃРЅР°СЂСЏРґР° РІРѕ РІСЂРµРјСЏ РїРѕР»С‘С‚Р°
+        if (_inFlight)
         {
-            Vector3 newScale = rb.transform.localScale - new Vector3(
-                ScaleVelocity * Time.deltaTime,
-                ScaleVelocity * Time.deltaTime, 
+            Vector3 newScale = _rb.transform.localScale - new Vector3(
+                _scaleVelocity * Time.deltaTime,
+                _scaleVelocity * Time.deltaTime, 
                 0);
             if (newScale.x > 0 || newScale.y > 0)
             {
-                rb.transform.localScale = newScale;
+                _rb.transform.localScale = newScale;
             }
         }
     }
@@ -88,77 +89,74 @@ public class Projectile : MonoBehaviour
         {
             return;
         }
-        // Если снаряд столкнулся не с рогаткой
-        // или если рогатка уже занята
-        // или если снаряд не был взят игроком
-        // то выход
+        // Р•СЃР»Рё СЃРЅР°СЂСЏРґ СЃС‚РѕР»РєРЅСѓР»СЃСЏ РЅРµ СЃ СЂРѕРіР°С‚РєРѕР№
+        // РёР»Рё РµСЃР»Рё СЂРѕРіР°С‚РєР° СѓР¶Рµ Р·Р°РЅСЏС‚Р°
+        // РёР»Рё РµСЃР»Рё СЃРЅР°СЂСЏРґ РЅРµ Р±С‹Р» РІР·СЏС‚ РёРіСЂРѕРєРѕРј
+        // С‚Рѕ РІС‹С…РѕРґ
         Pouch pouch = collision.gameObject.GetComponent<Pouch>();
         if (pouch == null || !pouch.CompareTag("Pouch") 
-            || pouch.PouchFill == true || !MouseDown)
+            || pouch.pouchFill || !_mouseDown)
         {
             return;
         }
 
         FillPouch(pouch);
 
-        lineRenderer.enabled = true;
+        _lineRenderer.enabled = true;
     }
 
     private void FillPouch(Pouch pouch)
     {
-        Pouch = pouch;
-        Pouch.PouchFill = true;
-        Pouch.GetComponent<Collider2D>().enabled = false;
-        Pouch.transform.parent = transform;
-        pouchRb = pouch.GetComponent<Rigidbody2D>();
-        pouchRb.isKinematic = true;
+        this.pouch = pouch;
+        this.pouch.pouchFill = true;
+        this.pouch.GetComponent<Collider2D>().enabled = false;
+        this.pouch.transform.parent = transform;
+        _pouchRb = pouch.GetComponent<Rigidbody2D>();
+        _pouchRb.isKinematic = true;
+
+        _inPouch = true;
+        startPosition = this.pouch.startPosition;
     }
 
-    private void UnfillPouch(Pouch pouch)
+    private void EmptyPouch()
     {
-        pouchRb.isKinematic = false;
-        pouchRb = null;
-        Pouch.transform.parent = null;
-        Pouch.GetComponent<Collider2D>().enabled = true;
-        Pouch.PouchFill = false;
-        Pouch = null;
+        _pouchRb.isKinematic = false;
+        _pouchRb = null;
+        pouch.transform.parent = null;
+        pouch.GetComponent<Collider2D>().enabled = true;
+        pouch.pouchFill = false;
+        pouch = null;
+
+        _inPouch = false;
+        startPosition = Vector2.zero;
     }
 
     private void OnMouseDown()
     {
-        MouseDown = true;
+        _mouseDown = true;
 
-        rb.isKinematic = true;
+        _rb.isKinematic = true;
 
-        rb.velocity = Vector2.zero;
-        Velocity = 0;
-        rb.angularVelocity = 0;
+        _rb.velocity = Vector2.zero;
+        velocity = 0;
+        _rb.angularVelocity = 0;
     }
 
     private void OnMouseUp()
     {
-        MouseDown = false;
+        _mouseDown = false;
 
-        rb.isKinematic = false;
+        _rb.isKinematic = false;
 
 
-        if (pouchRb != null)
+        if (_pouchRb != null)
         {
-            rb.velocity = Direction * Velocity;
+            _rb.velocity = _direction * velocity;
             GetComponent<Collider2D>().enabled = false;
 
-            UnfillPouch(Pouch);
-            /*pouchRb.isKinematic = false;
-            pouchRb = null;
-            GetComponent<Collider2D>().enabled = false;
-            //rb.velocity = Direction * Velocity; 
+            EmptyPouch();
 
-            Pouch.transform.parent = null;
-            Pouch.GetComponent<Collider2D>().enabled = true;
-            Pouch.PouchFill = false;
-            Pouch = null;*/
-
-            lineRenderer.enabled = false;
+            _lineRenderer.enabled = false;
 
             StartCoroutine("WaitForHit");
         }
@@ -168,13 +166,12 @@ public class Projectile : MonoBehaviour
     {
         transform.tag = "Thrown Projectile";
         
-        InFlight = true;
-        yield return new WaitForSecondsRealtime(FlightTime);
-        InFlight = false;
+        _inFlight = true;
+        yield return new WaitForSecondsRealtime(flightTime);
+        _inFlight = false;
 
         GetComponent<Collider2D>().enabled = true;
 
-
-        Debug.Log("can be stuck in");
+        Debug.Log(projectileName + " can be stuck in target");
     }
 }
