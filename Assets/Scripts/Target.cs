@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Destroyable))]
 public class Target : MonoBehaviour
 {
     [Header("Settings")] 
     public string targetName = "None";
+    [Space]
     public int maxHealth = 3;
+    public int points = 100;
     
     [SerializeField]
     private int health;
@@ -23,7 +25,7 @@ public class Target : MonoBehaviour
         }
 
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        EnterProjectile(projectile);
+        //EnterProjectile(projectile);
         GetDamage(projectile.damage);
     }
 

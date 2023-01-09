@@ -1,19 +1,19 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Trajectory : MonoBehaviour
 {
     [Header("Settings")]
     public int lineCount = 10;
-    [Header("Not null settings")]
-    public LineRenderer lineRenderer;
-
+    
+    private LineRenderer _lineRenderer;
     private Projectile _projectile;
 
     private void Awake()
     {
         _projectile = GetComponent<Projectile>();
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = lineCount + 1;
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = lineCount + 1;
     }
 
     private void Update()
@@ -33,7 +33,7 @@ public class Trajectory : MonoBehaviour
         for (i = 0, t = 0.0f; i <= lineCount; i++, t+= dt)
         {
             var nextPos = new Vector3(vx * t, vy * t + Physics2D.gravity.y * t * t / 2);
-            lineRenderer.SetPosition(i, transform.position + nextPos);
+            _lineRenderer.SetPosition(i, transform.position + nextPos);
         }
     }
 }
