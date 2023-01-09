@@ -11,6 +11,7 @@ public class Target : MonoBehaviour
     public int points = 100;
     [Space]
     public Slider slider;
+    public Canvas healthBar;
     
     [SerializeField]
     private int health;
@@ -18,6 +19,8 @@ public class Target : MonoBehaviour
     private void Awake()
     {
         health = maxHealth;
+        
+        healthBar.enabled = false;
         slider.maxValue = maxHealth;
         slider.value = health;
     }
@@ -37,13 +40,18 @@ public class Target : MonoBehaviour
     {
         health -= damage;
         Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
+        
         if (health <= 0)
         {
             GetComponent<Rigidbody2D>().isKinematic = false;
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("Background");
+            healthBar.enabled = false;
+        } 
+        else if (health < maxHealth)
+        {
+            healthBar.enabled = true;
+            slider.value = health;
         }
-
-        slider.value = health;
     }
 }
