@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Destroyable))]
 public class Target : MonoBehaviour
@@ -8,6 +9,8 @@ public class Target : MonoBehaviour
     [Space]
     public int maxHealth = 3;
     public int points = 100;
+    [Space]
+    public Slider slider;
     
     [SerializeField]
     private int health;
@@ -15,17 +18,18 @@ public class Target : MonoBehaviour
     private void Awake()
     {
         health = maxHealth;
+        slider.maxValue = maxHealth;
+        slider.value = health;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision == null || !collision.gameObject.CompareTag("Thrown Projectile"))
+        if (collision == null || !collision.gameObject.CompareTag("Projectile"))
         {
             return;
         }
 
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        //EnterProjectile(projectile);
         GetDamage(projectile.damage);
     }
 
@@ -37,21 +41,9 @@ public class Target : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().isKinematic = false;
             Debug.Log($"{targetName} shot down");
+            gameObject.layer = LayerMask.NameToLayer("Background");
         }
-    }
-    
-    private void EnterProjectile(Projectile projectile)
-    {
-        projectile.transform.parent = transform;
-        projectile.GetComponent<Rigidbody2D>().isKinematic = true;
-        projectile.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        projectile.GetComponent<Collider2D>().enabled = false;
-    }
 
-    private void ExitProjectile(Projectile projectile)
-    {
-        projectile.transform.parent = null;
-        projectile.GetComponent<Rigidbody2D>().isKinematic = false;
-        projectile.GetComponent<Collider2D>().enabled = true;
+        slider.value = health;
     }
 }

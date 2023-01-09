@@ -20,10 +20,10 @@ public class Projectile : MonoBehaviour
     public Pouch pouch;
     public Vector2 startPosition;
 
+    public State state;
+    
     private Vector2 _direction;
     private float _scaleVelocity;
-    private bool _inPouch;
-    private bool _inFlight;
 
     private Camera _camera;
     private bool _mouseDown;
@@ -31,6 +31,13 @@ public class Projectile : MonoBehaviour
 
     private LineRenderer _lineRenderer;
 
+    public enum State
+    {
+        InCalm,
+        InPouch,
+        InFlight
+    }
+    
     private void Awake()
     {
         _camera = Camera.main;
@@ -54,7 +61,7 @@ public class Projectile : MonoBehaviour
                 );
 
             // Пока снаряд не вылетел из рогатки
-            if (_inPouch)
+            if (state == State.InPouch)
             {
                 // Расчёт угла поворота
                 Vector2 currentPosition = transform.position;
@@ -78,7 +85,7 @@ public class Projectile : MonoBehaviour
     private void FixedUpdate()
     {
         // Уменьшение снаряда во время полёта
-        if (_inFlight)
+        if (state == State.InFlight)
         {
             Vector3 newScale = _rb.transform.localScale - new Vector3(
                 _scaleVelocity * Time.deltaTime,
@@ -118,8 +125,8 @@ public class Projectile : MonoBehaviour
         pouch.GetComponent<Collider2D>().enabled = false;
         pouch.transform.parent = transform;
         pouch.GetComponent<Rigidbody2D>().isKinematic = true;
-        
-        _inPouch = true;
+
+        state = State.InPouch;
         startPosition = pouch.startPosition;
     }
 
@@ -131,7 +138,7 @@ public class Projectile : MonoBehaviour
         pouch.pouchFill = false;
         pouch = null;
 
-        _inPouch = false;
+        state = State.InCalm;
         startPosition = Vector2.zero;
     }
 
@@ -153,40 +160,36 @@ public class Projectile : MonoBehaviour
         if (pouch != null)
         {
             Debug.Log($"{transform.position.y} / {startPosition.y - throwOffset}");
+            
+            EmptyPouch();
+            _lineRenderer.enabled = false;
+            
             if (transform.position.y < startPosition.y - throwOffset)
             {
-                _rb.velocity = _direction * velocity;
-                GetComponent<Collider2D>().enabled = false;
-
-                EmptyPouch();
-
-                _lineRenderer.enabled = false;
-
-                StartCoroutine(nameof(WaitForHit));
-            }
-            else
-            {
-                EmptyPouch();
-                
-                _lineRenderer.enabled = false;
+                Shoot();
             }
         }
     }
 
+    private void Shoot()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Middleground");
+        _rb.velocity = _direction * velocity;
+        GetComponent<Collider2D>().enabled = false;
+        StartCoroutine(nameof(WaitForHit));
+    }
+
     private IEnumerator WaitForHit()
     {
-        transform.tag = "Thrown Projectile";
-        
-        _inFlight = true;
+        state = State.InFlight;
         yield return new WaitForSecondsRealtime(flightTime);
-        _inFlight = false;
+        state = State.InCalm;
 
         GetComponent<Collider2D>().enabled = true;
         Debug.Log($"{projectileName} can be stuck in target");
         
         yield return new WaitForSecondsRealtime(0.1f);
-        
-        /*GetComponent<Collider2D>().enabled = false;
-        Debug.Log($"{projectileName} can not be stuck in target");*/
+
+        gameObject.layer = LayerMask.NameToLayer("Background");
     }
 }

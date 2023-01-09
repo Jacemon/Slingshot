@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -25,13 +24,13 @@ public class ScoreManager : MonoBehaviour
             {
                 var target = destroyableGameObject.GetComponent<Target>();
                 score += target.points;
-                Debug.Log($"{target.targetName} + {target.points}");
+                Debug.Log($"{target.targetName} +{target.points}c");
                 Destroy(destroyableGameObject);
             },
-            "Thrown Projectile" => () =>
+            "Projectile" => () =>
             {
                 projectileCount++;
-                Debug.Log($"{destroyableGameObject.GetComponent<Projectile>().projectileName} + 1");
+                Debug.Log($"{destroyableGameObject.GetComponent<Projectile>().projectileName} +1p");
                 Destroy(destroyableGameObject);
             },
             _ => () => Debug.LogError($"Action for {destroyableGameObject.name}" +
