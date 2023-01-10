@@ -9,20 +9,23 @@ public class Target : MonoBehaviour
     [Space]
     public int maxHealth = 3;
     public int points = 100;
-    [Space]
-    public Slider slider;
-    public Canvas healthBar;
     
     [SerializeField]
     private int health;
+    
+    private Slider _slider;
+    private Canvas _healthBar;
 
     private void Awake()
     {
         health = maxHealth;
-        
-        healthBar.enabled = false;
-        slider.maxValue = maxHealth;
-        slider.value = health;
+
+        _healthBar = GetComponentInChildren<Canvas>();
+        _slider = _healthBar.GetComponentInChildren<Slider>();
+
+        _healthBar.enabled = false;
+        _slider.maxValue = maxHealth;
+        _slider.value = health;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,12 +49,12 @@ public class Target : MonoBehaviour
             GetComponent<Rigidbody2D>().isKinematic = false;
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("Background");
-            healthBar.enabled = false;
+            _healthBar.enabled = false;
         } 
         else if (health < maxHealth)
         {
-            healthBar.enabled = true;
-            slider.value = health;
+            _healthBar.enabled = true;
+            _slider.value = health;
         }
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4632864419467895003}
   - component: {fileID: 4632864419467894980}
   m_Layer: 8
-  m_Name: testCt
+  m_Name: Cart Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 58fe5686cb6865c49842956f5e08516f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4632864420180867639}
   - component: {fileID: 4632864420180867633}
   - component: {fileID: 4632864420180867632}
+  - component: {fileID: 1322665921471698146}
   m_Layer: 8
   m_Name: WoodenCart
   m_TagString: Untagged
@@ -158,8 +159,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cartName: Wooden cart
   positions:
-  - {x: -2.1, y: -2.2}
-  - {x: 2.1, y: -2.2}
+  - {x: -2.1, y: -1.7}
+  - {x: 2.1, y: -1.7}
   velocity: 0.1
-  isStopped: 0
   positionIndex: 0
+--- !u!114 &1322665921471698146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4632864420180867638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f948690de7774ff082e18f2304f2e5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerDone: 1
+  timerOn: 1
+  delay: 0

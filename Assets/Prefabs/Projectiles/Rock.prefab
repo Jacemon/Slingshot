@@ -204,6 +204,7 @@ MonoBehaviour:
   velocity: 0
   pouch: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  state: 0
 --- !u!114 &7929748582947890234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +241,7 @@ GameObject:
   - component: {fileID: 7743727049057210235}
   - component: {fileID: 7743727049057210237}
   m_Layer: 7
-  m_Name: testPj
+  m_Name: Projectile Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

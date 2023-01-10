@@ -8,9 +8,8 @@ public class TargetManager : MonoBehaviour
     private void Awake()
     {
         _scoreManager = GetComponent<ScoreManager>();
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("Target");
 
-        foreach (var target in targets)
+        foreach (var target in GameObject.FindGameObjectsWithTag("Target"))
         {
             _scoreManager.AddDestroyableGameObject(target);
         }

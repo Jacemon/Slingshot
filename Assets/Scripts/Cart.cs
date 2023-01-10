@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Timer))]
 public class Cart : MonoBehaviour
 {
     [Header("Settings")] 
@@ -11,24 +11,29 @@ public class Cart : MonoBehaviour
     public float velocity;
 
     [Header("Current parameters")]
-    public bool isStopped;
     [SerializeField] private int positionIndex;
 
     private const float ErrorRate = 0.1f;
-
+    private Timer _timer;
+    
+    private void Awake()
+    {
+        _timer = GetComponent<Timer>();
+    }
+    
     private void FixedUpdate()
     {
-        if (isStopped)
+        if (!_timer.timerDone)
         {
             return;
         }
         
-        transform.position = Vector2.MoveTowards(
-            transform.position,
+        transform.localPosition = Vector2.MoveTowards(
+            transform.localPosition,
             positions[positionIndex],
             velocity
             );
-        if (Vector2.Distance(transform.position, positions[positionIndex]) < ErrorRate)
+        if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
         {
             NextPosition();
         }

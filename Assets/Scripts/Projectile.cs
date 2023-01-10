@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Destroyable))]
 public class Projectile : MonoBehaviour
@@ -14,13 +16,15 @@ public class Projectile : MonoBehaviour
     public float dragSpeed = 20.0f;
     public float throwOffset = 1.5f; 
     public float finalScale = 0.3f;
-        
+
     [Header("Current parameters")]
     public float velocity;
     public Pouch pouch;
     public Vector2 startPosition;
 
     public State state;
+    
+    public event Action OnFlight;
     
     private Vector2 _direction;
     private float _scaleVelocity;
@@ -139,7 +143,6 @@ public class Projectile : MonoBehaviour
         pouch = null;
 
         state = State.InCalm;
-        startPosition = Vector2.zero;
     }
 
     private void OnMouseDown()
@@ -159,11 +162,10 @@ public class Projectile : MonoBehaviour
 
         if (pouch != null)
         {
-            Debug.Log($"{transform.position.y} / {startPosition.y - throwOffset}");
-            
             EmptyPouch();
             _lineRenderer.enabled = false;
-            
+
+            Debug.Log($"{transform.position.y} / {startPosition.y - throwOffset}({startPosition.y} - {throwOffset})");
             if (transform.position.y < startPosition.y - throwOffset)
             {
                 Shoot();
@@ -182,6 +184,7 @@ public class Projectile : MonoBehaviour
     private IEnumerator WaitForHit()
     {
         state = State.InFlight;
+        OnFlight?.Invoke();
         yield return new WaitForSecondsRealtime(flightTime);
         state = State.InCalm;
 

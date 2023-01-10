@@ -4,15 +4,22 @@ public class Ground : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        EnterGameObject(collision.gameObject);
-    }
-
-    private void EnterGameObject(GameObject projectile)
-    {
-        projectile.transform.parent = transform;
-        projectile.GetComponent<Rigidbody2D>().isKinematic = true;
-        projectile.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        projectile.GetComponent<Rigidbody2D>().angularVelocity = 0;
-        projectile.GetComponent<Collider2D>().enabled = false;
+        GameObject dropped = collision.gameObject;
+        
+        dropped.transform.parent = transform;
+        Vector2 projectileLocalPosition = dropped.transform.localPosition;
+        dropped.transform.localPosition = projectileLocalPosition;
+        
+        dropped.GetComponent<Rigidbody2D>().isKinematic = true;
+        dropped.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        dropped.GetComponent<Rigidbody2D>().angularVelocity = 0;
+        dropped.GetComponent<Collider2D>().enabled = false;
+        
+        var droppedSpriteRenderer = dropped.GetComponentInChildren<SpriteRenderer>();
+        if (droppedSpriteRenderer != null)
+        {
+            droppedSpriteRenderer.sortingLayerName = "Background";
+            droppedSpriteRenderer.sortingOrder = 2;
+        }
     }
 }
