@@ -75,3 +75,6 @@ crashlytics-build.properties
 # Exceptions
 !*.dll
 !*.obj
+
+# Debug trash
+*_BurstDebugInformation_DoNotShip/
