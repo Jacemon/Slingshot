@@ -10,6 +10,12 @@ public class ScoreManager : MonoBehaviour
     public int projectileCount = 0;
     public TextMeshProUGUI projectileLabel;
 
+    private void Start()
+    {
+        scoreLabel.text = score.ToString();
+        projectileLabel.text = projectileCount.ToString();
+    }
+    
     public void AddDestroyableGameObject(GameObject destroyableGameObject)
     {
         var destroyable = destroyableGameObject.GetComponent<Destroyable>();
@@ -67,7 +73,7 @@ public class ScoreManager : MonoBehaviour
             returnCount = takingProjectileCount;
             projectileCount -= takingProjectileCount;
         }
-
+        projectileLabel.text = projectileCount.ToString();
         return returnCount;
     }
 }

@@ -58,16 +58,20 @@ public class ProjectileManager : MonoBehaviour
     
     private void SpawnProjectile(string projectileName)
     {
-        if (_scoreManager.GetProjectile() == 0)
+        int gottenProjectile = _scoreManager.GetProjectile();
+        if (gottenProjectile == 0)
         {
             return;
         }
-        
-        var projectileGameObject = Instantiate(RegisteredProjectilePrefabs[projectileName], 
-            projectileSpawnPoint, Quaternion.identity);
-        _scoreManager.AddDestroyableGameObject(projectileGameObject);
-        
-        AddFlightEvent(projectileGameObject);
+
+        if (gottenProjectile > 0)
+        {
+            var projectileGameObject = Instantiate(RegisteredProjectilePrefabs[projectileName],
+                projectileSpawnPoint, Quaternion.identity);
+            _scoreManager.AddDestroyableGameObject(projectileGameObject);
+
+            AddFlightEvent(projectileGameObject);
+        }
     }
 
     public void SpawnRock() => SpawnProjectile("Rock");
