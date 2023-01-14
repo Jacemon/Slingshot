@@ -26,6 +26,9 @@
 # Visual Studio cache directory
 .vs/
 
+# JetBrains chache directory
+.idea/
+
 # Gradle cache directory
 .gradle/
 
@@ -72,3 +75,6 @@ crashlytics-build.properties
 # Exceptions
 !*.dll
 !*.obj
+
+# Debug
+*_BurstDebugInformation_DoNotShip/

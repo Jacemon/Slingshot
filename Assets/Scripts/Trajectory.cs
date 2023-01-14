@@ -1,41 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Trajectory : MonoBehaviour
 {
-
-    public int lineCount;
-
-    LineRenderer lineRenderer;
-    private Projectile projectile;
+    [Header("Settings")]
+    public int lineCount = 10;
+    
+    private LineRenderer _lineRenderer;
+    private Projectile _projectile;
 
     private void Awake()
     {
-        projectile = GetComponent<Projectile>();
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = lineCount + 1;
+        _projectile = GetComponent<Projectile>();
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = lineCount + 1;
     }
 
     private void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var direction = projectile.StartPosition - 
-            new Vector2(projectile.transform.position.x, 
-            projectile.transform.position.y);
+        var projectilePosition = _projectile.transform.position;
+        var direction = _projectile.startPosition - 
+            new Vector2(projectilePosition.x, projectilePosition.y);
         direction.Normalize();
 
-        var vx = projectile.Velocity * direction.x;
-        var vy = projectile.Velocity * direction.y;
+        var vx = _projectile.velocity * direction.x;
+        var vy = _projectile.velocity * direction.y;
 
         int i;
         float t;
-        float flyTime = projectile.FlyTime;
-        float dt = flyTime / lineCount;
+        float time = _projectile.flightTime;
+        float dt = time / lineCount;
         for (i = 0, t = 0.0f; i <= lineCount; i++, t+= dt)
         {
-            var nextPos = new Vector2(vx * t, vy * t - (-Physics2D.gravity.y * t * t) / 2);
-            lineRenderer.SetPosition(i, (Vector2)transform.position + nextPos);
+            var nextPos = new Vector3(vx * t, vy * t + Physics2D.gravity.y * t * t / 2);
+            _lineRenderer.SetPosition(i, transform.position + nextPos);
         }
     }
 }

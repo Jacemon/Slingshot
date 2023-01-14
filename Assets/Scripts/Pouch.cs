@@ -1,31 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Pouch : MonoBehaviour
 {
-    public bool PouchFill = false;
-    public float ThrowSpeed = 250.0f;
+    [Header("Settings")]
+    public float throwSpeed = 10.0f;
+    public Vector2 startPosition = new(0, -2);
 
-    private SpringJoint2D[] springJoints2D;
+    [Header("Current parameters")] 
+    public bool pouchFill = false;
+
+    private SpringJoint2D[] _springJoints2D;
 
     private void Awake()
     {
-        springJoints2D = GetComponents<SpringJoint2D>();
+        _springJoints2D = GetComponents<SpringJoint2D>();
     }
 
     private void Update()
     {
-        if (PouchFill)
+        if (!pouchFill) 
         {
-            /*springJoints2D[0].enabled = false;
-            springJoints2D[1].enabled = false;*/
-        }
-        else
-        {
-            springJoints2D[0].enabled = true;
-            springJoints2D[1].enabled = true;
+            _springJoints2D[0].enabled = true;
+            _springJoints2D[1].enabled = true;
         }
     }
 }

@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 7743727048651214109}
   - component: {fileID: 7743727048651214111}
   - component: {fileID: 7743727048651214110}
-  - component: {fileID: 7743727048651214096}
   - component: {fileID: 6490992875696440851}
+  - component: {fileID: 7743727048651214096}
   - component: {fileID: 7929748582947890234}
-  m_Layer: 7
-  m_Name: Projectile
+  - component: {fileID: -7493729371076451168}
+  m_Layer: 6
+  m_Name: Rock
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,24 +75,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.4
---- !u!114 &7743727048651214096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743727048651214108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c70162d84dca33b42b99a9957f8e6813, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MouseDown: 0
-  DragSpeed: 20
-  FlyTime: 2
-  StartPosition: {x: 0, y: -2}
-  Velocity: 0
-  Pouch: {fileID: 0}
 --- !u!120 &6490992875696440851
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -132,7 +115,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -200,6 +183,28 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &7743727048651214096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743727048651214108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70162d84dca33b42b99a9957f8e6813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileName: Rock
+  flightTime: 1
+  damage: 1
+  dragSpeed: 20
+  throwOffset: 0.9
+  finalScale: 0.3
+  velocity: 0
+  pouch: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  state: 0
 --- !u!114 &7929748582947890234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +217,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9428ef69f2d7a7b4fa8cb728d21373a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineCount: 10
+  lineCount: 20
+--- !u!114 &-7493729371076451168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743727048651214108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77a52a2cdb4437999876f50f5944e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7743727049057210234
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +241,7 @@ GameObject:
   - component: {fileID: 7743727049057210235}
   - component: {fileID: 7743727049057210237}
   m_Layer: 7
-  m_Name: testRc
+  m_Name: Projectile Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +302,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 45e33c2a787c7b94785732846be8e4e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
