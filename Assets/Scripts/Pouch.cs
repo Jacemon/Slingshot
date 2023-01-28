@@ -8,7 +8,7 @@ public class Pouch : MonoBehaviour
     public Vector2 startPosition = new(0, -2);
 
     [Header("Current parameters")] 
-    public bool pouchFill = false;
+    public bool pouchFill;
 
     private SpringJoint2D[] _springJoints2D;
 
