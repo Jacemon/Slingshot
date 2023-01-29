@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using Random = System.Random;
 
 [RequireComponent(typeof(Destroyable))]
 public class Projectile : MonoBehaviour
@@ -16,6 +17,8 @@ public class Projectile : MonoBehaviour
     public float dragSpeed = 20.0f;
     public float throwOffset = 1.5f; 
     public float finalScale = 0.3f;
+    [Space] 
+    public Vector2 randomVelocityRange = new (1, 3);
 
     [Header("Current parameters")]
     public float velocity;
@@ -39,7 +42,8 @@ public class Projectile : MonoBehaviour
     {
         InCalm,
         InPouch,
-        InFlight
+        InFlight,
+        Bounced
     }
     
     private void Awake()
@@ -171,6 +175,23 @@ public class Projectile : MonoBehaviour
                 Shoot();
             }
         }
+    }
+
+    public void GetRandomForce()
+    {
+        if (state == State.Bounced)
+        {
+            return;
+        }
+        state = State.Bounced;
+        
+        Random random = new Random();
+        double randomVelocity = randomVelocityRange.x + random.NextDouble() * 
+            (randomVelocityRange.y - randomVelocityRange.x);
+        // Направление в первых двух четвертях единичной окружности
+        Vector2 randomDirection = new Vector2((float) random.NextDouble() * 2 - 1, (float) random.NextDouble()); 
+        _rb.velocity = randomDirection * (float) randomVelocity;
+        //_rb.AddForce(randomDirection * (float) randomVelocity);
     }
 
     private void Shoot()

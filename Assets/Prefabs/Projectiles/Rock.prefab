@@ -201,6 +201,7 @@ MonoBehaviour:
   dragSpeed: 20
   throwOffset: 0.9
   finalScale: 0.3
+  randomVelocityRange: {x: 2, y: 3}
   velocity: 0
   pouch: {fileID: 0}
   startPosition: {x: 0, y: 0}

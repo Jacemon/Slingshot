@@ -36,6 +36,9 @@ public class Target : MonoBehaviour
         }
 
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        // todo
+        //projectile.GetComponent<Collider2D>().enabled = false;
+        //projectile.GetRandomForce();
         GetDamage(projectile.damage);
     }
 
