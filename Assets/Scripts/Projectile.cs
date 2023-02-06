@@ -17,6 +17,7 @@ public class Projectile : MonoBehaviour
     public float dragSpeed = 20.0f;
     public float throwOffset = 1.5f; 
     public float finalScale = 0.3f;
+    public int fixedUpdateFrequency = 50;
     [Space] 
     public Vector2 randomVelocityRange = new (1, 3);
 
@@ -53,7 +54,7 @@ public class Projectile : MonoBehaviour
         _lineRenderer = GetComponent<LineRenderer>();
         _rb.isKinematic = false;
 
-        _scaleVelocity = (1 - finalScale) / flightTime;
+        _scaleVelocity = (1 - finalScale) / flightTime / fixedUpdateFrequency;
     }
 
     private void Update()
@@ -96,8 +97,8 @@ public class Projectile : MonoBehaviour
         if (state == State.InFlight)
         {
             Vector3 newScale = _rb.transform.localScale - new Vector3(
-                _scaleVelocity * Time.deltaTime,
-                _scaleVelocity * Time.deltaTime, 
+                _scaleVelocity,// * Time.deltaTime,
+                _scaleVelocity,// * Time.deltaTime, 
                 0);
             if (newScale.x > 0 || newScale.y > 0)
             {
