@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 using Random = System.Random;
 
-[RequireComponent(typeof(Destroyable))]
 public class Projectile : MonoBehaviour
 {
     [Header("Settings")]
@@ -49,6 +47,8 @@ public class Projectile : MonoBehaviour
     
     private void Awake()
     {
+        GlobalEventManager.OnProjectileSpawned.Invoke(this);
+        
         _camera = Camera.main;
         _rb = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
@@ -85,7 +85,7 @@ public class Projectile : MonoBehaviour
 
                 // Установка нормального положения снаряда в рогатке
                 var pouchTransform = pouch.transform;
-                pouchTransform.localPosition = new Vector2(0, -0.5f);
+                pouchTransform.localPosition = new Vector2(0, -0.0f);
                 pouchTransform.localRotation = Quaternion.identity;
             }
         }
@@ -197,6 +197,8 @@ public class Projectile : MonoBehaviour
 
     private void Shoot()
     {
+        GlobalEventManager.OnProjectileThrown.Invoke(this);
+        
         gameObject.layer = LayerMask.NameToLayer("Middleground");
         _rb.velocity = _direction * velocity;
         GetComponent<Collider2D>().enabled = false;

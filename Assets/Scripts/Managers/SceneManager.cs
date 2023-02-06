@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
-public class SceneLoader : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
     public List<GameObject> levels = new();
     public int currentLevel;
@@ -20,7 +19,7 @@ public class SceneLoader : MonoBehaviour
 
     public void ReloadActiveScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     public void LoadLevel(int levelNumber)

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Destroyable))]
 public class Target : MonoBehaviour
 {
     [Header("Settings")] 
@@ -20,6 +19,8 @@ public class Target : MonoBehaviour
 
     private void Awake()
     {
+        GlobalEventManager.OnTargetSpawned.Invoke(this);
+        
         health = maxHealth;
 
         _healthBar = GetComponentInChildren<Canvas>();
