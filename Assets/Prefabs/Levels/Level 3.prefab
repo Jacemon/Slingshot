@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2977628494834592070}
   - component: {fileID: 2977628494834592071}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tree Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ Transform:
   - {fileID: 2977628494834592070}
   - {fileID: 2977628496169124690}
   m_Father: {fileID: 2977628496677427847}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2977628496391747988
 BoxCollider2D:
@@ -335,7 +335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2977628496677427847}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Level 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7573248022165548679}
   - {fileID: 2977628496391747990}
   - {fileID: 2701336272110686886}
   - {fileID: 4462595532006964865}
@@ -370,7 +369,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1762295560233629599, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -427,48 +426,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1762295560233629599, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
   m_PrefabInstance: {fileID: 2709685416197097758}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2977628496458044592
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2977628496677427847}
-    m_Modifications:
-    - target: {fileID: 4632864419467894980, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_SortingLayer
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867632, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: isStopped
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867638, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_Name
-      value: Wooden Cart
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
---- !u!4 &7573248022165548679 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
-  m_PrefabInstance: {fileID: 2977628496458044592}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4398325234867905849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478,7 +435,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1762295560233629599, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
       propertyPath: m_LocalPosition.x

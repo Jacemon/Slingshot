@@ -16,6 +16,8 @@ public class Target : MonoBehaviour
     private Slider _slider;
     private Canvas _healthBar;
 
+    private const float ShotColliderRadius = 0.25f;
+
     private void Awake()
     {
         health = maxHealth;
@@ -53,6 +55,7 @@ public class Target : MonoBehaviour
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("Background");
             _healthBar.enabled = false;
+            GetComponent<CircleCollider2D>().radius = ShotColliderRadius;
         } 
         else if (health < maxHealth)
         {

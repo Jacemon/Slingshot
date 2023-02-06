@@ -4,7 +4,7 @@
 public class TargetManager : MonoBehaviour
 {
     private ScoreManager _scoreManager;
-    
+
     private void Awake()
     {
         _scoreManager = GetComponent<ScoreManager>();
