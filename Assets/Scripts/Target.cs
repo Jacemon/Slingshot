@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ public class Target : MonoBehaviour
     private Slider _slider;
     private Canvas _healthBar;
 
+    private const float TimeBeforeDestroy = 2f; 
     private const float ShotColliderRadius = 0.25f;
 
     private void Awake()
@@ -57,11 +59,19 @@ public class Target : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("Background");
             _healthBar.enabled = false;
             GetComponent<CircleCollider2D>().radius = ShotColliderRadius;
+
+            Invoke(nameof(LateDestroy), TimeBeforeDestroy);
+            
         } 
         else if (health < maxHealth)
         {
             _healthBar.enabled = true;
             _slider.value = health;
         }
+    }
+
+    private void LateDestroy()
+    {
+        Destroy(gameObject);
     }
 }

@@ -37,6 +37,8 @@ public class Projectile : MonoBehaviour
 
     private LineRenderer _lineRenderer;
 
+    private const float TimeBeforeDestroy = 2f;
+    
     public enum State
     {
         InCalm,
@@ -218,5 +220,9 @@ public class Projectile : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
 
         gameObject.layer = LayerMask.NameToLayer("Background");
+        
+        yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
+        
+        Destroy(gameObject);
     }
 }
