@@ -19,7 +19,7 @@ public class Ground : MonoBehaviour
         if (droppedSpriteRenderer != null)
         {
             droppedSpriteRenderer.sortingLayerName = "Background";
-            droppedSpriteRenderer.sortingOrder = 2;
+            droppedSpriteRenderer.sortingOrder = 3;
         }
     }
 }

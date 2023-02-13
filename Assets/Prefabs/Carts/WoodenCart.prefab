@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 4632864419467895002}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.35, y: 0.35, z: 1.1666666}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4632864420180867639}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1996668811
   m_SortingLayer: -1
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 58fe5686cb6865c49842956f5e08516f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 147f20531fd74a942ad03cfbf0ba7e2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4632864420180867638}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.7, z: 0}
+  m_LocalPosition: {x: 0, y: -2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -159,8 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cartName: Wooden cart
   positions:
-  - {x: -2.1, y: -1.7}
-  - {x: 2.1, y: -1.7}
+  - {x: -2.1, y: -2.1}
+  - {x: 2.1, y: -2.1}
   velocity: 0.1
   positionIndex: 0
 --- !u!114 &1322665921471698146

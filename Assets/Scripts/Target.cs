@@ -1,7 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Destroyable))]
 public class Target : MonoBehaviour
 {
     [Header("Settings")] 
@@ -16,8 +16,13 @@ public class Target : MonoBehaviour
     private Slider _slider;
     private Canvas _healthBar;
 
+    private const float TimeBeforeDestroy = 2f; 
+    private const float ShotColliderRadius = 0.25f;
+
     private void Awake()
     {
+        GlobalEventManager.OnTargetSpawned.Invoke(this);
+        
         health = maxHealth;
 
         _healthBar = GetComponentInChildren<Canvas>();
@@ -36,6 +41,9 @@ public class Target : MonoBehaviour
         }
 
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        // todo
+        //projectile.GetComponent<Collider2D>().enabled = false;
+        //projectile.GetRandomForce();
         GetDamage(projectile.damage);
     }
 
@@ -50,11 +58,20 @@ public class Target : MonoBehaviour
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("Background");
             _healthBar.enabled = false;
+            GetComponent<CircleCollider2D>().radius = ShotColliderRadius;
+
+            Invoke(nameof(LateDestroy), TimeBeforeDestroy);
+            
         } 
         else if (health < maxHealth)
         {
             _healthBar.enabled = true;
             _slider.value = health;
         }
+    }
+
+    private void LateDestroy()
+    {
+        Destroy(gameObject);
     }
 }

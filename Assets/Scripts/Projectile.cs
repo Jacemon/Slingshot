@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
+using Random = System.Random;
 
-[RequireComponent(typeof(Destroyable))]
 public class Projectile : MonoBehaviour
 {
     [Header("Settings")]
@@ -16,6 +15,9 @@ public class Projectile : MonoBehaviour
     public float dragSpeed = 20.0f;
     public float throwOffset = 1.5f; 
     public float finalScale = 0.3f;
+    public int fixedUpdateFrequency = 50;
+    [Space] 
+    public Vector2 randomVelocityRange = new (1, 3);
 
     [Header("Current parameters")]
     public float velocity;
@@ -35,21 +37,26 @@ public class Projectile : MonoBehaviour
 
     private LineRenderer _lineRenderer;
 
+    private const float TimeBeforeDestroy = 2f;
+    
     public enum State
     {
         InCalm,
         InPouch,
-        InFlight
+        InFlight,
+        Bounced
     }
     
     private void Awake()
     {
+        GlobalEventManager.OnProjectileSpawned.Invoke(this);
+        
         _camera = Camera.main;
         _rb = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
         _rb.isKinematic = false;
 
-        _scaleVelocity = (1 - finalScale) / flightTime;
+        _scaleVelocity = (1 - finalScale) / flightTime / fixedUpdateFrequency;
     }
 
     private void Update()
@@ -80,7 +87,7 @@ public class Projectile : MonoBehaviour
 
                 // Установка нормального положения снаряда в рогатке
                 var pouchTransform = pouch.transform;
-                pouchTransform.localPosition = new Vector2(0, -0.5f);
+                pouchTransform.localPosition = new Vector2(0, -0.0f);
                 pouchTransform.localRotation = Quaternion.identity;
             }
         }
@@ -92,8 +99,8 @@ public class Projectile : MonoBehaviour
         if (state == State.InFlight)
         {
             Vector3 newScale = _rb.transform.localScale - new Vector3(
-                _scaleVelocity * Time.deltaTime,
-                _scaleVelocity * Time.deltaTime, 
+                _scaleVelocity,// * Time.deltaTime,
+                _scaleVelocity,// * Time.deltaTime, 
                 0);
             if (newScale.x > 0 || newScale.y > 0)
             {
@@ -173,8 +180,27 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    public void GetRandomForce()
+    {
+        if (state == State.Bounced)
+        {
+            return;
+        }
+        state = State.Bounced;
+        
+        Random random = new Random();
+        double randomVelocity = randomVelocityRange.x + random.NextDouble() * 
+            (randomVelocityRange.y - randomVelocityRange.x);
+        // Направление в первых двух четвертях единичной окружности
+        Vector2 randomDirection = new Vector2((float) random.NextDouble() * 2 - 1, (float) random.NextDouble()); 
+        _rb.velocity = randomDirection * (float) randomVelocity;
+        //_rb.AddForce(randomDirection * (float) randomVelocity);
+    }
+
     private void Shoot()
     {
+        GlobalEventManager.OnProjectileThrown.Invoke(this);
+        
         gameObject.layer = LayerMask.NameToLayer("Middleground");
         _rb.velocity = _direction * velocity;
         GetComponent<Collider2D>().enabled = false;
@@ -194,5 +220,9 @@ public class Projectile : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
 
         gameObject.layer = LayerMask.NameToLayer("Background");
+        
+        yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
+        
+        Destroy(gameObject);
     }
 }
