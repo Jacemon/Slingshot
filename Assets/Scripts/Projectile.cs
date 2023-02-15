@@ -19,8 +19,9 @@ public class Projectile : MonoBehaviour
 
     private float _scaleVelocity;
 
-    private MouseFollower _mouseFollower;
     private Rigidbody2D _rb;
+    private Collider2D _collider2D;
+    private MouseFollower _mouseFollower;
 
     private const float TimeBeforeDestroy = 4f;
     
@@ -37,10 +38,11 @@ public class Projectile : MonoBehaviour
     {
         GlobalEventManager.OnProjectileSpawned.Invoke(this);
 
-        _mouseFollower = GetComponent<MouseFollower>();
-        _mouseFollower.enabled = false;
         _rb = GetComponent<Rigidbody2D>();
         _rb.isKinematic = false;
+        _collider2D = GetComponent<Collider2D>();
+        _mouseFollower = GetComponent<MouseFollower>();
+        _mouseFollower.enabled = false;
 
         // Расчёт скорости уменьшения снаряда во время полёта
         _scaleVelocity = (1 - finalScale) / flightTime * Time.fixedDeltaTime;
@@ -49,20 +51,22 @@ public class Projectile : MonoBehaviour
     private void FixedUpdate()
     {
         // Уменьшение снаряда во время полёта
-        if (state == State.InFlight)
+        if (state != State.InFlight)
         {
-            Vector3 newScale = _rb.transform.localScale - new Vector3(
-                _scaleVelocity,
-                _scaleVelocity,
-                0);
-            if (newScale.x > 0 || newScale.y > 0)
-            {
-                _rb.transform.localScale = newScale;
-            }
-            else
-            {
-                _rb.transform.localScale = Vector2.zero;
-            }
+            return;
+        }
+        
+        Vector3 newScale = _rb.transform.localScale - new Vector3(
+            _scaleVelocity,
+            _scaleVelocity,
+            0);
+        if (newScale.x > 0 || newScale.y > 0)
+        {
+            _rb.transform.localScale = newScale;
+        }
+        else
+        {
+            _rb.transform.localScale = Vector2.zero;
         }
     }
 
@@ -84,20 +88,11 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public State GetState()
-    {
-        return state;
-    }
-
-    public void SetState(State newState)
-    {
-        state = newState;
-    }
-
     private void OnMouseDown()
     {
         _rb.isKinematic = true;
         _rb.velocity = Vector2.zero;
+        _rb.angularVelocity = 0;
         _mouseFollower.enabled = true;
 
         state = State.InPick;
@@ -124,9 +119,10 @@ public class Projectile : MonoBehaviour
         GlobalEventManager.OnProjectileThrown.Invoke(this);
         
         gameObject.layer = LayerMask.NameToLayer("Middle");
-        _rb.velocity = force;
-        //_rb.AddForce(force); todo
-        GetComponent<Collider2D>().enabled = false;
+        
+        _rb.velocity = force; // or AddForce() but it's requires NORMAL mass;
+        _collider2D.enabled = false;
+        
         StartCoroutine(nameof(WaitForHit));
     }
 
@@ -136,7 +132,7 @@ public class Projectile : MonoBehaviour
         yield return new WaitForSecondsRealtime(flightTime);
         state = State.InCalm;
 
-        GetComponent<Collider2D>().enabled = true;
+        _collider2D.enabled = true;
         Debug.Log($"{projectileName} can be stuck in target");
         
         yield return new WaitForSecondsRealtime(0.1f);
@@ -145,11 +141,12 @@ public class Projectile : MonoBehaviour
         {
             state = State.InFlight;
         }
-        
-        gameObject.layer = LayerMask.NameToLayer("Back");
+
+        var thisGameObject = gameObject;
+        thisGameObject.layer = LayerMask.NameToLayer("Back");
 
         yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
 
-        Destroy(gameObject);
+        Destroy(thisGameObject);
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine.Serialization;
 
 public class MouseFollower : MonoBehaviour
 {
-    [FormerlySerializedAs("isFollow")] [FormerlySerializedAs("follow")] [Header("Settings")] 
-    public bool isFollowing;
+    //[FormerlySerializedAs("isFollow")] [FormerlySerializedAs("follow")] [Header("Settings")] 
+    //public bool isFollowing;
     public float dragSpeed = 20.0f;
     
     private Camera _camera;

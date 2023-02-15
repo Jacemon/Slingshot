@@ -15,11 +15,12 @@ public class Pouch : MonoBehaviour
     private bool pouchFill;
     public Projectile projectile;
     public float velocity;
+    private Vector2 _direction;
     
     private Rigidbody2D _rb;
+    private Collider2D _collider2D;
     private MouseFollower _mouseFollower;
     
-    private Vector2 _direction;
     
     private Trajectory _trajectory;
     private SpringJoint2D[] _springJoints2D;
@@ -27,6 +28,7 @@ public class Pouch : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _collider2D = GetComponent<Collider2D>();
         _mouseFollower = GetComponent<MouseFollower>();
         _mouseFollower.enabled = false;
         
@@ -41,7 +43,7 @@ public class Pouch : MonoBehaviour
             return;
         }
         
-        if (projectile.GetState() == Projectile.State.InPouch)
+        if (projectile.state == Projectile.State.InPouch)
         {
             _mouseFollower.enabled = true;
             
@@ -78,7 +80,7 @@ public class Pouch : MonoBehaviour
 
     private void FillPouch(Projectile projectileToFill)
     {
-        if (pouchFill || projectileToFill.GetState() != Projectile.State.InPick)
+        if (pouchFill || projectileToFill.state != Projectile.State.InPick)
         {
             return;
         }
@@ -88,17 +90,18 @@ public class Pouch : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         
         projectile = projectileToFill;
-        projectile.transform.parent = transform;
+        
+        var projectileTransform = projectile.transform;
+        projectileTransform.parent = transform;
+        projectileTransform.localPosition = Vector3.zero;
 
-        projectile.SetState(Projectile.State.InPouch);
-        projectile.transform.localPosition = Vector3.zero;
+        projectile.state = Projectile.State.InPouch;
 
         projectile.GetComponent<MouseFollower>().enabled = false;
-        
-        //projectile.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        
+
         _rb.isKinematic = true;
         _rb.velocity = Vector2.zero;
+        _rb.angularVelocity = 0;
 
         _trajectory.Draw();
         
@@ -110,14 +113,15 @@ public class Pouch : MonoBehaviour
     {
         pouchFill = false;
         
-        projectile.SetState(Projectile.State.InCalm);
+        projectile.state = Projectile.State.InCalm;
         if (transform.position.y < throwPointAnchor.y - throwOffset)
         {
+            _rb.velocity = _direction * velocity; // or AddForce() but it's requires NORMAL mass;
             projectile.Shoot(_direction * velocity);
-            projectile.SetState(Projectile.State.InFlight);
+            projectile.state = Projectile.State.InFlight;
         }
         
-        GetComponent<Collider2D>().enabled = true;
+        _collider2D.enabled = true;
         
         projectile.transform.parent = null;
         projectile = null;
@@ -128,5 +132,13 @@ public class Pouch : MonoBehaviour
         
         _springJoints2D[0].enabled = true;
         _springJoints2D[1].enabled = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(throwPointAnchor, 0.1f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(new Vector2(throwPointAnchor.x, throwPointAnchor.y - throwOffset), 0.1f);
     }
 }

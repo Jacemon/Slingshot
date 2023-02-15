@@ -4,7 +4,7 @@ public class Ground : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject dropped = collision.gameObject;
+        var dropped = collision.gameObject;
         
         dropped.transform.parent = transform;
         Vector2 projectileLocalPosition = dropped.transform.localPosition;
@@ -18,7 +18,7 @@ public class Ground : MonoBehaviour
         var droppedSpriteRenderer = dropped.GetComponentInChildren<SpriteRenderer>();
         if (droppedSpriteRenderer != null)
         {
-            droppedSpriteRenderer.sortingLayerName = "Back";
+            droppedSpriteRenderer.sortingLayerName = "Background";
             droppedSpriteRenderer.sortingOrder = 3;
         }
     }
