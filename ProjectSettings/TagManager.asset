@@ -14,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Foreground
-  - Middleground
-  - Background
+  - Front
+  - Middle
+  - Back
   - 
   - 
   - 

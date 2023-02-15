@@ -22,8 +22,7 @@ public class Level : MonoBehaviour
     {
         GenerateTargets();
     }
-
-    // todo Доделать, когда мишени будут относиться к уровню
+    
     public void GenerateTargets()
     {
         // Расчёт координат

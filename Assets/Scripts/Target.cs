@@ -16,7 +16,7 @@ public class Target : MonoBehaviour
     private Slider _slider;
     private Canvas _healthBar;
 
-    private const float TimeBeforeDestroy = 2f; 
+    private const float TimeBeforeDestroy = 4f; 
     private const float ShotColliderRadius = 0.25f;
 
     private void Awake()
@@ -32,21 +32,7 @@ public class Target : MonoBehaviour
         _slider.maxValue = maxHealth;
         _slider.value = health;
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision == null || !collision.gameObject.CompareTag("Projectile"))
-        {
-            return;
-        }
-
-        Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        // todo
-        //projectile.GetComponent<Collider2D>().enabled = false;
-        //projectile.GetRandomForce();
-        GetDamage(projectile.damage);
-    }
-
+    
     public void GetDamage(int damage)
     {
         health -= damage;
@@ -56,12 +42,11 @@ public class Target : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().isKinematic = false;
             Debug.Log($"{targetName} shot down");
-            gameObject.layer = LayerMask.NameToLayer("Background");
+            gameObject.layer = LayerMask.NameToLayer("Back");
             _healthBar.enabled = false;
             GetComponent<CircleCollider2D>().radius = ShotColliderRadius;
 
             Invoke(nameof(LateDestroy), TimeBeforeDestroy);
-            
         } 
         else if (health < maxHealth)
         {

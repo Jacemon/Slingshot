@@ -18,7 +18,7 @@ public class Ground : MonoBehaviour
         var droppedSpriteRenderer = dropped.GetComponentInChildren<SpriteRenderer>();
         if (droppedSpriteRenderer != null)
         {
-            droppedSpriteRenderer.sortingLayerName = "Background";
+            droppedSpriteRenderer.sortingLayerName = "Back";
             droppedSpriteRenderer.sortingOrder = 3;
         }
     }
