@@ -9,6 +9,8 @@ public class Target : MonoBehaviour
     [Space]
     public int maxHealth = 3;
     public int points = 100;
+    [Space] 
+    //public ParticleSystem particleSystem;
     
     [SerializeField]
     private int health;
@@ -53,6 +55,8 @@ public class Target : MonoBehaviour
             _healthBar.enabled = true;
             _slider.value = health;
         }
+        //GetComponent<ParticleSystem>().Emit(20);
+        GetComponent<ParticleSystem>().Play();
     }
 
     private void LateDestroy()
