@@ -1,33 +1,36 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class TargetManager : MonoBehaviour
+namespace Managers
 {
-    public int score;
-    public TextMeshProUGUI scoreLabel;
-
-    private void Awake()
+    public class TargetManager : MonoBehaviour
     {
-        GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
-        GlobalEventManager.OnTargetSpawned.AddListener(TargetSpawned);
+        public int score;
+        public TextMeshProUGUI scoreLabel;
+
+        private void Awake()
+        {
+            GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
+            GlobalEventManager.OnTargetSpawned.AddListener(TargetSpawned);
         
-        AddScore(0);
-    }
+            AddScore(0);
+        }
     
-    private void AddScore(int additionalScore)
-    {
-        score += additionalScore;
-        scoreLabel.text = score.ToString();
-    }
+        private void AddScore(int additionalScore)
+        {
+            score += additionalScore;
+            scoreLabel.text = score.ToString();
+        }
     
-    private void TargetHitCart(Target target)
-    {
-        AddScore(target.points);
-        Destroy(target.gameObject);
-    }
+        private void TargetHitCart(Target target)
+        {
+            AddScore(target.points);
+            Destroy(target.gameObject);
+        }
 
-    private void TargetSpawned(Target target)
-    {
-        Debug.Log($"{target.name} was spawned");
+        private void TargetSpawned(Target target)
+        {
+            Debug.Log($"{target.name} was spawned");
+        }
     }
 }

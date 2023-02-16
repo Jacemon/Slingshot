@@ -1,3 +1,4 @@
+using Managers;
 using UnityEngine;
 
 [RequireComponent(typeof(Timer))]
@@ -28,11 +29,7 @@ public class Cart : MonoBehaviour
             return;
         }
         
-        transform.localPosition = Vector2.MoveTowards(
-            transform.localPosition,
-            positions[positionIndex],
-            velocity
-            );
+        transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
         if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
         {
             NextPosition();

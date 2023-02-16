@@ -1,29 +1,32 @@
 using TMPro;
 using UnityEngine;
 
-public class MoneyManager : MonoBehaviour
+namespace Managers
 {
-    public int money;
-    public TextMeshProUGUI moneyLabel;
-
-    private void Start()
+    public class MoneyManager : MonoBehaviour
     {
-        DepositMoney(0);
-    }
+        public int money;
+        public TextMeshProUGUI moneyLabel;
 
-    private void DepositMoney(int depositedMoney)
-    {
-        money += depositedMoney;
-        moneyLabel.text = money.ToString();
-    }
-
-    private void WithdrawMoney(int withdrawnMoney)
-    {
-        if (money < withdrawnMoney)
+        private void Start()
         {
-            return;
+            DepositMoney(0);
         }
-        money -= withdrawnMoney;
-        moneyLabel.text = money.ToString();
+
+        private void DepositMoney(int depositedMoney)
+        {
+            money += depositedMoney;
+            moneyLabel.text = money.ToString();
+        }
+
+        private void WithdrawMoney(int withdrawnMoney)
+        {
+            if (money < withdrawnMoney)
+            {
+                return;
+            }
+            money -= withdrawnMoney;
+            moneyLabel.text = money.ToString();
+        }
     }
 }

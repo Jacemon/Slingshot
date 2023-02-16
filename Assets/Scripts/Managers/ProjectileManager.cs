@@ -1,62 +1,68 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class ProjectileManager : MonoBehaviour
+namespace Managers
 {
-    [Header("Settings")]
-    public List<GameObject> projectilePrefabs = new();
-    public GameObject projectileSpawnPoint;
-    [Space]
-    public Timer timer;
-
-    private Vector2 _spawnPoint;
-    private static readonly Dictionary<string, GameObject> RegisteredProjectilePrefabs = new();
-
-    public void Awake()
+    public class ProjectileManager : MonoBehaviour
     {
-        GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
-        GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
+        [Header("Settings")]
+        public List<GameObject> projectilePrefabs = new();
+        public GameObject projectileSpawnPoint;
+        [Space]
+        public Timer timer;
         
-        // Проверка префаба на то, что он снаряд
-        foreach (var projectilePrefab in projectilePrefabs)
+        private Vector2 _spawnPoint;
+        private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
+
+        public void Awake()
         {
-            var projectile = projectilePrefab.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                // Добавление снаряда в список
-                RegisteredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
-                Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
-            }
-            else
-            {
-                Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
-            }
-        }
+            GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
+            GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
         
-        _spawnPoint = projectileSpawnPoint.transform.position;
-    }
+            // Проверка префаба на то, что он снаряд
+            foreach (var projectilePrefab in projectilePrefabs)
+            {
+                var projectile = projectilePrefab.GetComponent<Projectile>();
+                if (projectile != null)
+                {
+                    // Добавление снаряда в список
+                    _registeredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
+                    Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
+                }
+                else
+                {
+                    Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
+                }
+            }
+        
+            _spawnPoint = projectileSpawnPoint.transform.position;
+            
+            SpawnRock();
+        }
 
-    private void ProjectileThrown(Projectile projectile)
-    {
-        float extraDelay = 1.0f;
+        private void ProjectileThrown(Projectile projectile)
+        {
+            const float extraDelay = 1.0f;
+            // Установка большей задержи для таймера
+            timer.SetBiggerDelay(projectile.flightTime + extraDelay);
+            timer.timerOn = true;
+            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
+            
+            SpawnProjectile(projectile.projectileName);
+            Debug.Log($"{projectile.name} was thrown");
+        }
 
-        // Установка большей задержи для таймера
-        timer.SetBiggerDelay(projectile.flightTime + extraDelay);
-        timer.timerOn = true;
-        Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-    }
+        private void ProjectileSpawned(Projectile projectile)
+        {
+            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
+            Debug.Log($"{projectile.name} was spawned");
+        }
 
-    private void ProjectileSpawned(Projectile projectile)
-    {
-        Debug.Log($"{projectile.name} was spawned");
-    }
-
-    private void SpawnProjectile(string projectileName)
-    {
-        var projectile = Instantiate(RegisteredProjectilePrefabs[projectileName], 
-            _spawnPoint, Quaternion.identity);
-        projectile.GetComponent<Follower>().followPoint = _spawnPoint;
-    }
+        private void SpawnProjectile(string projectileName)
+        {
+            Instantiate(_registeredProjectilePrefabs[projectileName], _spawnPoint, Quaternion.identity);
+        }
     
-    public void SpawnRock() => SpawnProjectile("Rock");
+        public void SpawnRock() => SpawnProjectile("Rock");
+    }
 }

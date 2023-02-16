@@ -135,7 +135,8 @@ GameObject:
   - component: {fileID: 339687637}
   - component: {fileID: 339687636}
   - component: {fileID: 339687639}
-  - component: {fileID: 339687640}
+  - component: {fileID: 339687641}
+  - component: {fileID: 339687642}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -205,7 +206,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df917c4e9b88764b8e04714b6836e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &339687640
+--- !u!114 &339687641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339687635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b352c89e78b4fe8a47b8687b39d4234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onBack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 339687639}
+        m_TargetAssemblyTypeName: MainMenu.SceneLoader, Assembly-CSharp
+        m_MethodName: QuitApplication
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &339687642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d5e2071882dec45a6bcd1c053f79bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showFps: 0
   fpsLabel: {fileID: 0}
 --- !u!1 &382340538
 GameObject:
@@ -566,7 +595,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 339687639}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainMenu.SceneLoader, Assembly-CSharp
         m_MethodName: LoadLevelScene
         m_Mode: 1
         m_Arguments:

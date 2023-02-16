@@ -1,19 +1,27 @@
 using TMPro;
 using UnityEngine;
 
-public class FpsManager : MonoBehaviour
+namespace Managers
 {
-    public TextMeshProUGUI fpsLabel;
-
-    private void Start()
+    public class FpsManager : MonoBehaviour
     {
-        Application.targetFrameRate = int.MaxValue;
-        QualitySettings.vSyncCount = 0;
-    }
+        public bool showFps;
+        public TextMeshProUGUI fpsLabel;
 
-    private void Update()
-    {
-        var fps = (int)(1.0f/Time.deltaTime);
-        fpsLabel.text = fps.ToString();
+        private void Start()
+        {
+            Application.targetFrameRate = int.MaxValue;
+            QualitySettings.vSyncCount = 0;
+        }
+
+        private void Update()
+        {
+            if (!showFps)
+            {
+                return;
+            }
+            var fps = (int)(1.0f/Time.deltaTime);
+            fpsLabel.text = fps.ToString();
+        }
     }
 }
