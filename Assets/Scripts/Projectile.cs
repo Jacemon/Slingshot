@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Follower))]
 [RequireComponent(typeof(MouseFollower))]
 public class Projectile : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D _rb;
     private Collider2D _collider2D;
     private MouseFollower _mouseFollower;
+    private Follower _follower;
 
     private const float TimeBeforeDestroy = 4f;
     
@@ -39,10 +41,12 @@ public class Projectile : MonoBehaviour
         GlobalEventManager.OnProjectileSpawned.Invoke(this);
 
         _rb = GetComponent<Rigidbody2D>();
-        _rb.isKinematic = false;
+        _rb.isKinematic = true;
         _collider2D = GetComponent<Collider2D>();
         _mouseFollower = GetComponent<MouseFollower>();
         _mouseFollower.enabled = false;
+        _follower = GetComponent<Follower>();
+        _follower.enabled = true;
 
         // Расчёт скорости уменьшения снаряда во время полёта
         _scaleVelocity = (1 - finalScale) / flightTime * Time.fixedDeltaTime;
@@ -90,18 +94,18 @@ public class Projectile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _rb.isKinematic = true;
         _rb.velocity = Vector2.zero;
         _rb.angularVelocity = 0;
         _mouseFollower.enabled = true;
-
+        _follower.enabled = false;
+        
         state = State.InPick;
     }
 
     private void OnMouseUp()
     {
-        _rb.isKinematic = false;
         _mouseFollower.enabled = false;
+        _follower.enabled = true;
         
         state = State.InCalm;
     }
@@ -120,8 +124,10 @@ public class Projectile : MonoBehaviour
         
         gameObject.layer = LayerMask.NameToLayer("Middle");
         
+        _rb.isKinematic = false;
         _rb.velocity = force; // or AddForce() but it's requires NORMAL mass;
         _collider2D.enabled = false;
+        _follower.enabled = false;
         
         StartCoroutine(nameof(WaitForHit));
     }

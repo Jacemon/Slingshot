@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7743727048651214111}
   - component: {fileID: 7743727048651214110}
   - component: {fileID: 7743727048651214096}
+  - component: {fileID: -3137006976606582254}
   - component: {fileID: 1717586264714110613}
   m_Layer: 6
   m_Name: Rock
@@ -91,6 +92,20 @@ MonoBehaviour:
   state: 0
   finalScale: 0.3
   randomVelocityRange: {x: 2, y: 3}
+--- !u!114 &-3137006976606582254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743727048651214108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709e1e2f84ca4331905949370a33a48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragSpeed: 20
+  followPoint: {x: 0, y: 0}
 --- !u!114 &1717586264714110613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragSpeed: 20
+  followPoint: {x: 0, y: 0}
 --- !u!1 &7743727049057210234
 GameObject:
   m_ObjectHideFlags: 0

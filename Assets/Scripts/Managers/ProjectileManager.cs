@@ -1,15 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine.Serialization;
 
 public class ProjectileManager : MonoBehaviour
 {
     [Header("Settings")]
     public List<GameObject> projectilePrefabs = new();
-    public Vector3 projectileSpawnPoint;
+    public GameObject projectileSpawnPoint;
+    [Space]
     public Timer timer;
 
+    private Vector2 _spawnPoint;
     private static readonly Dictionary<string, GameObject> RegisteredProjectilePrefabs = new();
 
     public void Awake()
@@ -32,6 +32,8 @@ public class ProjectileManager : MonoBehaviour
                 Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
             }
         }
+        
+        _spawnPoint = projectileSpawnPoint.transform.position;
     }
 
     private void ProjectileThrown(Projectile projectile)
@@ -51,7 +53,9 @@ public class ProjectileManager : MonoBehaviour
 
     private void SpawnProjectile(string projectileName)
     {
-        Instantiate(RegisteredProjectilePrefabs[projectileName], projectileSpawnPoint, Quaternion.identity);
+        var projectile = Instantiate(RegisteredProjectilePrefabs[projectileName], 
+            _spawnPoint, Quaternion.identity);
+        projectile.GetComponent<Follower>().followPoint = _spawnPoint;
     }
     
     public void SpawnRock() => SpawnProjectile("Rock");

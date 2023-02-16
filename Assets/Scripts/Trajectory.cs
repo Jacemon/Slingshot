@@ -23,17 +23,21 @@ public class Trajectory : MonoBehaviour
         {
             return;
         }
-        var projectilePosition = _pouch.transform.position;
-        var direction = _pouch.throwPointAnchor - 
-            new Vector2(projectilePosition.x, projectilePosition.y);
+        TrajectoryCalculation(_pouch.transform.position, _pouch.throwPointAnchor, 
+            _pouch.velocity, _pouch.projectile.flightTime);
+    }
+
+    private void TrajectoryCalculation(Vector2 startPosition, Vector2 anchorPosition, float velocity, float flightTime)
+    {
+        var direction = anchorPosition - startPosition;
         direction.Normalize();
 
-        var vx = _pouch.velocity * direction.x;
-        var vy = _pouch.velocity * direction.y;
+        var vx = velocity * direction.x;
+        var vy = velocity * direction.y;
 
         int i;
         float t;
-        var time = _pouch.projectile.flightTime;
+        var time = flightTime;
         var dt = time / lineCount;
         for (i = 0, t = 0.0f; i <= lineCount; i++, t+= dt)
         {
@@ -41,7 +45,7 @@ public class Trajectory : MonoBehaviour
             _lineRenderer.SetPosition(i, transform.position + nextPos);
         }
     }
-
+    
     public void Draw()
     {
         _isDrawing = true;

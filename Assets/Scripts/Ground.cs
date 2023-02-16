@@ -7,9 +7,7 @@ public class Ground : MonoBehaviour
         var dropped = collision.gameObject;
         
         dropped.transform.parent = transform;
-        Vector2 projectileLocalPosition = dropped.transform.localPosition;
-        dropped.transform.localPosition = projectileLocalPosition;
-        
+
         dropped.GetComponent<Rigidbody2D>().isKinematic = true;
         dropped.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         dropped.GetComponent<Rigidbody2D>().angularVelocity = 0;
