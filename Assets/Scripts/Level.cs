@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class Level : MonoBehaviour
 {
@@ -49,7 +46,7 @@ public class Level : MonoBehaviour
         // Создание мишеней
         existingCoordinates.ForEach(coordinate =>
         {
-            Instantiate(targets[Random.Range(0, targets.Length - 1)],
+            Instantiate(targets[Random.Range(0, targets.Length)],
                 coordinate, Quaternion.identity).transform.SetParent(transform);
         });
     }

@@ -2,7 +2,7 @@
 
 namespace Managers
 {
-    public class GlobalEventManager
+    public static class GlobalEventManager
     {
         public static readonly UnityEvent<Target> OnTargetSpawned = new();
         public static readonly UnityEvent<Target> OnTargetHitCart = new();
