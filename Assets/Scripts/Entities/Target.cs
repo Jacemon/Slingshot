@@ -35,9 +35,10 @@ namespace Entities
     
         public void GetDamage(int damage)
         {
-            var newHealth = health - damage;
-
-            if (newHealth <= 0)
+            health -= damage;
+            Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
+        
+            if (health <= 0)
             {
                 GetComponent<Rigidbody2D>().isKinematic = false;
                 Debug.Log($"{targetName} shot down");
@@ -56,11 +57,8 @@ namespace Entities
             
                 Invoke(nameof(LateDestroy), TimeBeforeDestroy);
             } 
-            else if (newHealth < maxHealth)
+            else if (health < maxHealth)
             {
-                Debug.Log($"{targetName} get {damage} damage ({newHealth}/{maxHealth})");
-                health = newHealth;
-                
                 _healthBar.enabled = true;
                 _slider.value = health;
             }
