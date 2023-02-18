@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Entities;
+using TMPro;
 using UnityEngine;
 
 namespace Managers
@@ -19,7 +20,15 @@ namespace Managers
         private void AddScore(int additionalScore)
         {
             score += additionalScore;
-            scoreLabel.text = score.ToString();
+
+            var scoreString = score switch
+            {
+                > 1000000 => $"{score / 1000000.0f:F1}M",
+                > 1000 => $"{score / 1000.0f:F1}K",
+                _ => score.ToString()
+            };
+
+            scoreLabel.text = scoreString;
         }
     
         private void TargetHitCart(Target target)

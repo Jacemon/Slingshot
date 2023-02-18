@@ -1,58 +1,62 @@
 using Managers;
+using Tools;
 using UnityEngine;
 
-[RequireComponent(typeof(Timer))]
-public class Cart : MonoBehaviour
+namespace Entities
 {
-    [Header("Settings")] 
-    public string cartName = "None";
+    [RequireComponent(typeof(Timer))]
+    public class Cart : MonoBehaviour
+    {
+        [Header("Settings")] 
+        public string cartName = "None";
 
-    [Space] 
-    public Vector2[] positions;
-    public float velocity;
+        [Space] 
+        public Vector2[] positions;
+        public float velocity;
 
-    [Header("Current parameters")]
-    [SerializeField] private int positionIndex;
+        [Header("Current parameters")]
+        [SerializeField] private int positionIndex;
 
-    private const float ErrorRate = 0.1f;
-    private Timer _timer;
+        private const float ErrorRate = 0.1f;
+        private Timer _timer;
     
-    private void Awake()
-    {
-        _timer = GetComponent<Timer>();
-    }
+        private void Awake()
+        {
+            _timer = GetComponent<Timer>();
+        }
     
-    private void FixedUpdate()
-    {
-        if (!_timer.timerDone)
+        private void FixedUpdate()
         {
-            return;
-        }
+            if (!_timer.timerDone)
+            {
+                return;
+            }
         
-        transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
-        if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
-        {
-            NextPosition();
+            transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
+            if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
+            {
+                NextPosition();
+            }
         }
-    }
 
-    private void NextPosition()
-    {
-        positionIndex++;
-        if (positionIndex == positions.Length)
+        private void NextPosition()
         {
-            positionIndex = 0;
+            positionIndex++;
+            if (positionIndex == positions.Length)
+            {
+                positionIndex = 0;
+            }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log($"{collision.gameObject.tag} collided with {cartName}");
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log($"{collision.gameObject.tag} collided with {cartName}");
         
-        Target target = collision.gameObject.GetComponent<Target>();
-        if (target != null)
-        {
-            GlobalEventManager.OnTargetHitCart.Invoke(target);
+            Target target = collision.gameObject.GetComponent<Target>();
+            if (target != null)
+            {
+                GlobalEventManager.OnTargetHitCart.Invoke(target);
+            }
         }
     }
 }

@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public class MouseFollower : Follower
+namespace Tools
 {
-    private Camera _camera;
-    
-    protected override void Awake()
+    public class MouseFollower : Follower
     {
-        _camera = Camera.main;
-        base.Awake();
-    }
+        private Camera _camera;
     
-    protected override void Update()
-    {
-        followPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
-        base.Update();
+        protected override void Awake()
+        {
+            _camera = Camera.main;
+            base.Awake();
+        }
+    
+        protected override void Update()
+        {
+            followPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
+            base.Update();
+        }
     }
 }

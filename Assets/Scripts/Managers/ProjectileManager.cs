@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Entities;
+using Tools;
 using UnityEngine;
 
 namespace Managers

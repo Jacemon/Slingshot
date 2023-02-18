@@ -5067,9 +5067,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Apple
+  health: 0
   maxHealth: 3
   points: 1
-  health: 0
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6

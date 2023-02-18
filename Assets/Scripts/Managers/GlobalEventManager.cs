@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using Entities;
+using UnityEngine.Events;
 
 namespace Managers
 {

@@ -1,38 +1,41 @@
 ﻿using UnityEngine;
 
-public class Timer : MonoBehaviour
+namespace Tools
 {
-    [Header("Settings")]
-    public bool timerDone = true;
-    public bool timerOn;
-    public float delay;
-
-    private void Update()
+    public class Timer : MonoBehaviour
     {
-        if (!timerOn) return;
-        timerDone = false;
-        delay -= Time.deltaTime;
-        
-        if (delay > 0) return;
-        timerDone = true;
-        timerOn = false;
-    }
+        [Header("Settings")]
+        public bool timerDone = true;
+        public bool timerOn;
+        public float delay;
 
-    public void SetBiggerDelay(float otherDelay)
-    {
-        if (delay < otherDelay)
+        private void Update()
         {
-            delay = otherDelay;
+            if (!timerOn) return;
+            timerDone = false;
+            delay -= Time.deltaTime;
+        
+            if (delay > 0) return;
+            timerDone = true;
+            timerOn = false;
         }
-    }
+
+        public void SetBiggerDelay(float otherDelay)
+        {
+            if (delay < otherDelay)
+            {
+                delay = otherDelay;
+            }
+        }
     
-    public void SetDelay(float newDelay)
-    {
-        delay = newDelay;
-    }
+        public void SetDelay(float newDelay)
+        {
+            delay = newDelay;
+        }
     
-    public void AddDelay(float additionalDelay)
-    {
-        delay += additionalDelay;
+        public void AddDelay(float additionalDelay)
+        {
+            delay += additionalDelay;
+        }
     }
 }
