@@ -42,7 +42,7 @@ namespace Entities
     
         private void Awake()
         {
-            GlobalEventManager.OnProjectileSpawned.Invoke(this);
+            GlobalEventManager.OnProjectileSpawned?.Invoke(this);
 
             _rb = GetComponent<Rigidbody2D>();
             _rb.isKinematic = true;
@@ -124,7 +124,7 @@ namespace Entities
 
         public void Shoot(Vector2 force)
         {
-            GlobalEventManager.OnProjectileThrown.Invoke(this);
+            GlobalEventManager.OnProjectileThrown?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         

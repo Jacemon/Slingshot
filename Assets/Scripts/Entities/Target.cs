@@ -21,7 +21,7 @@ namespace Entities
 
         private void Awake()
         {
-            GlobalEventManager.OnTargetSpawned.Invoke(this);
+            GlobalEventManager.OnTargetSpawned?.Invoke(this);
         
             health = maxHealth;
 
@@ -63,6 +63,8 @@ namespace Entities
                 _slider.value = health;
             }
             GetComponent<ParticleSystem>().Play();
+            
+            GlobalEventManager.OnTargetGetDamage?.Invoke(this);
         }
 
         private void LateDestroy()

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -8,6 +8,9 @@ namespace Managers
     {
         public List<GameObject> levels = new();
         public int currentLevel;
+        [Space] 
+        public Button nextButton;
+        public Button prevButton;
 
         public Vector2 startPosition = Vector2.zero;
     
@@ -17,13 +20,16 @@ namespace Managers
         public void Awake()
         {
             LoadLevel(0);
+
+            CheckButtonsEnabled();
         }
 
-        public void ReloadActiveScene()
+        private void CheckButtonsEnabled()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            prevButton.gameObject.SetActive(currentLevel != 0);
+            nextButton.gameObject.SetActive(currentLevel != levels.Count - 1);
         }
-
+        
         public void LoadLevel(int levelNumber)
         {
             if (levelNumber < 0 || levelNumber > levels.Count - 1)
@@ -36,8 +42,11 @@ namespace Managers
             loadedLevel = Instantiate(levels[levelNumber], startPosition, Quaternion.identity);
         
             currentLevel = levelNumber;
+            
+            CheckButtonsEnabled();
         
-            Debug.Log($"Current level: {currentLevel}");
+            GlobalEventManager.OnLevelSwitched?.Invoke();
+            Debug.Log($"Level has been switched. Current level: {currentLevel}");
         }
     
         public void NextLevel()

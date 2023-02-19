@@ -55,7 +55,7 @@ namespace Entities
             Target target = collision.gameObject.GetComponent<Target>();
             if (target != null)
             {
-                GlobalEventManager.OnTargetHitCart.Invoke(target);
+                GlobalEventManager.OnTargetHitCart?.Invoke(target);
             }
         }
     }

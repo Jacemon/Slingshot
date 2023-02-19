@@ -19,5 +19,10 @@ namespace MainMenu
         {
             SceneManager.LoadScene("Main Menu");
         }
+        
+        public void ReloadActiveScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

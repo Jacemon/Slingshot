@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Entities;
 using Tools;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Projectile = Entities.Projectile;
 
 namespace Managers
 {
@@ -20,6 +22,7 @@ namespace Managers
         {
             GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
             GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
+            GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
         
             // Проверка префаба на то, что он снаряд
             foreach (var projectilePrefab in projectilePrefabs)
@@ -51,6 +54,7 @@ namespace Managers
             Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
             
             SpawnProjectile(projectile.projectileName);
+
             Debug.Log($"{projectile.name} was thrown");
         }
 
@@ -64,7 +68,20 @@ namespace Managers
         {
             Instantiate(_registeredProjectilePrefabs[projectileName], _spawnPoint, Quaternion.identity);
         }
-    
+
+        private void DeleteThrownProjectiles()
+        {
+            var projectileObjects = GameObject.FindGameObjectsWithTag("Projectile");
+            foreach (var projectileObject in projectileObjects)
+            {
+                var projectile = projectileObject.GetComponent<Projectile>();
+                if (projectile != null && projectile.state is Projectile.State.InFlight or Projectile.State.InHit)
+                {
+                    Destroy(projectileObject);
+                }
+            }
+        }
+        
         public void SpawnRock() => SpawnProjectile("Rock");
     }
 }
