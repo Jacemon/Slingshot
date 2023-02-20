@@ -1,15 +1,15 @@
 using Entities;
-using MainMenu;
+using Lean.Localization;
 using Managers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TrainingLevel : MonoBehaviour
 {
     public GameObject hand;
     public Target apple;
-    public TextMeshProUGUI helpLabel;
+    [Space]
+    public TextMeshProUGUI[] helpLabels;
     
     private Animator _handAnimator;
 
@@ -18,9 +18,24 @@ public class TrainingLevel : MonoBehaviour
         _handAnimator = hand.GetComponent<Animator>();
         
         GlobalEventManager.OnTargetGetDamage.AddListener(ShowTrainingHint);
-        GlobalEventManager.OnTargetHitCart.AddListener(ShowTrainingEnding);
+        GlobalEventManager.OnTargetHitCart.AddListener(ShowTrainingGoodEnding);
+        GlobalEventManager.OnTargetHitGround.AddListener(ShowTrainingBadEnding);
+        
+        ToggleLabel(0);
+    }
 
-        helpLabel.text = "Перетяни камень в рогатку, и отпусти, когда прицелишься в яблоко";
+    // if i < -1 disable all
+    private void ToggleLabel(int i)
+    {
+        foreach (var label in helpLabels)
+        {
+            label.enabled = false;
+        }
+
+        if (i >= 0)
+        {
+            helpLabels[i].enabled = true;
+        }
     }
 
     private void Update()
@@ -35,20 +50,36 @@ public class TrainingLevel : MonoBehaviour
         {
             return;
         }
-        helpLabel.text = apple.health switch
+
+        switch (apple.health)
         {
-            1 => "Остался последний раз! Выстрели, когда тележка будет под яблоком",
-            > 1 => $"Попади в яблоко ещё {apple.health} раза",
-            _ => "Попробуй снова! Перезагрузи уровень кнопкой сверху"
-        };
+            case 1: 
+                ToggleLabel(1);
+                break;
+            case 2:
+                ToggleLabel(2);
+                break;
+            default: 
+                ToggleLabel(-1);
+                break;
+        }
     }
-    
-    private void ShowTrainingEnding(Target target)
+
+    private void ShowTrainingBadEnding(Target target)
     {
         if (target != apple)
         {
             return;
         }
-        helpLabel.text = "Молодец, нажимай на стрелку вправо для продолжения";
+        ToggleLabel(3);
+    }
+    
+    private void ShowTrainingGoodEnding(Target target)
+    {
+        if (target != apple)
+        {
+            return;
+        }
+        ToggleLabel(4);
     }
 }

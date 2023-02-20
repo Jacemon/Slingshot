@@ -1,3 +1,4 @@
+using Managers;
 using UnityEngine;
 
 namespace Entities
@@ -7,12 +8,14 @@ namespace Entities
         private void OnCollisionEnter2D(Collision2D collision)
         {
             var dropped = collision.gameObject;
+            var droppedRigidbody = dropped.GetComponent<Rigidbody2D>();
         
             dropped.transform.parent = transform;
 
-            dropped.GetComponent<Rigidbody2D>().isKinematic = true;
-            dropped.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            dropped.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            droppedRigidbody.isKinematic = true;
+            droppedRigidbody.velocity = Vector2.zero;
+            droppedRigidbody.angularVelocity = 0;
+            
             dropped.GetComponent<Collider2D>().enabled = false;
         
             var droppedSpriteRenderer = dropped.GetComponentInChildren<SpriteRenderer>();
@@ -20,6 +23,12 @@ namespace Entities
             {
                 droppedSpriteRenderer.sortingLayerName = "Background";
                 droppedSpriteRenderer.sortingOrder = 3;
+            }
+            
+            var target = dropped.GetComponent<Target>();
+            if (target != null)
+            {
+                GlobalEventManager.OnTargetHitGround?.Invoke(target);
             }
         }
     }
