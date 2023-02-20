@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targets:
   - {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+  - {fileID: 5030656357949858016, guid: fa23c2715286c9f47b9754b51483315e, type: 3}
   amount: 10
   centerPoint: {x: 0, y: 2.2}
   spawnRadius: 1.8

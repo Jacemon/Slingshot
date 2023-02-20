@@ -1,58 +1,87 @@
-using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine.Serialization;
+using Entities;
+using Tools;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Projectile = Entities.Projectile;
 
-public class ProjectileManager : MonoBehaviour
+namespace Managers
 {
-    [Header("Settings")]
-    public List<GameObject> projectilePrefabs = new();
-    public Vector3 projectileSpawnPoint;
-    public Timer timer;
-
-    private static readonly Dictionary<string, GameObject> RegisteredProjectilePrefabs = new();
-
-    public void Awake()
+    public class ProjectileManager : MonoBehaviour
     {
-        GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
-        GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
+        [Header("Settings")]
+        public List<GameObject> projectilePrefabs = new();
+        public GameObject projectileSpawnPoint;
+        [Space]
+        public Timer timer;
         
-        // Проверка префаба на то, что он снаряд
-        foreach (var projectilePrefab in projectilePrefabs)
+        private Vector2 _spawnPoint;
+        private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
+
+        public void Awake()
         {
-            var projectile = projectilePrefab.GetComponent<Projectile>();
-            if (projectile != null)
+            GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
+            GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
+            GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
+        
+            // Проверка префаба на то, что он снаряд
+            foreach (var projectilePrefab in projectilePrefabs)
             {
-                // Добавление снаряда в список
-                RegisteredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
-                Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
+                var projectile = projectilePrefab.GetComponent<Projectile>();
+                if (projectile != null)
+                {
+                    // Добавление снаряда в список
+                    _registeredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
+                    Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
+                }
+                else
+                {
+                    Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
+                }
             }
-            else
+        
+            _spawnPoint = projectileSpawnPoint.transform.position;
+            
+            SpawnRock();
+        }
+
+        private void ProjectileThrown(Projectile projectile)
+        {
+            const float extraDelay = 1.0f;
+            // Установка большей задержи для таймера
+            timer.SetBiggerDelay(projectile.flightTime + extraDelay);
+            timer.timerOn = true;
+            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
+            
+            SpawnProjectile(projectile.projectileName);
+
+            Debug.Log($"{projectile.name} was thrown");
+        }
+
+        private void ProjectileSpawned(Projectile projectile)
+        {
+            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
+            Debug.Log($"{projectile.name} was spawned");
+        }
+
+        private void SpawnProjectile(string projectileName)
+        {
+            Instantiate(_registeredProjectilePrefabs[projectileName], _spawnPoint, Quaternion.identity);
+        }
+
+        private void DeleteThrownProjectiles()
+        {
+            var projectileObjects = GameObject.FindGameObjectsWithTag("Projectile");
+            foreach (var projectileObject in projectileObjects)
             {
-                Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
+                var projectile = projectileObject.GetComponent<Projectile>();
+                if (projectile != null && projectile.state is Projectile.State.InFlight or Projectile.State.InHit)
+                {
+                    Destroy(projectileObject);
+                }
             }
         }
+        
+        public void SpawnRock() => SpawnProjectile("Rock");
     }
-
-    private void ProjectileThrown(Projectile projectile)
-    {
-        float extraDelay = 1.0f;
-
-        // Установка большей задержи для таймера
-        timer.SetBiggerDelay(projectile.flightTime + extraDelay);
-        timer.timerOn = true;
-        Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-    }
-
-    private void ProjectileSpawned(Projectile projectile)
-    {
-        Debug.Log($"{projectile.name} was spawned");
-    }
-
-    private void SpawnProjectile(string projectileName)
-    {
-        Instantiate(RegisteredProjectilePrefabs[projectileName], projectileSpawnPoint, Quaternion.identity);
-    }
-    
-    public void SpawnRock() => SpawnProjectile("Rock");
 }
