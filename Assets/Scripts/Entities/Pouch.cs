@@ -78,15 +78,11 @@ namespace Entities
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null)
+            if (collision == null || !collision.gameObject.TryGetComponent(out Projectile projectileToFill))
             {
                 return;
             }
-
-            if (collision.gameObject.CompareTag("Projectile"))
-            {
-                FillPouch(collision.gameObject.GetComponent<Projectile>());
-            }
+            FillPouch(projectileToFill);
         }
 
         private void FillPouch(Projectile projectileToFill)

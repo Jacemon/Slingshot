@@ -80,20 +80,12 @@ namespace Entities
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null)
+            if (collision == null || !collision.gameObject.TryGetComponent(out Target target))
             {
                 return;
             }
-
-            if (collision.gameObject.CompareTag("Target"))
-            {
-                var collisionTarget = collision.gameObject.GetComponent<Target>();
-                if (collisionTarget != null)
-                {
-                    collisionTarget.GetDamage(damage);
-                    state = State.InHit;
-                }
-            }
+            target.GetDamage(damage);
+            state = State.InHit;
         }
 
         private void OnMouseDown()

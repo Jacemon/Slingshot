@@ -18,6 +18,8 @@ namespace Managers
         private Vector2 _spawnPoint;
         private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
 
+        private List<Projectile> _thrownProjectiles = new();
+
         public void Awake()
         {
             GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
@@ -55,6 +57,8 @@ namespace Managers
             
             SpawnProjectile(projectile.projectileName);
 
+            _thrownProjectiles.Add(projectile);
+            
             Debug.Log($"{projectile.name} was thrown");
         }
 
@@ -71,14 +75,9 @@ namespace Managers
 
         private void DeleteThrownProjectiles()
         {
-            var projectileObjects = GameObject.FindGameObjectsWithTag("Projectile");
-            foreach (var projectileObject in projectileObjects)
+            foreach (var projectile in _thrownProjectiles)
             {
-                var projectile = projectileObject.GetComponent<Projectile>();
-                if (projectile != null && projectile.state is Projectile.State.InFlight or Projectile.State.InHit)
-                {
-                    Destroy(projectileObject);
-                }
+                Destroy(projectile);
             }
         }
         
