@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainMenu
+namespace Tools
 {
     public class BackgroundScrolling : MonoBehaviour
     {

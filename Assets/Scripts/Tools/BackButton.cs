@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Managers
+namespace Tools
 {
     public class BackButton : MonoBehaviour
     {

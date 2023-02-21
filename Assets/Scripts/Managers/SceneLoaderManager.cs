@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MainMenu
+namespace Managers
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoaderManager : MonoBehaviour
     {
         public void QuitApplication()
         {

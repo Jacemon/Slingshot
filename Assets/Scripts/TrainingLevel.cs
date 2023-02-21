@@ -1,5 +1,4 @@
 using Entities;
-using Lean.Localization;
 using Managers;
 using TMPro;
 using UnityEngine;
