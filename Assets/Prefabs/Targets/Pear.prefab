@@ -5067,9 +5067,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Apple
+  level: 0
+  startHealth: 5
+  maxHealthMultiplier: 5
+  startMoney: 3
+  moneyMultiplier: 3
+  money: 3
   health: 0
   maxHealth: 5
-  points: 3
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6

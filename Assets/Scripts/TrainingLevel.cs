@@ -39,8 +39,8 @@ public class TrainingLevel : MonoBehaviour
 
     private void Update()
     {
-        _handAnimator.enabled = apple.health == apple.maxHealth;
-        hand.SetActive(apple.health == apple.maxHealth);
+        _handAnimator.enabled = apple.health == apple.maxHealthMultiplier;
+        hand.SetActive(apple.health == apple.maxHealthMultiplier);
     }
 
     private void ShowTrainingHint(Target target)

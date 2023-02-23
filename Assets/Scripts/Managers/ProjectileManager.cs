@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using Entities;
 using Tools;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Projectile = Entities.Projectile;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -12,13 +11,15 @@ namespace Managers
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
         public GameObject projectileSpawnPoint;
+        [FormerlySerializedAs("projectilesLevel")] [Space] 
+        public int projectileLevel = 0;
         [Space]
         public Timer timer;
         
         private Vector2 _spawnPoint;
         private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
 
-        private List<Projectile> _thrownProjectiles = new();
+        private readonly List<Projectile> _thrownProjectiles = new();
 
         public void Awake()
         {
@@ -65,6 +66,8 @@ namespace Managers
         private void ProjectileSpawned(Projectile projectile)
         {
             projectile.GetComponent<Follower>().followPoint = _spawnPoint;
+            projectile.level = projectileLevel;
+            projectile.Reload();
             Debug.Log($"{projectile.name} was spawned");
         }
 

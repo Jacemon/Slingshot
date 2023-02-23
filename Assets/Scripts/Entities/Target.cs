@@ -1,18 +1,28 @@
 using Managers;
+using Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Entities
 {
-    public class Target : MonoBehaviour
+    public class Target : MonoBehaviour, IReloadable
     {
         [Header("Settings")] 
         public string targetName = "None";
         [Space]
+        public int level;
+        [Space]
+        public int startHealth = 1;
+        public int maxHealthMultiplier = 3;
+        [Space]
+        public int startMoney;
+        public int moneyMultiplier;
+        [Space]
+        public int money;
         public int health;
-        public int maxHealth = 3;
-        public int points = 1;
-    
+        [SerializeField] 
+        private int maxHealth;
+        
         private Slider _slider;
         private Canvas _healthBar;
 
@@ -22,17 +32,24 @@ namespace Entities
         private void Awake()
         {
             GlobalEventManager.OnTargetSpawned?.Invoke(this);
-        
-            health = maxHealth;
-
+            
             _healthBar = GetComponentInChildren<Canvas>();
+            _healthBar.enabled = false;
+            
             _slider = _healthBar.GetComponentInChildren<Slider>();
 
-            _healthBar.enabled = false;
+            Reload();
+        }
+
+        public void Reload()
+        {
+            maxHealth = health = startHealth + maxHealthMultiplier * level;
             _slider.maxValue = maxHealth;
             _slider.value = health;
+
+            money = startMoney + moneyMultiplier * level;
         }
-    
+        
         public void GetDamage(int damage)
         {
             health -= damage;

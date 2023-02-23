@@ -8,13 +8,16 @@ namespace Entities
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Follower))]
     [RequireComponent(typeof(MouseFollower))]
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour, IReloadable
     {
         [Header("Settings")]
         public string projectileName = "None";
         [Space]
+        public int level;
+        public int startDamage = 1;
+        public int damageMultiplier = 1;
+        [Space]
         public float flightTime = 1.0f;
-        public int damage = 1;
 
         [Header("Special settings")]
         public State state;
@@ -22,6 +25,8 @@ namespace Entities
         public float finalScale = 0.3f;
         public Vector2 randomVelocityRange = new (1, 3);
 
+        [SerializeField]
+        private int damage;
         private float _scaleVelocity;
 
         private Rigidbody2D _rb;
@@ -54,6 +59,8 @@ namespace Entities
 
             // Расчёт скорости уменьшения снаряда во время полёта
             _scaleVelocity = (1 - finalScale) / flightTime * Time.fixedDeltaTime;
+            
+            Reload();
         }
 
         private void FixedUpdate()
@@ -64,7 +71,7 @@ namespace Entities
                 return;
             }
         
-            Vector3 newScale = _rb.transform.localScale - new Vector3(
+            var newScale = _rb.transform.localScale - new Vector3(
                 _scaleVelocity,
                 _scaleVelocity,
                 0);
@@ -106,6 +113,11 @@ namespace Entities
             state = State.InCalm;
         }
 
+        public void Reload()
+        {
+            damage = startDamage + damageMultiplier * level;
+        }
+        
         public void DoRandomForce()
         {
             var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
@@ -124,7 +136,7 @@ namespace Entities
             _rb.velocity = force; // or AddForce() but it's requires NORMAL mass;
             _collider2D.enabled = false;
             _follower.enabled = false;
-        
+
             StartCoroutine(nameof(WaitForHit));
         }
 

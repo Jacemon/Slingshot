@@ -1,3 +1,4 @@
+using Entities;
 using TMPro;
 using UnityEngine;
 
@@ -5,28 +6,51 @@ namespace Managers
 {
     public class MoneyManager : MonoBehaviour
     {
-        public int money;
+        public int money; // < uint < long < ulong < BigInteger
         public TextMeshProUGUI moneyLabel;
 
-        private void Start()
+        private void Awake()
         {
+            GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
             DepositMoney(0);
         }
-
-        private void DepositMoney(int depositedMoney)
+        
+        private void TargetHitCart(Target target)
         {
-            money += depositedMoney;
-            moneyLabel.text = money.ToString();
+            DepositMoney(target.money);
+            Destroy(target.gameObject);
         }
 
-        private void WithdrawMoney(int withdrawnMoney)
+        public void DepositMoney(int depositedMoney)
+        {
+            money += depositedMoney;
+            
+            var moneyString = money switch
+            {
+                >= 1000000 => $"{money / 1000000.0f:F1}M",
+                >= 1000 => $"{money / 1000.0f:F1}K",
+                _ => money.ToString()
+            };
+
+            moneyLabel.text = moneyString;
+        }
+
+        public void WithdrawMoney(int withdrawnMoney)
         {
             if (money < withdrawnMoney)
             {
                 return;
             }
             money -= withdrawnMoney;
-            moneyLabel.text = money.ToString();
+            
+            var moneyString = money switch
+            {
+                > 1000000 => $"{money / 1000000.0f:F1}M",
+                > 1000 => $"{money / 1000.0f:F1}K",
+                _ => money.ToString()
+            };
+            
+            moneyLabel.text = moneyString;
         }
     }
 }

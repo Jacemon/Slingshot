@@ -371,12 +371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62b8e8dd27af474e9f4215dcc2dfd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelNumber: 5
   targets:
   - {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
   - {fileID: 5030656357949858016, guid: fa23c2715286c9f47b9754b51483315e, type: 3}
-  amount: 10
-  centerPoint: {x: 0, y: 2.2}
-  spawnRadius: 1.8
-  spaceBetween: 1
-  existingCoordinates: []
-  maxTries: 100
+  targetsAmount: 15
+  spawnPoint: {x: 0, y: 2}
+  spawnRadius: 2
+  spawnSecondRadius: 1.6
+  spaceBetween: 0.9
