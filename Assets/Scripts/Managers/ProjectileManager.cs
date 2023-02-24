@@ -101,6 +101,7 @@ namespace Managers
             {
                 Destroy(projectile.gameObject);
             }
+            _thrownProjectiles.Clear();
         }
         
         public void SpawnRock() => SpawnProjectile("Rock");
