@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Managers
 {
     public class SaveManager : MonoBehaviour
     {
-        public void Awake()
+        private void Awake()
         {
             GlobalEventManager.OnLoad?.Invoke();
         }
@@ -13,6 +14,20 @@ namespace Managers
         {
             GlobalEventManager.OnSave?.Invoke();
             PlayerPrefs.Save();
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (!pauseStatus)
+            {
+                return;
+            }
+            OnDestroy();
+        }
+        
+        private void OnApplicationQuit()
+        {
+            OnDestroy();
         }
     }
 }
