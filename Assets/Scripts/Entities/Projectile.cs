@@ -26,6 +26,7 @@ namespace Entities
         public Vector2 randomVelocityRange = new (1, 3);
 
         [SerializeField]
+        [Header("damage = startDamage + damageMultiplier * level")]
         private int damage;
         private float _scaleVelocity;
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Tools
@@ -14,7 +15,6 @@ namespace Tools
         public int lineCount = 20;
     
         private LineRenderer _lineRenderer;
-        public bool isDrawing;
 
         private void Awake()
         {
@@ -24,19 +24,22 @@ namespace Tools
 
         private void Update()
         {
-            if (!isDrawing)
-            {
-                _lineRenderer.enabled = false;
-                return;
-            }
-            _lineRenderer.enabled = true;
-
             if (_lineRenderer.positionCount != lineCount + 1)
             {
                 _lineRenderer.positionCount = lineCount + 1;
             }
 
             TrajectoryCalculation();
+        }
+
+        private void OnEnable()
+        {
+            _lineRenderer.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            _lineRenderer.enabled = false;
         }
 
         private void TrajectoryCalculation()

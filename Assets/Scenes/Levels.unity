@@ -2050,6 +2050,7 @@ RectTransform:
   - {fileID: 943608862}
   - {fileID: 179349004}
   - {fileID: 1665874977}
+  - {fileID: 1482451494}
   m_Father: {fileID: 292805772}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2372,6 +2373,139 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1403833190}
   m_CullTransparentMesh: 1
+--- !u!1 &1482451493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1482451494}
+  - component: {fileID: 1482451497}
+  - component: {fileID: 1482451496}
+  - component: {fileID: 1482451495}
+  m_Layer: 5
+  m_Name: Upgrade Projectile Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1482451494
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482451493}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1237418583}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -75, y: -75}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1482451495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482451493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1482451496}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1531259710}
+        m_TargetAssemblyTypeName: Managers.ShopManager, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1482451496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482451493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1482451497
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482451493}
+  m_CullTransparentMesh: 1
 --- !u!1 &1487421801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,8 +2626,8 @@ GameObject:
   - component: {fileID: 1531259706}
   - component: {fileID: 1531259707}
   - component: {fileID: 1531259709}
-  - component: {fileID: 1531259708}
   - component: {fileID: 1531259710}
+  - component: {fileID: 1531259708}
   m_Layer: 0
   m_Name: Multi Manager
   m_TagString: Untagged
@@ -2564,6 +2698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed160aeb006648b78a49e93d7b2366dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTriesToSpawn: 100
 --- !u!114 &1531259704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2579,6 +2714,7 @@ MonoBehaviour:
   projectilePrefabs:
   - {fileID: 7743727048651214108, guid: 93959a643dee1614eb5453b04cde572d, type: 3}
   projectileSpawnPoint: {fileID: 988427311}
+  projectileLevel: 0
   timer: {fileID: 882790095}
 --- !u!114 &1531259705
 MonoBehaviour:
@@ -2607,12 +2743,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 400266552143185750, guid: 935e84778cac86940bf865659cc3447c, type: 3}
-  - {fileID: 400266552143185750, guid: 0b5e814d10a73b94190fbe188d9dec61, type: 3}
-  - {fileID: 4927523153820241989, guid: 8f493fd4b240c0e40a28e5a4d37805d0, type: 3}
-  - {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
-  - {fileID: 400266552143185750, guid: 0b5e814d10a73b94190fbe188d9dec61, type: 3}
-  - {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 00000000010000000200000005000000
+    _keys: 00000000010000000200000005000000
+    _values:
+    - {fileID: 400266552143185750, guid: 935e84778cac86940bf865659cc3447c, type: 3}
+    - {fileID: 400266552143185750, guid: 0b5e814d10a73b94190fbe188d9dec61, type: 3}
+    - {fileID: 4927523153820241989, guid: 8f493fd4b240c0e40a28e5a4d37805d0, type: 3}
+    - {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
   currentLevel: 0
   nextButton: {fileID: 1487421803}
   prevButton: {fileID: 502566869}
@@ -2680,9 +2839,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1531259699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb87b4d5a065d2b4285189ed6e126eaf, type: 3}
+  m_Script: {fileID: 11500000, guid: de19da5a9a384855a80059ded9e37dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyManager: {fileID: 1531259705}
+  projectileManager: {fileID: 1531259704}
 --- !u!1 &1564360536
 GameObject:
   m_ObjectHideFlags: 0

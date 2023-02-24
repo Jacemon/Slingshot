@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System.Linq;
+using Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public List<GameObject> levels = new();
+        public IntGameObjectDictionary levels = new();
         public int currentLevel;
         [Space] 
         public Button nextButton;
@@ -26,29 +27,43 @@ namespace Managers
 
         private void CheckButtonsEnabled()
         {
-            prevButton.gameObject.SetActive(currentLevel != 0);
-            nextButton.gameObject.SetActive(currentLevel != levels.Count - 1);
+            prevButton.gameObject.SetActive(currentLevel != levels.Keys.Min());
+            nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max());
         }
         
         public void LoadLevel(int levelNumber)
         {
-            if (levelNumber < 0 || levelNumber > levels.Count - 1)
+            if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
             {
                 Debug.Log("Edge");
                 return;
             }
         
-            Destroy(loadedLevel);
-            loadedLevel = Instantiate(levels[levelNumber], startPosition, Quaternion.identity);
-        
             currentLevel = levelNumber;
             
+            Destroy(loadedLevel);
+            if (levels.TryGetValue(levelNumber, out var levelToLoad))
+            {
+                Debug.Log($"Level {currentLevel} was loaded");
+                loadedLevel = Instantiate(levelToLoad, startPosition, Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log($"Level {currentLevel} was generated");
+                GenerateLevel();
+            }
+
             CheckButtonsEnabled();
         
             GlobalEventManager.OnLevelSwitched?.Invoke();
             Debug.Log($"Level has been switched. Current level: {currentLevel}");
         }
-    
+
+        private void GenerateLevel()
+        {
+            
+        }
+        
         public void NextLevel()
         {
             LoadLevel(currentLevel + 1);

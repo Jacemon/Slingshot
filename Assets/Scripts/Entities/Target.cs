@@ -18,10 +18,12 @@ namespace Entities
         public int startMoney;
         public int moneyMultiplier;
         [Space]
+        [Header("money = startMoney + moneyMultiplier * level")]
         public int money;
-        public int health;
-        [SerializeField] 
+        [SerializeField]
+        [Header("maxHealth = startHealth + healthMultiplier * level")]
         private int maxHealth;
+        public int health;
         
         private Slider _slider;
         private Canvas _healthBar;

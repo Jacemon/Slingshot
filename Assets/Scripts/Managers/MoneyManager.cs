@@ -21,8 +21,12 @@ namespace Managers
             Destroy(target.gameObject);
         }
 
-        public void DepositMoney(int depositedMoney)
+        public bool DepositMoney(int depositedMoney)
         {
+            if (depositedMoney < 0)
+            {
+                return false;
+            }
             money += depositedMoney;
             
             var moneyString = money switch
@@ -33,13 +37,14 @@ namespace Managers
             };
 
             moneyLabel.text = moneyString;
+            return true;
         }
 
-        public void WithdrawMoney(int withdrawnMoney)
+        public bool WithdrawMoney(int withdrawnMoney)
         {
             if (money < withdrawnMoney)
             {
-                return;
+                return false;
             }
             money -= withdrawnMoney;
             
@@ -51,6 +56,7 @@ namespace Managers
             };
             
             moneyLabel.text = moneyString;
+            return true;
         }
     }
 }

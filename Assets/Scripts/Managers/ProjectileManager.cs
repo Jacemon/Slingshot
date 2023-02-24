@@ -21,11 +21,14 @@ namespace Managers
 
         private readonly List<Projectile> _thrownProjectiles = new();
 
+        private GameObject _spawnedProjectile;
+
         public void Awake()
         {
             GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
             GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
             GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
+            GlobalEventManager.OnProjectileLevelUpped.AddListener(RespawnProjectile);
         
             // Проверка префаба на то, что он снаряд
             foreach (var projectilePrefab in projectilePrefabs)
@@ -71,9 +74,17 @@ namespace Managers
             Debug.Log($"{projectile.name} was spawned");
         }
 
+        public void RespawnProjectile()
+        {
+            var projectileName = _spawnedProjectile.GetComponent<Projectile>().projectileName;
+            Destroy(_spawnedProjectile);
+            SpawnProjectile(projectileName);
+        }
+        
         private void SpawnProjectile(string projectileName)
         {
-            Instantiate(_registeredProjectilePrefabs[projectileName], _spawnPoint, Quaternion.identity);
+            _spawnedProjectile = Instantiate(_registeredProjectilePrefabs[projectileName], 
+                _spawnPoint, Quaternion.identity);
         }
 
         private void DeleteThrownProjectiles()

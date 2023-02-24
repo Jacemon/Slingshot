@@ -110,7 +110,7 @@ namespace Entities
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
 
-            _trajectory.isDrawing = true;
+            _trajectory.enabled = true;
         
             _springJoints2D[0].enabled = false;
             _springJoints2D[1].enabled = false;
@@ -135,7 +135,7 @@ namespace Entities
         
             _rb.isKinematic = false;
 
-            _trajectory.isDrawing = false;
+            _trajectory.enabled = false;
         
             _springJoints2D[0].enabled = true;
             _springJoints2D[1].enabled = true;
