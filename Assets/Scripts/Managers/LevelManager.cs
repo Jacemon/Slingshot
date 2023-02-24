@@ -1,5 +1,6 @@
 using System.Linq;
 using Entities.Levels;
+using TMPro;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,9 +14,11 @@ namespace Managers
         [Space] 
         public Button nextButton;
         public Button prevButton;
-
+        [Space]
         public Vector2 startPosition = Vector2.zero;
-    
+        [Space] 
+        public TextMeshProUGUI levelLabel;
+        [Space]
         [SerializeField]
         private GameObject loadedLevel;
 
@@ -61,7 +64,9 @@ namespace Managers
             }
 
             CheckButtonsEnabled();
-        
+
+            levelLabel.text = currentLevel.ToString();
+            
             GlobalEventManager.OnLevelSwitched?.Invoke();
             Debug.Log($"Level has been switched. Current level: {currentLevel}");
         }

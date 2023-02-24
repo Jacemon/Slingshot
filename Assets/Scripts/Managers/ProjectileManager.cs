@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Entities;
+using TMPro;
 using Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -11,10 +11,12 @@ namespace Managers
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
         public GameObject projectileSpawnPoint;
-        [FormerlySerializedAs("projectilesLevel")] [Space] 
-        public int projectileLevel = 0;
+        [Space] 
+        public int projectileLevel;
         [Space]
         public Timer timer;
+        [Space] 
+        public TextMeshProUGUI levelLabel;
         
         private Vector2 _spawnPoint;
         private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
@@ -71,6 +73,8 @@ namespace Managers
             projectile.GetComponent<Follower>().followPoint = _spawnPoint;
             projectile.level = projectileLevel;
             projectile.Reload();
+
+            levelLabel.text = projectileLevel.ToString();
             Debug.Log($"{projectile.name} was spawned");
         }
 
