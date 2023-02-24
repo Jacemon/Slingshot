@@ -416,7 +416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70}
+  m_AnchoredPosition: {x: 150, y: -70}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &179349005
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 93e8744df1cce80489622fe45607b3ac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f20e077c194676246aa15e1dcf6830b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2488,8 +2488,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 3169981edafd7a14ea2dbf4d082e8ef1, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2765,12 +2765,14 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000010000000200000005000000
-    _keys: 00000000010000000200000005000000
+    _keyValues: 000000000100000002000000030000000500000007000000
+    _keys: 000000000100000002000000030000000500000007000000
     _values:
     - {fileID: 400266552143185750, guid: 935e84778cac86940bf865659cc3447c, type: 3}
     - {fileID: 400266552143185750, guid: 0b5e814d10a73b94190fbe188d9dec61, type: 3}
     - {fileID: 4927523153820241989, guid: 8f493fd4b240c0e40a28e5a4d37805d0, type: 3}
+    - {fileID: 400266552143185750, guid: 48ea5ccc101295c498e76fdfd981dfb5, type: 3}
+    - {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
     - {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
   currentLevel: 0
   nextButton: {fileID: 1487421803}

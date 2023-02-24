@@ -1,4 +1,5 @@
 using System.Linq;
+using Entities.Levels;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,15 +43,21 @@ namespace Managers
             currentLevel = levelNumber;
             
             Destroy(loadedLevel);
-            if (levels.TryGetValue(levelNumber, out var levelToLoad))
+
+            if (levels.ContainsKey(levelNumber))
             {
                 Debug.Log($"Level {currentLevel} was loaded");
-                loadedLevel = Instantiate(levelToLoad, startPosition, Quaternion.identity);
             }
             else
             {
+                var closestKey = levels.Keys.Where(k => k <= currentLevel).Max();
+                levels[currentLevel] = levels[closestKey];
                 Debug.Log($"Level {currentLevel} was generated");
-                GenerateLevel();
+            }
+            loadedLevel = Instantiate(levels[currentLevel], startPosition, Quaternion.identity);
+            if (loadedLevel.TryGetComponent<GeneratedLevel>(out var level)) {
+                level.levelNumber = currentLevel;
+                level.Reload();
             }
 
             CheckButtonsEnabled();
@@ -59,11 +66,6 @@ namespace Managers
             Debug.Log($"Level has been switched. Current level: {currentLevel}");
         }
 
-        private void GenerateLevel()
-        {
-            
-        }
-        
         public void NextLevel()
         {
             LoadLevel(currentLevel + 1);

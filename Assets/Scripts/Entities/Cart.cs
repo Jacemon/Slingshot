@@ -52,11 +52,17 @@ namespace Entities
         {
             Debug.Log($"{collision.gameObject.tag} collided with {cartName}");
         
-            Target target = collision.gameObject.GetComponent<Target>();
-            if (target != null)
+            var target = collision.gameObject.GetComponent<Target>();
+            if (target == null)
             {
-                GlobalEventManager.OnTargetHitCart?.Invoke(target);
+                return;
             }
+            if (TryGetComponent<ParticleSystem>(out var particles))
+            {
+                particles.Emit(target.money);
+            }
+            
+            GlobalEventManager.OnTargetHitCart?.Invoke(target);
         }
     }
 }

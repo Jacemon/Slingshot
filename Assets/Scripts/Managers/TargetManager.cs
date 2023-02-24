@@ -22,7 +22,7 @@ namespace Managers
             Debug.Log($"{target.name} was spawned");
         }
 
-        public static void SpawnTarget(GameObject[] targets, int targetLevel,
+        public static Target SpawnTarget(GameObject[] targets, int targetLevel,
             Vector2 spawnPoint, Transform parent = null)
         {
             var gameObject = Instantiate(targets[Random.Range(0, targets.Length)],
@@ -33,15 +33,17 @@ namespace Managers
                 target.level = targetLevel;
                 target.Reload();
             }
+            return target; 
         }
         
-        public static void GenerateTargetsByCircle(GameObject[] targets, int amount, int targetLevel,
+        public static List<Target> GenerateTargetsByCircle(GameObject[] targets, int amount, int targetLevel,
             Vector2 spawnPoint, float radius, float spaceBetween, Transform parent = null)
         {
-            GenerateTargetsByEllipse(targets, amount, targetLevel, spawnPoint, radius, radius, spaceBetween, parent);
+            return GenerateTargetsByEllipse(targets, amount, targetLevel, spawnPoint, 
+                radius, radius, spaceBetween, parent);
         }
         
-        public static void GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
+        public static List<Target> GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
             Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null)
         {
             // Coords calculating
@@ -65,12 +67,14 @@ namespace Managers
                 remainingAmount--;
                 existingCoordinates.Add(newCoordinate);
             }
-        
+
+            List<Target> generatedTargets = new ();
             // Targets instantiating
             existingCoordinates.ForEach(coordinate =>
             {
-                SpawnTarget(targets, targetLevel, coordinate, parent);
+                generatedTargets.Add(SpawnTarget(targets, targetLevel, coordinate, parent));
             });
+            return generatedTargets;
         }
     }
 }

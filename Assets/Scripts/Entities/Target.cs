@@ -81,7 +81,10 @@ namespace Entities
                 _healthBar.enabled = true;
                 _slider.value = health;
             }
-            GetComponent<ParticleSystem>().Play();
+            if (TryGetComponent<ParticleSystem>(out var particles))
+            {
+                particles.Play();
+            }
             
             GlobalEventManager.OnTargetGetDamage?.Invoke(this);
         }

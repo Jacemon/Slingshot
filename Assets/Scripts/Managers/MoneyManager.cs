@@ -21,6 +21,16 @@ namespace Managers
             Destroy(target.gameObject);
         }
 
+        private void ReloadMoneyLabel()
+        {
+            moneyLabel.text = money switch
+            {
+                >= 1000000 => $"{money / 1000000.0f:F1}M",
+                >= 1000 => $"{money / 1000.0f:F1}K",
+                _ => money.ToString()
+            };
+        }
+        
         public bool DepositMoney(int depositedMoney)
         {
             if (depositedMoney < 0)
@@ -29,14 +39,7 @@ namespace Managers
             }
             money += depositedMoney;
             
-            var moneyString = money switch
-            {
-                >= 1000000 => $"{money / 1000000.0f:F1}M",
-                >= 1000 => $"{money / 1000.0f:F1}K",
-                _ => money.ToString()
-            };
-
-            moneyLabel.text = moneyString;
+            ReloadMoneyLabel();
             return true;
         }
 
@@ -48,14 +51,7 @@ namespace Managers
             }
             money -= withdrawnMoney;
             
-            var moneyString = money switch
-            {
-                > 1000000 => $"{money / 1000000.0f:F1}M",
-                > 1000 => $"{money / 1000.0f:F1}K",
-                _ => money.ToString()
-            };
-            
-            moneyLabel.text = moneyString;
+            ReloadMoneyLabel();
             return true;
         }
     }
