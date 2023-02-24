@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using Tools;
 using UnityEngine;
 
-public class LocalizationManager : MonoBehaviour
+namespace Managers
 {
-    public void SetLanguage(string languageName)
+    public class LocalizationManager : MonoBehaviour
     {
-        NotDestroyableLocalization.SetLanguage(languageName);
+        public void SetLanguage(string languageName)
+        {
+            NotDestroyableLocalization.SetLanguage(languageName);
+        }
     }
 }

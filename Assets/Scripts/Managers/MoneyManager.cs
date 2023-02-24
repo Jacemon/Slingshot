@@ -1,10 +1,11 @@
 using Entities;
 using TMPro;
+using Tools;
 using UnityEngine;
 
 namespace Managers
 {
-    public class MoneyManager : MonoBehaviour
+    public class MoneyManager : MonoBehaviour, ISavable
     {
         public int money; // < uint < long < ulong < BigInteger
         public TextMeshProUGUI moneyLabel;
@@ -12,6 +13,10 @@ namespace Managers
         private void Awake()
         {
             GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
+            
+            GlobalEventManager.OnSave.AddListener(Save);
+            GlobalEventManager.OnLoad.AddListener(Load);
+            
             DepositMoney(0);
         }
         
@@ -21,7 +26,7 @@ namespace Managers
             Destroy(target.gameObject);
         }
 
-        private void ReloadMoneyLabel()
+        public void Reload()
         {
             moneyLabel.text = money switch
             {
@@ -39,7 +44,7 @@ namespace Managers
             }
             money += depositedMoney;
             
-            ReloadMoneyLabel();
+            Reload();
             return true;
         }
 
@@ -51,8 +56,21 @@ namespace Managers
             }
             money -= withdrawnMoney;
             
-            ReloadMoneyLabel();
+            Reload();
             return true;
+        }
+        
+        public void Save()
+        {
+            PlayerPrefs.SetInt("money", money);
+        }
+        
+        public void Load()
+        {
+            money = PlayerPrefs.GetInt("money");
+            Reload();
+            
+            Debug.Log("MoneyManager was loaded");
         }
     }
 }

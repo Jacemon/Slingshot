@@ -14,6 +14,9 @@ namespace Managers
         public static readonly UnityEvent<Projectile> OnProjectileThrown = new();
         public static readonly UnityEvent OnProjectileLevelUpped = new();
 
+        public static readonly UnityEvent OnSave = new();
+        public static readonly UnityEvent OnLoad = new();
+        
         public static readonly UnityEvent OnLevelSwitched = new();
     }
 }

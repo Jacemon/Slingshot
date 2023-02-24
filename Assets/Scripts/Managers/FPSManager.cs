@@ -8,7 +8,7 @@ namespace Managers
         public bool showFps;
         public TextMeshProUGUI fpsLabel;
 
-        private void Start()
+        private void Awake()
         {
             Application.targetFrameRate = int.MaxValue;
             QualitySettings.vSyncCount = 0;

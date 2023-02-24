@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class ProjectileManager : MonoBehaviour
+    public class ProjectileManager : MonoBehaviour, ISavable
     {
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
@@ -31,6 +31,9 @@ namespace Managers
             GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
             GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
             GlobalEventManager.OnProjectileLevelUpped.AddListener(RespawnProjectile);
+
+            GlobalEventManager.OnSave.AddListener(Save);
+            GlobalEventManager.OnLoad.AddListener(Load);
         
             // Проверка префаба на то, что он снаряд
             foreach (var projectilePrefab in projectilePrefabs)
@@ -73,8 +76,9 @@ namespace Managers
             projectile.GetComponent<Follower>().followPoint = _spawnPoint;
             projectile.level = projectileLevel;
             projectile.Reload();
-
+            
             levelLabel.text = projectileLevel.ToString();
+            
             Debug.Log($"{projectile.name} was spawned");
         }
 
@@ -95,10 +99,28 @@ namespace Managers
         {
             foreach (var projectile in _thrownProjectiles)
             {
-                Destroy(projectile);
+                Destroy(projectile.gameObject);
             }
         }
         
         public void SpawnRock() => SpawnProjectile("Rock");
+
+        public void Reload()
+        {
+            RespawnProjectile();
+        }
+        
+        public void Save()
+        {
+            PlayerPrefs.SetInt("projectileLevel", projectileLevel);
+        }
+
+        public void Load()
+        {
+            projectileLevel = PlayerPrefs.GetInt("projectileLevel");
+            Reload();
+            
+            Debug.Log("ProjectileManager was loaded");
+        }
     }
 }

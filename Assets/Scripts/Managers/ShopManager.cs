@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tools;
 using UnityEngine;
 
 namespace Managers
 {
-    public class ShopManager : MonoBehaviour
+    public class ShopManager : MonoBehaviour, IReloadable
     {
         public MoneyManager moneyManager;
         public ProjectileManager projectileManager;
@@ -30,22 +31,10 @@ namespace Managers
 
         public void Awake()
         {
-            ReloadPurchases();
+            GlobalEventManager.OnLoad.AddListener(Reload);
+            Reload();
         }
 
-        public void ReloadPurchases()
-        {
-            // todo make cost calculation function for projectiles 
-            purchases[0] = new Purchase(projectileManager.projectileLevel * 2,
-                () => {
-                    projectileManager.projectileLevel++;
-                    GlobalEventManager.OnProjectileLevelUpped?.Invoke();
-                });
-            // сделать так, что если предмет уже куплен, то его цена просто становится 0 и по сути он просто покупает
-            // её заново но бесплатно
-            purchases[10] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
-        }
-        
         public void Buy(int id)
         {
             if (purchases.TryGetValue(id, out var purchase) && moneyManager.WithdrawMoney(purchase.cost))
@@ -58,7 +47,22 @@ namespace Managers
             {
                 Debug.Log($"{id} was not purchased");
             }
-            ReloadPurchases();
+            Reload();
+        }
+        
+        public void Reload()
+        {
+            // todo make cost calculation function for projectiles 
+            purchases[0] = new Purchase(projectileManager.projectileLevel * 2,
+                () => {
+                    projectileManager.projectileLevel++;
+                    GlobalEventManager.OnProjectileLevelUpped?.Invoke();
+                });
+            // сделать так, что если предмет уже куплен, то его цена просто становится 0 и по сути он просто покупает
+            // её заново но бесплатно
+            purchases[10] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
+            
+            Debug.Log("Shop was reloaded");
         }
     }
 }

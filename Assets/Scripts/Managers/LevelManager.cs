@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class LevelManager : MonoBehaviour
+    public class LevelManager : MonoBehaviour, ISavable
     {
         public IntGameObjectDictionary levels = new();
         public int currentLevel;
@@ -24,6 +24,9 @@ namespace Managers
 
         public void Awake()
         {
+            GlobalEventManager.OnLoad.AddListener(Load);
+            GlobalEventManager.OnSave.AddListener(Save);
+            
             LoadLevel(0);
 
             CheckButtonsEnabled();
@@ -79,6 +82,22 @@ namespace Managers
         public void PreviousLevel()
         {
             LoadLevel(currentLevel - 1);
+        }
+
+        public void Save()
+        {
+            PlayerPrefs.SetInt("currentLevel", currentLevel);
+        }
+
+        public void Load()
+        {
+            currentLevel = PlayerPrefs.GetInt("currentLevel");
+            Reload();
+        }
+
+        public void Reload()
+        {
+            LoadLevel(currentLevel);
         }
     }
 }
