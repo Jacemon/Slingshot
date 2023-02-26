@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Entities;
 using TMPro;
 using Tools;
@@ -97,10 +98,11 @@ namespace Managers
 
         private void DeleteThrownProjectiles()
         {
-            foreach (var projectile in _thrownProjectiles)
+            foreach (var projectile in _thrownProjectiles.Where(projectile => projectile != null))
             {
                 Destroy(projectile.gameObject);
             }
+
             _thrownProjectiles.Clear();
         }
         
