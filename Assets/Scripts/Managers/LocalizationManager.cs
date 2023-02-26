@@ -1,3 +1,4 @@
+using Lean.Localization;
 using Tools;
 using UnityEngine;
 
@@ -7,7 +8,10 @@ namespace Managers
     {
         public void SetLanguage(string languageName)
         {
-            NotDestroyableLocalization.SetLanguage(languageName);
+            if (NotDestroyable.TryGetComponent<LeanLocalization>("LeanLocalization", out var leanLocalization))
+            {
+                leanLocalization.SetCurrentLanguage(languageName);
+            }
         }
     }
 }

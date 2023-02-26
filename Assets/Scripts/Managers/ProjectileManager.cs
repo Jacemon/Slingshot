@@ -23,7 +23,7 @@ namespace Managers
 
         private readonly List<Projectile> _thrownProjectiles = new();
 
-        private GameObject _spawnedProjectile;
+        private Projectile _spawnedProjectile;
 
         public void Awake()
         {
@@ -73,26 +73,26 @@ namespace Managers
 
         private void ProjectileSpawned(Projectile projectile)
         {
-            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
-            projectile.level = projectileLevel;
-            projectile.Reload();
-            
-            levelLabel.text = projectileLevel.ToString();
-            
             Debug.Log($"{projectile.name} was spawned");
         }
 
         public void RespawnProjectile()
         {
-            var projectileName = _spawnedProjectile.GetComponent<Projectile>().projectileName;
-            Destroy(_spawnedProjectile);
+            var projectileName = _spawnedProjectile.projectileName;
+            Destroy(_spawnedProjectile.gameObject);
             SpawnProjectile(projectileName);
         }
         
         private void SpawnProjectile(string projectileName)
         {
             _spawnedProjectile = Instantiate(_registeredProjectilePrefabs[projectileName], 
-                _spawnPoint, Quaternion.identity);
+                _spawnPoint, Quaternion.identity).GetComponent<Projectile>();
+            
+            _spawnedProjectile.GetComponent<Follower>().followPoint = _spawnPoint;
+            _spawnedProjectile.level = projectileLevel;
+            _spawnedProjectile.Reload();
+            
+            levelLabel.text = projectileLevel.ToString();
         }
 
         private void DeleteThrownProjectiles()

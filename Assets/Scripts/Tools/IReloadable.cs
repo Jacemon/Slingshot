@@ -1,6 +1,6 @@
 ﻿namespace Tools
 {
-    public interface IReloadable //todo remake to observer 
+    public interface IReloadable 
     {
         void Reload();
     }
