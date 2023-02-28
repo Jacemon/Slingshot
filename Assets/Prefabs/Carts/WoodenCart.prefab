@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4632864419467895003}
   - component: {fileID: 4632864419467894980}
   m_Layer: 8
-  m_Name: Cart Sprite
+  m_Name: CartSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

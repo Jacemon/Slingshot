@@ -50,7 +50,7 @@ namespace Entities
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log($"{collision.gameObject.tag} collided with {cartName}");
+            Debug.Log($"{collision.gameObject.name} collided with {cartName}");
         
             var target = collision.gameObject.GetComponent<Target>();
             if (target == null)

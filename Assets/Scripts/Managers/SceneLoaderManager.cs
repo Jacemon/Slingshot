@@ -17,7 +17,7 @@ namespace Managers
 
         public void LoadMainMenuScene()
         {
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadScene("MainMenu");
         }
         
         public void ReloadActiveScene()

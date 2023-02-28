@@ -69,7 +69,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &922301043260148563
 Transform:
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 922301043373698376}
   - component: {fileID: 922301043373698377}
   m_Layer: 6
-  m_Name: Slingshot Sprite
+  m_Name: SlingshotSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,10 +226,10 @@ GameObject:
   - component: {fileID: 922301043404031288}
   m_Layer: 6
   m_Name: Pouch
-  m_TagString: Pouch
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &922301043404031265
 Transform:
@@ -466,7 +466,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &922301043615525688
 Transform:
@@ -533,11 +533,11 @@ GameObject:
   - component: {fileID: 922301044167406551}
   - component: {fileID: 922301044167406546}
   m_Layer: 6
-  m_Name: Pouch Sprite
+  m_Name: PouchSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &922301044167406551
 Transform:
@@ -711,11 +711,11 @@ GameObject:
   - component: {fileID: 1258025121076140341}
   - component: {fileID: 1258025121076140339}
   m_Layer: 0
-  m_Name: String Left
+  m_Name: StringLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1258025121076140340
 Transform:
@@ -890,11 +890,11 @@ GameObject:
   - component: {fileID: 1258025121972288733}
   - component: {fileID: 1258025121972288720}
   m_Layer: 0
-  m_Name: String Right
+  m_Name: StringRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1258025121972288721
 Transform:
@@ -1065,11 +1065,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5740516877077234103}
   m_Layer: 6
-  m_Name: Throw Point Anchor
+  m_Name: ThrowPointAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5740516877077234103
 Transform:

@@ -12,7 +12,7 @@ namespace Tools
         public int segments;
         [Space]
         public bool autoConfigureDistance;
-        [Min(0)]
+        [Min(0.005f)]
         public float distance = 1;
         [Range(0, 1)]
         public float dumpingRatio;
@@ -28,33 +28,7 @@ namespace Tools
         private readonly List<Rigidbody2D> _rigidbody2Ds = new();
 
         private Rigidbody2D _lastRb;
-    
-        private void Start()
-        {
-            RecalculateNodes();
-        }
 
-        // private void AddNode() // todo
-        // {
-        //     var node = new GameObject($"Node {nodes.Count - 1}");
-        //     node.transform.parent = transform;
-        //         
-        //     var rb = node.AddComponent<Rigidbody2D>();
-        //     rb.mass = mass;
-        //         
-        //     var springJoint2D = node.AddComponent<SpringJoint2D>();
-        //     springJoint2D.connectedBody = _lastRb;
-        //     _springJoint2Ds.Add(springJoint2D);
-        //         
-        //     _lastRb = rb;
-        //     nodes.Add(node);
-        // }
-        //
-        // private void RemoveNode()
-        // {
-        //     var sp = new SpringJoint2D();
-        // }
-    
         private void RecalculateNodes()
         {
             foreach (var node in nodes)
@@ -114,6 +88,10 @@ namespace Tools
 
         private void OnDrawGizmos()
         {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(firstCorner.position, secondCorner.position);
+            
+            Gizmos.color = Color.green;
             foreach (var springJoint2D in _springJoint2Ds)
             {
                 Gizmos.DrawLine(springJoint2D.gameObject.transform.position, 

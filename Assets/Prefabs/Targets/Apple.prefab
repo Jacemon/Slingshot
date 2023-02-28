@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 503534528942509045}
   - component: {fileID: 4462379624498213432}
   m_Layer: 5
-  m_Name: Health Bar
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 431437070674709294}
   m_Layer: 5
-  m_Name: Fill Area
+  m_Name: FillArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 5850777044229197107}
   m_Layer: 7
   m_Name: Apple
-  m_TagString: Target
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5073,8 +5073,8 @@ MonoBehaviour:
   startMoney: 1
   moneyMultiplier: 2
   money: 1
-  health: 0
   maxHealth: 3
+  health: 0
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5158,7 +5158,7 @@ GameObject:
   - component: {fileID: 5030656358253466970}
   - component: {fileID: 5030656358253466973}
   m_Layer: 8
-  m_Name: Target Sprite
+  m_Name: TargetSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

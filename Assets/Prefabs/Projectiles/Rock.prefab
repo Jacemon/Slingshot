@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1717586264714110613}
   m_Layer: 6
   m_Name: Rock
-  m_TagString: Projectile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,11 +87,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileName: Rock
+  level: 0
+  startDamage: 1
+  damageMultiplier: 1
   flightTime: 1
-  damage: 1
   state: 0
   finalScale: 0.3
   randomVelocityRange: {x: 2, y: 3}
+  damage: 1
 --- !u!114 &-3137006976606582254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +134,7 @@ GameObject:
   - component: {fileID: 7743727049057210235}
   - component: {fileID: 7743727049057210237}
   m_Layer: 7
-  m_Name: Projectile Sprite
+  m_Name: ProjectileSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

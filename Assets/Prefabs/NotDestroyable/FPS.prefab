@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5485560556456466387}
   - component: {fileID: 5485560556456466386}
   m_Layer: 5
-  m_Name: FPS Label
+  m_Name: FPSLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
