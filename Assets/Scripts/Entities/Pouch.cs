@@ -26,7 +26,6 @@ namespace Entities
     
         private Vector2 _throwPointAnchor;
         private Trajectory _trajectory;
-        private SpringJoint2D[] _springJoints2D;
 
         private void Awake()
         {
@@ -36,7 +35,6 @@ namespace Entities
             _mouseFollower.enabled = false;
         
             _trajectory = GetComponent<Trajectory>();
-            _springJoints2D = GetComponents<SpringJoint2D>();
         }
 
         private void Update()
@@ -111,9 +109,6 @@ namespace Entities
             _rb.angularVelocity = 0;
 
             _trajectory.enabled = true;
-        
-            _springJoints2D[0].enabled = false;
-            _springJoints2D[1].enabled = false;
         }
 
         private void EmptyPouch()
@@ -123,7 +118,7 @@ namespace Entities
             projectile.state = Projectile.State.InCalm;
             if (transform.position.y < _throwPointAnchor.y - throwPointOffset)
             {
-                _rb.velocity = _direction * velocity; // or AddForce() but it's requires NORMAL mass;
+                _rb.velocity = _direction * velocity;
                 projectile.Shoot(_direction * velocity);
                 projectile.state = Projectile.State.InFlight;
             }
@@ -136,9 +131,6 @@ namespace Entities
             _rb.isKinematic = false;
 
             _trajectory.enabled = false;
-        
-            _springJoints2D[0].enabled = true;
-            _springJoints2D[1].enabled = true;
         }
 
         private void OnDrawGizmos()

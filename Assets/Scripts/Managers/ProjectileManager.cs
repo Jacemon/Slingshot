@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
@@ -18,6 +19,9 @@ namespace Managers
         public Timer timer;
         [Space] 
         public TextMeshProUGUI levelLabel;
+        public Animator bundleAnimator;
+        
+        private static readonly int IsFilled = Animator.StringToHash("IsFilled");
         
         private Vector2 _spawnPoint;
         private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
@@ -55,6 +59,11 @@ namespace Managers
             _spawnPoint = projectileSpawnPoint.transform.position;
             
             SpawnRock();
+        }
+
+        private void Update()
+        {
+            bundleAnimator.SetBool(IsFilled, _spawnedProjectile.state == Projectile.State.InCalm);
         }
 
         private void ProjectileThrown(Projectile projectile)
