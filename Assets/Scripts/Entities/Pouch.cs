@@ -5,7 +5,7 @@ namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(MouseFollower))]
-    [RequireComponent(typeof(Trajectory))]
+    [RequireComponent(typeof(StaticTrajectory))]
     public class Pouch : MonoBehaviour
     {
         [Header("Settings")]
@@ -25,7 +25,7 @@ namespace Entities
         private MouseFollower _mouseFollower;
     
         private Vector2 _throwPointAnchor;
-        private Trajectory _trajectory;
+        private StaticTrajectory _staticTrajectory;
 
         private void Awake()
         {
@@ -34,7 +34,7 @@ namespace Entities
             _mouseFollower = GetComponent<MouseFollower>();
             _mouseFollower.enabled = false;
         
-            _trajectory = GetComponent<Trajectory>();
+            _staticTrajectory = GetComponent<StaticTrajectory>();
         }
 
         private void Update()
@@ -62,10 +62,10 @@ namespace Entities
                 velocity = Vector2.Distance(currentPosition, _throwPointAnchor) * throwSpeed;
             
                 // Установка значений для расчёта траектории
-                _trajectory.velocity = velocity;
-                _trajectory.flightTime = projectile.flightTime;
-                _trajectory.startPosition = currentPosition;
-                _trajectory.anchorPosition = _throwPointAnchor;
+                _staticTrajectory.velocity = velocity;
+                _staticTrajectory.flightTime = projectile.flightTime;
+                _staticTrajectory.startPosition = currentPosition;
+                _staticTrajectory.anchorPosition = _throwPointAnchor;
             }
             else
             {
@@ -108,7 +108,7 @@ namespace Entities
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
 
-            _trajectory.enabled = true;
+            _staticTrajectory.enabled = true;
         }
 
         private void EmptyPouch()
@@ -130,7 +130,7 @@ namespace Entities
         
             _rb.isKinematic = false;
 
-            _trajectory.enabled = false;
+            _staticTrajectory.enabled = false;
         }
 
         private void OnDrawGizmos()

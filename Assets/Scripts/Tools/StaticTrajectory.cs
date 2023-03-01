@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Tools
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class Trajectory : MonoBehaviour
+    public class StaticTrajectory : MonoBehaviour
     {
         [Header("Settings")]
         public Vector2 startPosition;
@@ -24,26 +24,6 @@ namespace Tools
 
         private void Update()
         {
-            if (_lineRenderer.positionCount != lineCount + 1)
-            {
-                _lineRenderer.positionCount = lineCount + 1;
-            }
-
-            TrajectoryCalculation();
-        }
-
-        private void OnEnable()
-        {
-            _lineRenderer.enabled = true;
-        }
-
-        private void OnDisable()
-        {
-            _lineRenderer.enabled = false;
-        }
-
-        private void TrajectoryCalculation()
-        {
             var direction = anchorPosition - startPosition;
             direction.Normalize();
 
@@ -59,6 +39,16 @@ namespace Tools
                 var nextPos = new Vector3(vx * t, vy * t + Physics2D.gravity.y * t * t / 2);
                 _lineRenderer.SetPosition(i, transform.position + nextPos);
             }
+        }
+
+        private void OnEnable()
+        {
+            _lineRenderer.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            _lineRenderer.enabled = false;
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tools
 {
-    public class SpringJointString : MonoBehaviour
+    public class StaticSpringJointString : MonoBehaviour
     {
         public Rigidbody2D firstCorner;
         public Rigidbody2D secondCorner;
@@ -25,65 +25,51 @@ namespace Tools
         private List<GameObject> nodes = new();
 
         private readonly List<SpringJoint2D> _springJoint2Ds = new();
-        private readonly List<Rigidbody2D> _rigidbody2Ds = new();
 
-        private Rigidbody2D _lastRb;
-
-        private void RecalculateNodes()
+        private void Awake()
         {
-            foreach (var node in nodes)
-            {
-                Destroy(node);
-            }
-            nodes.Clear();
-            _springJoint2Ds.Clear();
-            _rigidbody2Ds.Clear();
-        
             var nodeCount = segments - 1;
-            _lastRb = firstCorner;
+            var lastRb = firstCorner;
         
             SpringJoint2D springJoint2D;
         
             for (var i = 0; i < nodeCount; i++)
             {
-                var node = new GameObject($"Node {i}");
-                node.transform.parent = transform;
-            
-                var rb2D = node.AddComponent<Rigidbody2D>();
-                rb2D.mass = mass;
-                _rigidbody2Ds.Add(rb2D);
-            
+                var node = new GameObject($"Node {i}")
+                {
+                    transform =
+                    {
+                        parent = transform
+                    }
+                };
+
+                // SpringJoint2D settings
                 springJoint2D = node.AddComponent<SpringJoint2D>();
-                springJoint2D.connectedBody = _lastRb;
+                springJoint2D.connectedBody = lastRb;
+                springJoint2D = SpringJointSetting(springJoint2D);
                 _springJoint2Ds.Add(springJoint2D);
             
-                _lastRb = rb2D;
+                // Rigidbody2D settings
+                var rb2D = node.GetComponent<Rigidbody2D>();
+                rb2D.mass = mass;
+                lastRb = rb2D;
+
                 nodes.Add(node);
             }
+            // Last SpringJoint2D settings
             springJoint2D = nodes[nodeCount - 1].AddComponent<SpringJoint2D>();
             springJoint2D.connectedBody = secondCorner;
+            SpringJointSetting(springJoint2D);
             _springJoint2Ds.Add(springJoint2D);
         }
 
-        private void Update()
+        private SpringJoint2D SpringJointSetting(SpringJoint2D springJoint2D)
         {
-            if (nodes.Count != segments - 1)
-            {
-                RecalculateNodes();
-            }
-        
-            foreach (var springJoint2D in _springJoint2Ds)
-            {
-                springJoint2D.autoConfigureDistance = autoConfigureDistance;
-                springJoint2D.distance = distance;
-                springJoint2D.dampingRatio = dumpingRatio;
-                springJoint2D.frequency = frequency;
-            }
-
-            foreach (var rb2D in _rigidbody2Ds)
-            {
-                rb2D.mass = mass;
-            }
+            springJoint2D.autoConfigureDistance = autoConfigureDistance;
+            springJoint2D.distance = distance;
+            springJoint2D.dampingRatio = dumpingRatio;
+            springJoint2D.frequency = frequency;
+            return springJoint2D;
         }
 
         private void OnDrawGizmos()
