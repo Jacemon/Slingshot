@@ -13,13 +13,7 @@ namespace Managers
         
         private void Awake()
         {
-            GlobalEventManager.OnTargetSpawned.AddListener(TargetSpawned);
             _maxTries = maxTriesToSpawn; // todo mb remake
-        }
-
-        private void TargetSpawned(Target target)
-        {
-            Debug.Log($"{target.name} was spawned");
         }
 
         public static Target SpawnTarget(GameObject[] targets, int targetLevel,

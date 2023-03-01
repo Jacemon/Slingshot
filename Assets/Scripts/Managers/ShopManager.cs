@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Tools;
+using Tools.Dictionaries;
 using UnityEngine;
 
 namespace Managers
@@ -9,9 +9,12 @@ namespace Managers
     {
         public MoneyManager moneyManager;
         public ProjectileManager projectileManager;
+        public LevelManager levelManager;
+        [Space]
+        public StringPurchaseDictionary purchases;
+        public StringTextMeshProUGUIDictionary purchaseLabels;
 
-        public Dictionary<int, Purchase> purchases = new();
-
+        [Serializable]
         public class Purchase
         {
             public int cost;
@@ -35,32 +38,47 @@ namespace Managers
             Reload();
         }
 
-        public void Buy(int id)
+        public void Buy(string key)
         {
-            if (purchases.TryGetValue(id, out var purchase) && moneyManager.WithdrawMoney(purchase.cost))
+            if (purchases.TryGetValue(key, out var purchase) && moneyManager.WithdrawMoney(purchase.cost))
             {
                 purchase.Sell();
-                Debug.Log($"{id} was purchased");
-                purchases.Remove(id);
+                Debug.Log($"{key} was purchased");
+                purchases.Remove(key);
             }
             else
             {
-                Debug.Log($"{id} was not purchased");
+                Debug.Log($"{key} was not purchased");
             }
             Reload();
         }
         
         public void Reload()
         {
-            // todo make cost calculation function for projectiles 
-            purchases[0] = new Purchase(projectileManager.projectileLevel * 2,
-                () => {
+            // todo make cost calculation functions
+            purchases["projectileLevel"] = new Purchase(projectileManager.projectileLevel * 2,
+                () => 
+                {
                     projectileManager.projectileLevel++;
                     GlobalEventManager.OnProjectileLevelUpped?.Invoke();
                 });
-            // сделать так, что если предмет уже куплен, то его цена просто становится 0 и по сути он просто покупает
-            // её заново но бесплатно
-            purchases[10] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
+            purchases["maxAvailableLevel"] = new Purchase(1 + levelManager.maxAvailableLevel * 40,
+                () =>
+                {
+                    levelManager.maxAvailableLevel++;
+                    GlobalEventManager.OnLevelUpped?.Invoke();
+                });
+            // сделать так, что если предмет уже куплен, то его цена просто становится 0, и по сути он просто покупает
+            // его заново, но бесплатно
+            purchases["superSkin"] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
+
+            foreach (var purchase in purchases)
+            {
+                if (purchaseLabels.TryGetValue(purchase.Key, out var label) && label != null)
+                {
+                    label.SetText(purchase.Value.cost.ToString());
+                }
+            }
             
             Debug.Log("Shop was reloaded");
         }

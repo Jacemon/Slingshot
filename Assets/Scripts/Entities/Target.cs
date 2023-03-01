@@ -33,8 +33,6 @@ namespace Entities
 
         private void Awake()
         {
-            GlobalEventManager.OnTargetSpawned?.Invoke(this);
-            
             _healthBar = GetComponentInChildren<Canvas>();
             _healthBar.enabled = false;
             

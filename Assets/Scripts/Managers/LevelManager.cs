@@ -2,6 +2,7 @@ using System.Linq;
 using Entities.Levels;
 using TMPro;
 using Tools;
+using Tools.Dictionaries;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,11 @@ namespace Managers
     {
         public IntGameObjectDictionary levels = new();
         public int currentLevel;
+        public int maxAvailableLevel;
         [Space] 
         public Button nextButton;
         public Button prevButton;
+        public Button buyButton;
         [Space]
         public Vector2 startPosition = Vector2.zero;
         [Space] 
@@ -24,6 +27,8 @@ namespace Managers
 
         public void Awake()
         {
+            GlobalEventManager.OnLevelUpped.AddListener(Reload);
+            
             GlobalEventManager.OnLoad.AddListener(Load);
             GlobalEventManager.OnSave.AddListener(Save);
             
@@ -35,7 +40,8 @@ namespace Managers
         private void CheckButtonsEnabled()
         {
             prevButton.gameObject.SetActive(currentLevel != levels.Keys.Min());
-            nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max());
+            nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel != maxAvailableLevel);
+            buyButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel == maxAvailableLevel);
         }
         
         public void LoadLevel(int levelNumber)
@@ -45,7 +51,14 @@ namespace Managers
                 Debug.Log("Edge");
                 return;
             }
-        
+
+            if (levelNumber > maxAvailableLevel)
+            {
+                currentLevel = maxAvailableLevel;
+                Debug.Log("Not available level");
+                return;
+            }
+            
             currentLevel = levelNumber;
             
             Destroy(loadedLevel);
@@ -87,11 +100,13 @@ namespace Managers
         public void Save()
         {
             PlayerPrefs.SetInt("currentLevel", currentLevel);
+            PlayerPrefs.SetInt("maxAvailableLevel", maxAvailableLevel);
         }
 
         public void Load()
         {
             currentLevel = PlayerPrefs.GetInt("currentLevel");
+            maxAvailableLevel = PlayerPrefs.GetInt("maxAvailableLevel");
             Reload();
         }
 

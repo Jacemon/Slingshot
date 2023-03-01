@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace Tools
@@ -16,31 +17,32 @@ namespace Tools
     
         private void Start()
         {
-            Vector2 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
+            var screenCenter = Vector2.zero;
 
             _backgroundImageWidth = background.rectTransform.rect.width;
         
-            _backgroundImage = Instantiate(background, screenCenter, 
-                Quaternion.identity, gameObject.transform);
-            _auxiliaryBackgroundImage = Instantiate(background, screenCenter + new Vector2(_backgroundImageWidth, 0), 
-                Quaternion.identity, gameObject.transform);
+            _backgroundImage = Instantiate(background, gameObject.transform);
+            _backgroundImage.rectTransform.anchoredPosition = screenCenter;
+            _auxiliaryBackgroundImage = Instantiate(background, gameObject.transform);
+            _auxiliaryBackgroundImage.rectTransform.anchoredPosition = 
+                screenCenter + new Vector2(_backgroundImageWidth, 0);
         
             background.gameObject.SetActive(false);
         }
 
         private void Update()
         {
-            if (_backgroundImage.transform.position.x <= -_backgroundImageWidth / 2.0f)
+            if (_backgroundImage.rectTransform.anchoredPosition.x <= -_backgroundImageWidth)
             {
-                _backgroundImage.transform.position += new Vector3(2 * _backgroundImageWidth, 0);
+                _backgroundImage.rectTransform.anchoredPosition += new Vector2(2 * _backgroundImageWidth, 0);
             }
-            if (_auxiliaryBackgroundImage.transform.position.x <= -_backgroundImageWidth / 2.0f)
+            if (_auxiliaryBackgroundImage.rectTransform.anchoredPosition.x <= -_backgroundImageWidth)
             {
-                _auxiliaryBackgroundImage.transform.position += new Vector3(2 * _backgroundImageWidth, 0);
+                _auxiliaryBackgroundImage.rectTransform.anchoredPosition += new Vector2(2 * _backgroundImageWidth, 0);
             }
 
-            _backgroundImage.transform.position -= new Vector3(scrollSpeed * Time.deltaTime, 0);
-            _auxiliaryBackgroundImage.transform.position -= new Vector3(scrollSpeed * Time.deltaTime, 0);
+            _backgroundImage.rectTransform.anchoredPosition -= new Vector2(scrollSpeed * Time.deltaTime, 0);
+            _auxiliaryBackgroundImage.rectTransform.anchoredPosition -= new Vector2(scrollSpeed * Time.deltaTime, 0);
         }
     }
 }

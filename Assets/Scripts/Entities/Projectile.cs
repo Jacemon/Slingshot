@@ -48,8 +48,6 @@ namespace Entities
     
         private void Awake()
         {
-            GlobalEventManager.OnProjectileSpawned?.Invoke(this);
-
             _rb = GetComponent<Rigidbody2D>();
             _rb.isKinematic = true;
             _collider2D = GetComponent<Collider2D>();

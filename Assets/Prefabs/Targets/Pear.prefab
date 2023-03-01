@@ -5066,7 +5066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2a99c59e068244182764d2d81b93bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetName: Apple
+  targetName: Pear
   level: 0
   startHealth: 5
   maxHealthMultiplier: 5

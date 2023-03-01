@@ -33,7 +33,6 @@ namespace Managers
         public void Awake()
         {
             GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
-            GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
             GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
             GlobalEventManager.OnProjectileLevelUpped.AddListener(RespawnProjectile);
 
@@ -79,11 +78,6 @@ namespace Managers
             _thrownProjectiles.Add(projectile);
             
             Debug.Log($"{projectile.name} was thrown");
-        }
-
-        private void ProjectileSpawned(Projectile projectile)
-        {
-            Debug.Log($"{projectile.name} was spawned");
         }
 
         public void RespawnProjectile()
