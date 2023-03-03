@@ -1,5 +1,4 @@
-﻿using Managers;
-using RotaryHeart.Lib.SerializableDictionary;
+﻿using RotaryHeart.Lib.SerializableDictionary;
 using TMPro;
 
 namespace Tools.Dictionaries

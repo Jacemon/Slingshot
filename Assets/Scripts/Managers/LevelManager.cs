@@ -1,8 +1,8 @@
 using System.Linq;
 using Entities.Levels;
 using TMPro;
-using Tools;
 using Tools.Dictionaries;
+using Tools.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,18 +23,16 @@ namespace Managers
         public TextMeshProUGUI levelLabel;
         [Space]
         [SerializeField]
-        private GameObject loadedLevel;
+        private Level loadedLevel;
 
         public void Awake()
         {
-            GlobalEventManager.OnLevelUpped.AddListener(Reload);
+            GlobalEventManager.OnLevelUp.AddListener(LevelUp);
             
-            GlobalEventManager.OnLoad.AddListener(Load);
-            GlobalEventManager.OnSave.AddListener(Save);
+            GlobalEventManager.OnLoad.AddListener(LoadData);
+            GlobalEventManager.OnSave.AddListener(SaveData);
             
-            LoadLevel(0);
-
-            CheckButtonsEnabled();
+            ReloadData();
         }
 
         private void CheckButtonsEnabled()
@@ -43,9 +41,17 @@ namespace Managers
             nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel != maxAvailableLevel);
             buyButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel == maxAvailableLevel);
         }
+
+        private void LevelUp()
+        {
+            maxAvailableLevel++;
+            ReloadData();
+        }
         
         public void LoadLevel(int levelNumber)
         {
+            Debug.Log($"Start loading level {currentLevel}...");
+            
             if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
             {
                 Debug.Log("Edge");
@@ -60,31 +66,30 @@ namespace Managers
             }
             
             currentLevel = levelNumber;
-            
-            Destroy(loadedLevel);
 
-            if (levels.ContainsKey(levelNumber))
+            if (loadedLevel != null)
             {
-                Debug.Log($"Level {currentLevel} was loaded");
+                Destroy(loadedLevel.gameObject);
             }
-            else
+
+            if (!levels.ContainsKey(levelNumber))
             {
-                var closestKey = levels.Keys.Where(k => k <= currentLevel).Max();
+                var closestKey = levels.Keys.Where(k => k < currentLevel).Max();
                 levels[currentLevel] = levels[closestKey];
-                Debug.Log($"Level {currentLevel} was generated");
             }
-            loadedLevel = Instantiate(levels[currentLevel], startPosition, Quaternion.identity);
-            if (loadedLevel.TryGetComponent<GeneratedLevel>(out var level)) {
+            
+            if (levels[currentLevel].TryGetComponent(out Level level)) {
                 level.levelNumber = currentLevel;
-                level.Reload();
             }
+            loadedLevel = Instantiate(level, startPosition, Quaternion.identity);
 
             CheckButtonsEnabled();
 
             levelLabel.text = currentLevel.ToString();
             
-            GlobalEventManager.OnLevelSwitched?.Invoke();
-            Debug.Log($"Level has been switched. Current level: {currentLevel}");
+            GlobalEventManager.OnLevelLoad?.Invoke();
+            
+            Debug.Log($"End loading level {currentLevel}...");
         }
 
         public void NextLevel()
@@ -97,20 +102,20 @@ namespace Managers
             LoadLevel(currentLevel - 1);
         }
 
-        public void Save()
+        public void SaveData()
         {
             PlayerPrefs.SetInt("currentLevel", currentLevel);
             PlayerPrefs.SetInt("maxAvailableLevel", maxAvailableLevel);
         }
 
-        public void Load()
+        public void LoadData()
         {
             currentLevel = PlayerPrefs.GetInt("currentLevel");
             maxAvailableLevel = PlayerPrefs.GetInt("maxAvailableLevel");
-            Reload();
+            ReloadData();
         }
 
-        public void Reload()
+        public void ReloadData()
         {
             LoadLevel(currentLevel);
         }

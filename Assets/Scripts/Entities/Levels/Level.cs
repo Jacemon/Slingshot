@@ -1,13 +1,9 @@
-﻿using Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Entities.Levels
 {
-    public class Level : MonoBehaviour, IReloadable
+    public class Level : MonoBehaviour
     {
-        [HideInInspector]
         public int levelNumber;
-        
-        public virtual void Reload() { }
     }
 }

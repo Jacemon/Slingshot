@@ -8,26 +8,24 @@ namespace Entities
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Follower))]
     [RequireComponent(typeof(MouseFollower))]
-    public class Projectile : MonoBehaviour, IReloadable
+    public class Projectile : MonoBehaviour
     {
         [Header("Settings")]
-        public string projectileName = "None";
+        public string projectileName;
         [Space]
         public int level;
-        public int startDamage = 1;
-        public int damageMultiplier = 1;
         [Space]
-        public float flightTime = 1.0f;
-
+        public int damage;
+        [Space]
         [Header("Special settings")]
+        public IntLinearCurve damageCurve;
+        [Space]
         public State state;
         [Space]
+        public float flightTime = 1.0f;
         public float finalScale = 0.3f;
         public Vector2 randomVelocityRange = new (1, 3);
-
-        [SerializeField]
-        [Header("damage = startDamage + damageMultiplier * level")]
-        private int damage;
+        
         private float _scaleVelocity;
 
         private Rigidbody2D _rb;
@@ -58,8 +56,10 @@ namespace Entities
 
             // Расчёт скорости уменьшения снаряда во время полёта
             _scaleVelocity = (1 - finalScale) / flightTime * Time.fixedDeltaTime;
+
+            damage = damageCurve.ForceEvaluate(level);
             
-            Reload();
+            Debug.Log($"{projectileName}:{level} was spawned");
         }
 
         private void FixedUpdate()
@@ -112,11 +112,6 @@ namespace Entities
             state = State.InCalm;
         }
 
-        public void Reload()
-        {
-            damage = startDamage + damageMultiplier * level;
-        }
-        
         public void DoRandomForce()
         {
             var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
@@ -127,7 +122,7 @@ namespace Entities
 
         public void Shoot(Vector2 force)
         {
-            GlobalEventManager.OnProjectileThrown?.Invoke(this);
+            GlobalEventManager.OnProjectileThrow?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         

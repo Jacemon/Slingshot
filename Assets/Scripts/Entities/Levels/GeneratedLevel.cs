@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using UnityEngine;
 
@@ -14,20 +15,20 @@ namespace Entities.Levels
         public float spawnSecondRadius;
         public float spaceBetween;
 
-        private List<Target> _generatedTargets;
+        private List<Target> _generatedTargets = new();
     
         private void Awake()
         {
+            foreach (var target in _generatedTargets.Where(target => target != null))
+            {
+                Destroy(target.gameObject);
+            }
+            _generatedTargets.Clear();
             _generatedTargets = TargetManager.GenerateTargetsByEllipse(targets, targetsAmount, levelNumber, 
                 spawnPoint, spawnRadius, spawnSecondRadius, spaceBetween, transform);
-        }
-
-        public override void Reload()
-        {
             foreach (var target in _generatedTargets)
             {
                 target.level = levelNumber;
-                target.Reload();
             }
         }
 

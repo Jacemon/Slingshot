@@ -18,6 +18,7 @@ namespace Entities
         [SerializeField] private int positionIndex;
 
         private const float ErrorRate = 0.1f;
+        private const int ParticlesRate = 20;
         private Timer _timer;
     
         private void Awake()
@@ -57,9 +58,9 @@ namespace Entities
             {
                 return;
             }
-            if (TryGetComponent<ParticleSystem>(out var particles))
+            if (TryGetComponent(out ParticleSystem particles))
             {
-                particles.Emit(target.money);
+                particles.Emit(ParticlesRate);
             }
             
             GlobalEventManager.OnTargetHitCart?.Invoke(target);

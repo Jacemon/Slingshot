@@ -5,25 +5,20 @@ using UnityEngine.UI;
 
 namespace Entities
 {
-    public class Target : MonoBehaviour, IReloadable
+    public class Target : MonoBehaviour
     {
         [Header("Settings")] 
-        public string targetName = "None";
+        public string targetName;
         [Space]
         public int level;
         [Space]
-        public int startHealth = 1;
-        public int maxHealthMultiplier = 3;
-        [Space]
-        public int startMoney;
-        public int moneyMultiplier;
-        [Space]
-        [Header("money = startMoney + moneyMultiplier * level")]
         public int money;
-        [SerializeField]
-        [Header("maxHealth = startHealth + healthMultiplier * level")]
-        private int maxHealth;
+        public int maxHealth;
         public int health;
+        [Space]
+        [Header("Special settings")]
+        public IntLinearCurve moneyCurve;
+        public IntLinearCurve maxHealthCurve;
         
         private Slider _slider;
         private Canvas _healthBar;
@@ -33,23 +28,19 @@ namespace Entities
 
         private void Awake()
         {
+            maxHealth = health = maxHealthCurve.ForceEvaluate(level);
+            money = moneyCurve.ForceEvaluate(level);
+            
             _healthBar = GetComponentInChildren<Canvas>();
             _healthBar.enabled = false;
-            
+
             _slider = _healthBar.GetComponentInChildren<Slider>();
-
-            Reload();
-        }
-
-        public void Reload()
-        {
-            maxHealth = health = startHealth + maxHealthMultiplier * level;
             _slider.maxValue = maxHealth;
             _slider.value = health;
-
-            money = startMoney + moneyMultiplier * level;
+            
+            Debug.Log($"{targetName}:{level} was spawned");
         }
-        
+
         public void GetDamage(int damage)
         {
             health -= damage;
@@ -79,7 +70,7 @@ namespace Entities
                 _healthBar.enabled = true;
                 _slider.value = health;
             }
-            if (TryGetComponent<ParticleSystem>(out var particles))
+            if (TryGetComponent(out ParticleSystem particles))
             {
                 particles.Play();
             }

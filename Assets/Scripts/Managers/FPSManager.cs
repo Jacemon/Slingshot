@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class FpsManager : MonoBehaviour
+    public class FPSManager : MonoBehaviour
     {
         public bool showFps;
         public TextMeshProUGUI fpsLabel;

@@ -40,8 +40,7 @@ namespace Entities.Levels
 
         private void Update()
         {
-            _handAnimator.enabled = apple.health == apple.maxHealthMultiplier;
-            hand.SetActive(apple.health == apple.maxHealthMultiplier);
+            hand.SetActive(apple.health == apple.maxHealth);
         }
 
         private void ShowTrainingHint(Target target)

@@ -13,21 +13,18 @@ namespace Managers
         
         private void Awake()
         {
-            _maxTries = maxTriesToSpawn; // todo mb remake
+            _maxTries = maxTriesToSpawn;
         }
 
         public static Target SpawnTarget(GameObject[] targets, int targetLevel,
             Vector2 spawnPoint, Transform parent = null)
         {
-            var gameObject = Instantiate(targets[Random.Range(0, targets.Length)],
-                spawnPoint, Quaternion.identity);
-            gameObject.transform.SetParent(parent);
-            if (gameObject.TryGetComponent(out Target target))
+            if (targets[Random.Range(0, targets.Length)].TryGetComponent(out Target target))
             {
                 target.level = targetLevel;
-                target.Reload();
             }
-            return target; 
+            
+            return Instantiate(target, spawnPoint, Quaternion.identity, parent); 
         }
         
         public static List<Target> GenerateTargetsByCircle(GameObject[] targets, int amount, int targetLevel,

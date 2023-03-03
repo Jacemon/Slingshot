@@ -1,6 +1,6 @@
 using Entities;
 using TMPro;
-using Tools;
+using Tools.Interfaces;
 using UnityEngine;
 
 namespace Managers
@@ -14,8 +14,8 @@ namespace Managers
         {
             GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
             
-            GlobalEventManager.OnSave.AddListener(Save);
-            GlobalEventManager.OnLoad.AddListener(Load);
+            GlobalEventManager.OnSave.AddListener(SaveData);
+            GlobalEventManager.OnLoad.AddListener(LoadData);
             
             DepositMoney(0);
         }
@@ -26,7 +26,7 @@ namespace Managers
             Destroy(target.gameObject);
         }
 
-        public void Reload()
+        public void ReloadData()
         {
             moneyLabel.text = money switch
             {
@@ -44,7 +44,7 @@ namespace Managers
             }
             money += depositedMoney;
             
-            Reload();
+            ReloadData();
             return true;
         }
 
@@ -56,19 +56,19 @@ namespace Managers
             }
             money -= withdrawnMoney;
             
-            Reload();
+            ReloadData();
             return true;
         }
         
-        public void Save()
+        public void SaveData()
         {
             PlayerPrefs.SetInt("money", money);
         }
         
-        public void Load()
+        public void LoadData()
         {
             money = PlayerPrefs.GetInt("money");
-            Reload();
+            ReloadData();
             
             Debug.Log("MoneyManager was loaded");
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Tools;
 using Tools.Dictionaries;
+using Tools.Interfaces;
 using UnityEngine;
 
 namespace Managers
@@ -10,6 +11,9 @@ namespace Managers
         public MoneyManager moneyManager;
         public ProjectileManager projectileManager;
         public LevelManager levelManager;
+        [Space]
+        public IntLinearCurve projectileCostCurve;
+        public IntLinearCurve levelCostCurve;
         [Space]
         public StringPurchaseDictionary purchases;
         public StringTextMeshProUGUIDictionary purchaseLabels;
@@ -34,8 +38,8 @@ namespace Managers
 
         public void Awake()
         {
-            GlobalEventManager.OnLoad.AddListener(Reload);
-            Reload();
+            GlobalEventManager.OnLoad.AddListener(ReloadData);
+            ReloadData();
         }
 
         public void Buy(string key)
@@ -43,31 +47,33 @@ namespace Managers
             if (purchases.TryGetValue(key, out var purchase) && moneyManager.WithdrawMoney(purchase.cost))
             {
                 purchase.Sell();
-                Debug.Log($"{key} was purchased");
                 purchases.Remove(key);
+                
+                Debug.Log($"{key} was purchased");
             }
             else
             {
                 Debug.Log($"{key} was not purchased");
             }
-            Reload();
+            ReloadData();
         }
-        
-        public void Reload()
+
+        public void ReloadData()
         {
-            // todo make cost calculation functions
-            purchases["projectileLevel"] = new Purchase(projectileManager.projectileLevel * 2,
-                () => 
-                {
-                    projectileManager.projectileLevel++;
-                    GlobalEventManager.OnProjectileLevelUpped?.Invoke();
-                });
-            purchases["maxAvailableLevel"] = new Purchase(1 + levelManager.maxAvailableLevel * 40,
+            purchases["projectileLevel"] = new Purchase(
+                projectileCostCurve.ForceEvaluate(projectileManager.projectileLevel),
                 () =>
                 {
-                    levelManager.maxAvailableLevel++;
-                    GlobalEventManager.OnLevelUpped?.Invoke();
-                });
+                    GlobalEventManager.OnProjectileLevelUp?.Invoke();
+                }
+            );
+            purchases["maxAvailableLevel"] = new Purchase(
+                levelCostCurve.ForceEvaluate(levelManager.maxAvailableLevel),
+                () =>
+                {
+                    GlobalEventManager.OnLevelUp?.Invoke();
+                }
+            );
             // сделать так, что если предмет уже куплен, то его цена просто становится 0, и по сути он просто покупает
             // его заново, но бесплатно
             purchases["superSkin"] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));

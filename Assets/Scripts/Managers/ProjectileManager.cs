@@ -4,6 +4,7 @@ using System.Linq;
 using Entities;
 using TMPro;
 using Tools;
+using Tools.Interfaces;
 using UnityEngine;
 
 namespace Managers
@@ -21,32 +22,30 @@ namespace Managers
         public TextMeshProUGUI levelLabel;
         public Animator bundleAnimator;
         
-        private static readonly int IsFilled = Animator.StringToHash("IsFilled");
-        
-        private Vector2 _spawnPoint;
-        private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
+        private readonly Dictionary<string, Projectile> _registeredProjectilePrefabs = new();
 
+        private Vector2 _spawnPoint;
+        private Projectile _spawnedProjectile;
         private readonly List<Projectile> _thrownProjectiles = new();
 
-        private Projectile _spawnedProjectile;
-
+        private static readonly int IsFilled = Animator.StringToHash("IsFilled");
+        
         public void Awake()
         {
-            GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
-            GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
-            GlobalEventManager.OnProjectileLevelUpped.AddListener(RespawnProjectile);
+            GlobalEventManager.OnProjectileThrow.AddListener(ProjectileThrown);
+            GlobalEventManager.OnLevelLoad.AddListener(DeleteThrownProjectiles);
+            GlobalEventManager.OnProjectileLevelUp.AddListener(LevelUp);
 
-            GlobalEventManager.OnSave.AddListener(Save);
-            GlobalEventManager.OnLoad.AddListener(Load);
+            GlobalEventManager.OnSave.AddListener(SaveData);
+            GlobalEventManager.OnLoad.AddListener(LoadData);
         
             // Проверка префаба на то, что он снаряд
             foreach (var projectilePrefab in projectilePrefabs)
             {
-                var projectile = projectilePrefab.GetComponent<Projectile>();
-                if (projectile != null)
+                if (projectilePrefab.TryGetComponent(out Projectile projectile))
                 {
                     // Добавление снаряда в список
-                    _registeredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
+                    _registeredProjectilePrefabs[projectile.projectileName] = projectile;
                     Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
                 }
                 else
@@ -65,6 +64,12 @@ namespace Managers
             bundleAnimator.SetBool(IsFilled, _spawnedProjectile.state == Projectile.State.InCalm);
         }
 
+        private void LevelUp()
+        {
+            projectileLevel++;
+            RespawnProjectile();
+        }
+        
         private void ProjectileThrown(Projectile projectile)
         {
             const float extraDelay = 1.0f;
@@ -89,12 +94,10 @@ namespace Managers
         
         private void SpawnProjectile(string projectileName)
         {
-            _spawnedProjectile = Instantiate(_registeredProjectilePrefabs[projectileName], 
-                _spawnPoint, Quaternion.identity).GetComponent<Projectile>();
-            
-            _spawnedProjectile.GetComponent<Follower>().followPoint = _spawnPoint;
-            _spawnedProjectile.level = projectileLevel;
-            _spawnedProjectile.Reload();
+            var projectile = _registeredProjectilePrefabs[projectileName];
+            projectile.level = projectileLevel;
+            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
+            _spawnedProjectile = Instantiate(projectile, _spawnPoint, Quaternion.identity);
             
             levelLabel.text = projectileLevel.ToString();
         }
@@ -111,20 +114,20 @@ namespace Managers
         
         public void SpawnRock() => SpawnProjectile("Rock");
 
-        public void Reload()
+        public void ReloadData()
         {
             RespawnProjectile();
         }
         
-        public void Save()
+        public void SaveData()
         {
             PlayerPrefs.SetInt("projectileLevel", projectileLevel);
         }
 
-        public void Load()
+        public void LoadData()
         {
             projectileLevel = PlayerPrefs.GetInt("projectileLevel");
-            Reload();
+            ReloadData();
             
             Debug.Log("ProjectileManager was loaded");
         }

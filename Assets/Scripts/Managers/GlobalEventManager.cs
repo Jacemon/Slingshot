@@ -11,17 +11,17 @@ namespace Managers
         public static readonly UnityEvent<Target> OnTargetHitGround = new();
     
         // Projectile
-        public static readonly UnityEvent<Projectile> OnProjectileThrown = new();
+        public static readonly UnityEvent<Projectile> OnProjectileThrow = new();
 
         // Saving
         public static readonly UnityEvent OnSave = new();
         public static readonly UnityEvent OnLoad = new();
         
         // Level
-        public static readonly UnityEvent OnLevelSwitched = new();
+        public static readonly UnityEvent OnLevelLoad = new();
         
         // Upgrades
-        public static readonly UnityEvent OnProjectileLevelUpped = new();
-        public static readonly UnityEvent OnLevelUpped = new();
+        public static readonly UnityEvent OnProjectileLevelUp = new();
+        public static readonly UnityEvent OnLevelUp = new();
     }
 }

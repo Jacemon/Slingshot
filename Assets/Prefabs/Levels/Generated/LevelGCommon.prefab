@@ -335,7 +335,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400266552143185749}
-  - component: {fileID: 8623340497532373898}
   - component: {fileID: 5629307904968968202}
   m_Layer: 0
   m_Name: LevelGCommon
@@ -360,25 +359,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8623340497532373898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400266552143185750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c62b8e8dd27af474e9f4215dcc2dfd7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelNumber: 0
-  targets: []
-  targetsAmount: 0
-  spawnPoint: {x: 0, y: 0}
-  spawnRadius: 0
-  spawnSecondRadius: 0
-  spaceBetween: 0
 --- !u!114 &5629307904968968202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62b8e8dd27af474e9f4215dcc2dfd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 3
+  levelNumber: 0
   targets:
   - {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
   targetsAmount: 5
