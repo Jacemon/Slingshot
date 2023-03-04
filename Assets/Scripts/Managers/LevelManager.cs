@@ -35,8 +35,10 @@ namespace Managers
             ReloadData();
         }
 
-        private void CheckButtonsEnabled()
+        private void CheckGUI()
         {
+            levelLabel.text = currentLevel.ToString();
+    
             prevButton.gameObject.SetActive(currentLevel != levels.Keys.Min());
             nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel != maxAvailableLevel);
             buyButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel == maxAvailableLevel);
@@ -66,27 +68,34 @@ namespace Managers
             }
             
             currentLevel = levelNumber;
+            CheckGUI();
 
-            if (loadedLevel != null)
-            {
-                Destroy(loadedLevel.gameObject);
-            }
-
+            // Find the left level closest to the current one
             if (!levels.ContainsKey(levelNumber))
             {
                 var closestKey = levels.Keys.Where(k => k < currentLevel).Max();
                 levels[currentLevel] = levels[closestKey];
             }
-            
-            if (levels[currentLevel].TryGetComponent(out Level level)) {
+
+            // Find all the Level components and configure them
+            var levelScripts = levels[currentLevel].GetComponents<Level>();
+            if (levelScripts.Length == 0)
+            {
+                Debug.Log($"Level {currentLevel} has not Level scripts...");
+                return;
+            }
+            foreach (var level in levelScripts)
+            {
                 level.levelNumber = currentLevel;
             }
-            loadedLevel = Instantiate(level, startPosition, Quaternion.identity);
 
-            CheckButtonsEnabled();
+            // Destroy old and create new level
+            if (loadedLevel != null)
+            {
+                Destroy(loadedLevel.gameObject);
+            }
+            loadedLevel = Instantiate(levelScripts[0], startPosition, Quaternion.identity);
 
-            levelLabel.text = currentLevel.ToString();
-            
             GlobalEventManager.OnLevelLoad?.Invoke();
             
             Debug.Log($"End loading level {currentLevel}...");
