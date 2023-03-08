@@ -8,9 +8,8 @@ namespace Managers
 {
     public class ShopManager : MonoBehaviour, IReloadable
     {
-        public MoneyManager moneyManager;
-        public ProjectileManager projectileManager;
-        public LevelManager levelManager;
+        public int projectileLevel;
+        public int maxAvailableLevel;
         [Space]
         public IntLinearCurve projectileCostCurve;
         public IntLinearCurve levelCostCurve;
@@ -21,10 +20,10 @@ namespace Managers
         [Serializable]
         public class Purchase
         {
-            public int cost;
+            public long cost;
             public Action action;
 
-            public Purchase(int cost, Action action)
+            public Purchase(long cost, Action action)
             {
                 this.cost = cost;
                 this.action = action;
@@ -36,15 +35,15 @@ namespace Managers
             }
         }
 
-        public void Awake()
+        private void Awake()
         {
-            GlobalEventManager.OnLoad.AddListener(ReloadData);
-            ReloadData();
+            GlobalEventManager.UnityEvents.OnLoad.AddListener(ReloadData);
         }
 
         public void Buy(string key)
         {
-            if (purchases.TryGetValue(key, out var purchase) && moneyManager.WithdrawMoney(purchase.cost))
+            if (purchases.TryGetValue(key, out var purchase) && 
+                GlobalEventManager.onMoneyWithdraw.Invoke(purchase.cost))
             {
                 purchase.Sell();
                 purchases.Remove(key);
@@ -60,24 +59,29 @@ namespace Managers
 
         public void ReloadData()
         {
+            // Purchases reloading
+            projectileLevel = GlobalEventManager.onProjectileLevelUp.Invoke(0);
+            maxAvailableLevel = GlobalEventManager.onLevelUp.Invoke(0);
+            
             purchases["projectileLevel"] = new Purchase(
-                projectileCostCurve.ForceEvaluate(projectileManager.projectileLevel),
+                projectileCostCurve.ForceEvaluate(projectileLevel),
                 () =>
                 {
-                    GlobalEventManager.OnProjectileLevelUp?.Invoke();
+                    GlobalEventManager.onProjectileLevelUp.Invoke(1);
                 }
             );
             purchases["maxAvailableLevel"] = new Purchase(
-                levelCostCurve.ForceEvaluate(levelManager.maxAvailableLevel),
+                levelCostCurve.ForceEvaluate(maxAvailableLevel),
                 () =>
                 {
-                    GlobalEventManager.OnLevelUp?.Invoke();
+                    GlobalEventManager.onLevelUp.Invoke(1);
                 }
             );
             // сделать так, что если предмет уже куплен, то его цена просто становится 0, и по сути он просто покупает
             // его заново, но бесплатно
             purchases["superSkin"] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
-
+            
+            // Labels reloading
             foreach (var purchase in purchases)
             {
                 if (purchaseLabels.TryGetValue(purchase.Key, out var label) && label != null)

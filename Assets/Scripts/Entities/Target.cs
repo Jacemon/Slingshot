@@ -1,3 +1,4 @@
+using System.Collections;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -63,7 +64,7 @@ namespace Entities
                         break;
                 }
             
-                Invoke(nameof(LateDestroy), TimeBeforeDestroy);
+                StartCoroutine(nameof(LateDestroy));
             } 
             else if (health < maxHealth)
             {
@@ -75,11 +76,12 @@ namespace Entities
                 particles.Play();
             }
             
-            GlobalEventManager.OnTargetGetDamage?.Invoke(this);
+            GlobalEventManager.onTargetGetDamage?.Invoke(this);
         }
 
-        private void LateDestroy()
+        private IEnumerator LateDestroy()
         {
+            yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
             Destroy(gameObject);
         }
     }

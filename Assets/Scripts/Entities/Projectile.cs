@@ -20,9 +20,10 @@ namespace Entities
         [Header("Special settings")]
         public IntLinearCurve damageCurve;
         [Space]
-        public State state;
+        public State state; // TODO: remake to State pattern
         [Space]
         public float flightTime = 1.0f;
+        public float stuckTime = 0.1f;
         public float finalScale = 0.3f;
         public Vector2 randomVelocityRange = new (1, 3);
         
@@ -92,6 +93,11 @@ namespace Entities
             }
             target.GetDamage(damage);
             state = State.InHit;
+            
+            // Random force
+            var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
+            var direction = transform.position - target.transform.position;
+            _rb.velocity = randomVelocity * direction;
         }
 
         private void OnMouseDown()
@@ -112,30 +118,22 @@ namespace Entities
             state = State.InCalm;
         }
 
-        public void DoRandomForce()
-        {
-            var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
-            // Направление в первых двух четвертях единичной окружности
-            Vector2 randomDirection = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 1.0f));
-            _rb.AddForce(randomDirection * randomVelocity);
-        }
-
         public void Shoot(Vector2 force)
         {
-            GlobalEventManager.OnProjectileThrow?.Invoke(this);
+            StartCoroutine(nameof(ShootCoroutine), force);
+        }
+
+        private IEnumerator ShootCoroutine(Vector2 force)
+        {
+            GlobalEventManager.onProjectileThrow?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         
             _rb.isKinematic = false;
-            _rb.velocity = force; // or AddForce() but it's requires NORMAL mass;
+            _rb.velocity = force;
             _collider2D.enabled = false;
             _follower.enabled = false;
-
-            StartCoroutine(nameof(WaitForHit));
-        }
-
-        private IEnumerator WaitForHit()
-        {
+            
             state = State.InFlight;
             yield return new WaitForSecondsRealtime(flightTime);
             state = State.InCalm;
@@ -143,19 +141,18 @@ namespace Entities
             _collider2D.enabled = true;
             Debug.Log($"{projectileName} can be stuck in target");
         
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(stuckTime);
 
             if (state != State.InHit)
             {
                 state = State.InFlight;
             }
 
-            var thisGameObject = gameObject;
-            thisGameObject.layer = LayerMask.NameToLayer("Back");
+            gameObject.layer = LayerMask.NameToLayer("Back");
 
             yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
 
-            Destroy(thisGameObject);
+            Destroy(gameObject);
         }
     }
 }

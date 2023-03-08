@@ -7,19 +7,31 @@ namespace Managers
 {
     public class MoneyManager : MonoBehaviour, ISavable
     {
-        public int money; // < uint < long < ulong < BigInteger
+        public long money;
         public TextMeshProUGUI moneyLabel;
 
         private void Awake()
         {
-            GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
-            
-            GlobalEventManager.OnSave.AddListener(SaveData);
-            GlobalEventManager.OnLoad.AddListener(LoadData);
-            
+            GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
+            GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
+        
             DepositMoney(0);
         }
+
+        private void OnEnable()
+        {
+            GlobalEventManager.onTargetHitCart += TargetHitCart;
+
+            GlobalEventManager.onMoneyWithdraw += WithdrawMoney;
+        }
         
+        private void OnDisable()
+        {
+            GlobalEventManager.onTargetHitCart -= TargetHitCart;
+            
+            GlobalEventManager.onMoneyWithdraw -= WithdrawMoney;
+        }
+
         private void TargetHitCart(Target target)
         {
             DepositMoney(target.money);
@@ -28,27 +40,30 @@ namespace Managers
 
         public void ReloadData()
         {
-            moneyLabel.text = money switch
+            float digit = money;
+            string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
+            var n = 0;
+
+            while (n < names.Length - 1 && digit >= 1000)
             {
-                >= 1000000 => $"{money / 1000000.0f:F1}M",
-                >= 1000 => $"{money / 1000.0f:F1}K",
-                _ => money.ToString()
-            };
+                digit /= 1000;
+                n++;
+            }
+            moneyLabel.text = $"{digit:#0.##}{names[n]}";
         }
         
-        public bool DepositMoney(int depositedMoney)
+        private void DepositMoney(long depositedMoney)
         {
             if (depositedMoney < 0)
             {
-                return false;
+                return;
             }
             money += depositedMoney;
             
             ReloadData();
-            return true;
         }
 
-        public bool WithdrawMoney(int withdrawnMoney)
+        private bool WithdrawMoney(long withdrawnMoney)
         {
             if (money < withdrawnMoney)
             {
@@ -62,15 +77,15 @@ namespace Managers
         
         public void SaveData()
         {
-            PlayerPrefs.SetInt("money", money);
+            PlayerPrefs.SetString("money", money.ToString());
         }
         
         public void LoadData()
         {
-            money = PlayerPrefs.GetInt("money");
+            money = long.Parse(PlayerPrefs.GetString("money"));
             ReloadData();
             
-            Debug.Log("MoneyManager was loaded");
+            Debug.Log($"MoneyManager was loaded: {money}");
         }
     }
 }

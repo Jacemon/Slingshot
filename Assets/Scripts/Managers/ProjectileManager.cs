@@ -16,8 +16,6 @@ namespace Managers
         public GameObject projectileSpawnPoint;
         [Space] 
         public int projectileLevel;
-        [Space]
-        public Timer timer;
         [Space] 
         public TextMeshProUGUI levelLabel;
         public Animator bundleAnimator;
@@ -29,22 +27,16 @@ namespace Managers
         private readonly List<Projectile> _thrownProjectiles = new();
 
         private static readonly int IsFilled = Animator.StringToHash("IsFilled");
-        
-        public void Awake()
-        {
-            GlobalEventManager.OnProjectileThrow.AddListener(ProjectileThrown);
-            GlobalEventManager.OnLevelLoad.AddListener(DeleteThrownProjectiles);
-            GlobalEventManager.OnProjectileLevelUp.AddListener(LevelUp);
 
-            GlobalEventManager.OnSave.AddListener(SaveData);
-            GlobalEventManager.OnLoad.AddListener(LoadData);
-        
-            // Проверка префаба на то, что он снаряд
+        private void Awake()
+        {
+            GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
+            GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
+
             foreach (var projectilePrefab in projectilePrefabs)
             {
                 if (projectilePrefab.TryGetComponent(out Projectile projectile))
                 {
-                    // Добавление снаряда в список
                     _registeredProjectilePrefabs[projectile.projectileName] = projectile;
                     Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
                 }
@@ -53,10 +45,26 @@ namespace Managers
                     Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
                 }
             }
-        
+
             _spawnPoint = projectileSpawnPoint.transform.position;
-            
+
             SpawnRock();
+        }
+
+        private void OnEnable()
+        {
+            GlobalEventManager.onProjectileLevelUp += LevelUp;
+            
+            GlobalEventManager.onProjectileThrow += ProjectileThrown;
+            GlobalEventManager.onLevelLoad += DeleteThrownProjectiles;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventManager.onProjectileLevelUp -= LevelUp;
+            
+            GlobalEventManager.onProjectileThrow -= ProjectileThrown;
+            GlobalEventManager.onLevelLoad -= DeleteThrownProjectiles;
         }
 
         private void Update()
@@ -64,20 +72,18 @@ namespace Managers
             bundleAnimator.SetBool(IsFilled, _spawnedProjectile.state == Projectile.State.InCalm);
         }
 
-        private void LevelUp()
+        private int LevelUp(int levelCount)
         {
-            projectileLevel++;
+            projectileLevel += levelCount;
             RespawnProjectile();
+            
+            Debug.Log($"Projectile level: {projectileLevel - levelCount} -> {projectileLevel}");
+            
+            return projectileLevel;
         }
         
         private void ProjectileThrown(Projectile projectile)
         {
-            const float extraDelay = 1.0f;
-            // Установка большей задержи для таймера
-            timer.SetBiggerDelay(projectile.flightTime + extraDelay);
-            timer.timerOn = true;
-            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-            
             SpawnProjectile(projectile.projectileName);
 
             _thrownProjectiles.Add(projectile);
@@ -92,7 +98,7 @@ namespace Managers
             SpawnProjectile(projectileName);
         }
         
-        private void SpawnProjectile(string projectileName)
+        private void SpawnProjectile(string projectileName) // todo reg proj
         {
             var projectile = _registeredProjectilePrefabs[projectileName];
             projectile.level = projectileLevel;
@@ -129,7 +135,7 @@ namespace Managers
             projectileLevel = PlayerPrefs.GetInt("projectileLevel");
             ReloadData();
             
-            Debug.Log("ProjectileManager was loaded");
+            Debug.Log($"ProjectileManager was loaded: {projectileLevel}");
         }
     }
 }

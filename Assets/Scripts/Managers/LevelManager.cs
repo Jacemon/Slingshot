@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Entities.Levels;
 using TMPro;
@@ -25,16 +26,22 @@ namespace Managers
         [SerializeField]
         private Level loadedLevel;
 
-        public void Awake()
+        private void Awake()
         {
-            GlobalEventManager.OnLevelUp.AddListener(LevelUp);
-            
-            GlobalEventManager.OnLoad.AddListener(LoadData);
-            GlobalEventManager.OnSave.AddListener(SaveData);
-            
-            ReloadData();
+            GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
+            GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
         }
 
+        private void OnEnable()
+        {
+            GlobalEventManager.onLevelUp += LevelUp;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventManager.onLevelUp -= LevelUp;
+        }
+        
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.ToString();
@@ -44,15 +51,19 @@ namespace Managers
             buyButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel == maxAvailableLevel);
         }
 
-        private void LevelUp()
+        private int LevelUp(int levelCount)
         {
-            maxAvailableLevel++;
-            ReloadData();
+            maxAvailableLevel += levelCount;
+            NextLevel();
+            
+            Debug.Log($"Level: {maxAvailableLevel - levelCount} -> {maxAvailableLevel}");
+            
+            return maxAvailableLevel;
         }
         
         public void LoadLevel(int levelNumber)
         {
-            Debug.Log($"Start loading level {currentLevel}...");
+            Debug.Log($"Start loading level {levelNumber}...");
             
             if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
             {
@@ -96,7 +107,7 @@ namespace Managers
             }
             loadedLevel = Instantiate(levelScripts[0], startPosition, Quaternion.identity);
 
-            GlobalEventManager.OnLevelLoad?.Invoke();
+            GlobalEventManager.onLevelLoad?.Invoke();
             
             Debug.Log($"End loading level {currentLevel}...");
         }
@@ -122,6 +133,8 @@ namespace Managers
             currentLevel = PlayerPrefs.GetInt("currentLevel");
             maxAvailableLevel = PlayerPrefs.GetInt("maxAvailableLevel");
             ReloadData();
+            
+            Debug.Log($"LevelManager was loaded: {currentLevel}/{maxAvailableLevel}");
         }
 
         public void ReloadData()

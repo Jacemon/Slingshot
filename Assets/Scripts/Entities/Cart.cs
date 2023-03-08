@@ -1,3 +1,4 @@
+using System;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -25,7 +26,17 @@ namespace Entities
         {
             _timer = GetComponent<Timer>();
         }
-    
+
+        private void OnEnable()
+        {
+            GlobalEventManager.onProjectileThrow += AddTimerDelay;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventManager.onProjectileThrow -= AddTimerDelay;
+        }
+
         private void FixedUpdate()
         {
             if (!_timer.timerDone)
@@ -40,6 +51,15 @@ namespace Entities
             }
         }
 
+        private void AddTimerDelay(Projectile projectile)
+        {
+            const float extraDelay = 1.0f;
+            
+            _timer.SetBiggerDelay(projectile.flightTime + extraDelay);
+            _timer.timerOn = true;
+            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
+        }
+        
         private void NextPosition()
         {
             positionIndex++;
@@ -63,7 +83,7 @@ namespace Entities
                 particles.Emit(ParticlesRate);
             }
             
-            GlobalEventManager.OnTargetHitCart?.Invoke(target);
+            GlobalEventManager.onTargetHitCart?.Invoke(target);
         }
     }
 }

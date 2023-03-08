@@ -1,3 +1,4 @@
+using System;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -10,20 +11,26 @@ namespace Entities.Levels
         public Target apple;
         [Space]
         public TextMeshProUGUI[] helpLabels;
-    
-        private Animator _handAnimator;
 
         private void Awake()
         {
-            _handAnimator = hand.GetComponent<Animator>();
-        
-            GlobalEventManager.OnTargetGetDamage.AddListener(ShowTrainingHint);
-            GlobalEventManager.OnTargetHitCart.AddListener(ShowTrainingGoodEnding);
-            GlobalEventManager.OnTargetHitGround.AddListener(ShowTrainingBadEnding);
-        
             ToggleLabel(0);
         }
 
+        private void OnEnable()
+        {
+            GlobalEventManager.onTargetGetDamage += ShowTrainingHint;
+            GlobalEventManager.onTargetHitCart += ShowTrainingGoodEnding;
+            GlobalEventManager.onTargetHitGround += ShowTrainingBadEnding;
+        }
+
+        private void OnDisable()
+        {
+            GlobalEventManager.onTargetGetDamage -= ShowTrainingHint;
+            GlobalEventManager.onTargetHitCart -= ShowTrainingGoodEnding;
+            GlobalEventManager.onTargetHitGround -= ShowTrainingBadEnding;
+        }
+        
         // if i < -1 disable all
         private void ToggleLabel(int i)
         {
