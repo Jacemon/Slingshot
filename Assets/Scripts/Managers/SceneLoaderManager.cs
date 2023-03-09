@@ -24,5 +24,11 @@ namespace Managers
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        
+        // TODO: temp
+        public void DeleteAllProgress()
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

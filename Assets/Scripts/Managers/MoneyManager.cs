@@ -81,7 +81,7 @@ namespace Managers
         
         public void LoadData()
         {
-            money = long.Parse(PlayerPrefs.GetString("money"));
+            long.TryParse(PlayerPrefs.GetString("money"), out money);
             ReloadData();
             
             Debug.Log($"MoneyManager was loaded: {money}");
