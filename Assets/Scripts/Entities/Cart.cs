@@ -10,16 +10,17 @@ namespace Entities
     {
         [Header("Settings")] 
         public string cartName = "None";
-
         [Space] 
         public Vector2[] positions;
         public float velocity;
-
         [Header("Current parameters")]
-        [SerializeField] private int positionIndex;
+        [SerializeField] 
+        private int positionIndex;
 
+        private const float TargetFadeTime = 0.3f;
         private const float ErrorRate = 0.1f;
         private const int ParticlesRate = 20;
+        
         private Timer _timer;
     
         private void Awake()
@@ -84,6 +85,14 @@ namespace Entities
             }
             
             GlobalEventManager.onTargetHitCart?.Invoke(target);
+            
+            // Destroy target
+            if (target.TryGetComponent(out Collider2D component) && target.TryGetComponent(out Rigidbody2D rb))
+            {
+                component.enabled = false;
+                rb.isKinematic = true;
+            }
+            target.LateDestroy(TargetFadeTime);
         }
     }
 }

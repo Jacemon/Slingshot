@@ -10,7 +10,7 @@ namespace Managers
             Application.Quit();
         }
         
-        public void LoadLevelScene()
+        public void LoadLevelsScene()
         {
             SceneManager.LoadScene("Levels");
         }

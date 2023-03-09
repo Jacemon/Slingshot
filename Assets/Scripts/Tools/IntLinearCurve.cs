@@ -7,7 +7,6 @@ namespace Tools
         public string curveName;
         public AnimationCurve curve;
         public int cornerCount;
-        [Space]
         [Header("y = Kx + B")]
         public int k;
         public int b;

@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2474978ee7c3cc4883575cc0040159c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 500
+  scrollSpeed: 100
   background: {fileID: 382340540}
 --- !u!1 &1046558563
 GameObject:
@@ -608,7 +608,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 339687639}
         m_TargetAssemblyTypeName: MainMenu.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadLevelScene
+        m_MethodName: LoadLevelsScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -951,7 +951,7 @@ GameObject:
   - component: {fileID: 2114047983}
   - component: {fileID: 2114047982}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

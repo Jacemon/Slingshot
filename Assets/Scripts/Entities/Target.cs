@@ -1,4 +1,3 @@
-using System.Collections;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -6,17 +5,17 @@ using UnityEngine.UI;
 
 namespace Entities
 {
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class Target : MonoBehaviour
     {
         [Header("Settings")] 
         public string targetName;
-        [Space]
         public int level;
         [Space]
         public int money;
         public int maxHealth;
         public int health;
-        [Space]
         [Header("Special settings")]
         public IntLinearCurve moneyCurve;
         public IntLinearCurve maxHealthCurve;
@@ -24,9 +23,9 @@ namespace Entities
         private Slider _slider;
         private Canvas _healthBar;
 
-        private const float TimeBeforeDestroy = 4f;
+        private const float TimeBeforeDestroy = 2f;
         private const float ShotColliderScale = 0.6f;
-
+        
         private void Awake()
         {
             maxHealth = health = maxHealthCurve.ForceEvaluate(level);
@@ -64,7 +63,7 @@ namespace Entities
                         break;
                 }
             
-                StartCoroutine(nameof(LateDestroy));
+                LateDestroy();
             } 
             else if (health < maxHealth)
             {
@@ -79,10 +78,16 @@ namespace Entities
             GlobalEventManager.onTargetGetDamage?.Invoke(this);
         }
 
-        private IEnumerator LateDestroy()
+        public void LateDestroy(float time = TimeBeforeDestroy)
         {
-            yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
-            Destroy(gameObject);
+            transform.LeanScale(Vector2.zero, time)
+                .setEaseInBack()
+                .setOnComplete(
+                    () =>
+                    {
+                        Destroy(gameObject);
+                    }
+                );
         }
     }
 }

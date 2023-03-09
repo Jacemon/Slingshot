@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(MouseFollower))]
     [RequireComponent(typeof(StaticTrajectory))]
     public class Pouch : MonoBehaviour
@@ -12,12 +13,12 @@ namespace Entities
         public float throwSpeed = 7.0f; 
         public GameObject throwPointAnchor;
         public float throwPointOffset = 0.7f;
-
-        [Header("Current parameters")] 
+        [Header("Current parameters")]
         [SerializeField]
         private bool pouchFill;
         public Projectile projectile;
         public float velocity;
+        
         private Vector2 _direction;
     
         private Rigidbody2D _rb;
@@ -45,8 +46,8 @@ namespace Entities
             {
                 return;
             }
-        
-            if (projectile.state == Projectile.State.InPouch)
+            
+            if (projectile.state == Projectile.State.InPick)
             {
                 _mouseFollower.enabled = true;
             
@@ -100,8 +101,6 @@ namespace Entities
             projectileTransform.parent = transform;
             projectileTransform.localPosition = Vector3.zero;
 
-            projectile.state = Projectile.State.InPouch;
-
             projectile.GetComponent<MouseFollower>().enabled = false;
 
             _rb.isKinematic = true;
@@ -114,17 +113,15 @@ namespace Entities
         private void EmptyPouch()
         {
             pouchFill = false;
-        
-            projectile.state = Projectile.State.InCalm;
+            
             if (transform.position.y < _throwPointAnchor.y - throwPointOffset)
             {
                 _rb.velocity = _direction * velocity;
                 projectile.Shoot(_direction * velocity);
-                projectile.state = Projectile.State.InFlight;
             }
         
             _collider2D.enabled = true;
-        
+            
             projectile.transform.parent = null;
             projectile = null;
         

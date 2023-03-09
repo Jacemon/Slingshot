@@ -6,43 +6,38 @@ using UnityEngine;
 namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Follower))]
     [RequireComponent(typeof(MouseFollower))]
     public class Projectile : MonoBehaviour
     {
         [Header("Settings")]
         public string projectileName;
-        [Space]
         public int level;
         [Space]
         public int damage;
-        [Space]
         [Header("Special settings")]
         public IntLinearCurve damageCurve;
-        [Space]
-        public State state; // TODO: remake to State pattern
         [Space]
         public float flightTime = 1.0f;
         public float stuckTime = 0.1f;
         public float finalScale = 0.3f;
         public Vector2 randomVelocityRange = new (1, 3);
-        
-        private float _scaleVelocity;
+        [Header("Current parameters")]
+        public State state;
 
         private Rigidbody2D _rb;
         private Collider2D _collider2D;
         private MouseFollower _mouseFollower;
         private Follower _follower;
 
-        private const float TimeBeforeDestroy = 4f;
+        private const float TimeBeforeDestroy = 2f;
+        private const float AppearTime = 0.5f;
     
         public enum State
         {
             InCalm,
-            InPick,
-            InPouch,
-            InFlight,
-            InHit
+            InPick
         }
     
         private void Awake()
@@ -55,34 +50,12 @@ namespace Entities
             _follower = GetComponent<Follower>();
             _follower.enabled = true;
 
-            // Расчёт скорости уменьшения снаряда во время полёта
-            _scaleVelocity = (1 - finalScale) / flightTime * Time.fixedDeltaTime;
-
+            transform.localScale = Vector3.zero;
+            transform.LeanScale(Vector3.one, AppearTime).setEaseOutElastic();
+            
             damage = damageCurve.ForceEvaluate(level);
             
             Debug.Log($"{projectileName}:{level} was spawned");
-        }
-
-        private void FixedUpdate()
-        {
-            // Уменьшение снаряда во время полёта
-            if (state != State.InFlight)
-            {
-                return;
-            }
-        
-            var newScale = _rb.transform.localScale - new Vector3(
-                _scaleVelocity,
-                _scaleVelocity,
-                0);
-            if (newScale.x > 0 || newScale.y > 0)
-            {
-                _rb.transform.localScale = newScale;
-            }
-            else
-            {
-                _rb.transform.localScale = Vector2.zero;
-            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -92,7 +65,6 @@ namespace Entities
                 return;
             }
             target.GetDamage(damage);
-            state = State.InHit;
             
             // Random force
             var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
@@ -134,24 +106,19 @@ namespace Entities
             _collider2D.enabled = false;
             _follower.enabled = false;
             
-            state = State.InFlight;
+            transform.LeanScale(new Vector2(finalScale, finalScale), flightTime).setEaseOutSine();
             yield return new WaitForSecondsRealtime(flightTime);
-            state = State.InCalm;
 
             _collider2D.enabled = true;
             Debug.Log($"{projectileName} can be stuck in target");
         
             yield return new WaitForSecondsRealtime(stuckTime);
 
-            if (state != State.InHit)
-            {
-                state = State.InFlight;
-            }
-
             gameObject.layer = LayerMask.NameToLayer("Back");
-
+            
+            transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine();
             yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
-
+            
             Destroy(gameObject);
         }
     }

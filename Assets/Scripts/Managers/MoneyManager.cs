@@ -35,7 +35,6 @@ namespace Managers
         private void TargetHitCart(Target target)
         {
             DepositMoney(target.money);
-            Destroy(target.gameObject);
         }
 
         public void ReloadData()
