@@ -56,7 +56,10 @@ namespace Managers
         private int LevelUp(int levelCount)
         {
             projectileLevel += levelCount;
-            RespawnProjectile();
+            if (levelCount != 0)
+            {
+                RespawnProjectile();
+            }
             
             Debug.Log($"Projectile level: {projectileLevel - levelCount} -> {projectileLevel}");
             

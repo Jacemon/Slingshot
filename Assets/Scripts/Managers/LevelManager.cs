@@ -53,7 +53,10 @@ namespace Managers
         private int LevelUp(int levelCount)
         {
             maxAvailableLevel += levelCount;
-            NextLevel();
+            for (var i = 0; i < levelCount; i++)
+            {
+                NextLevel();
+            }
             
             Debug.Log($"Level: {maxAvailableLevel - levelCount} -> {maxAvailableLevel}");
             
