@@ -47,7 +47,7 @@ namespace Entities
                 return;
             }
             
-            if (projectile.state == Projectile.State.InPick)
+            if (projectile.inPick)
             {
                 _mouseFollower.enabled = true;
             
@@ -86,7 +86,7 @@ namespace Entities
 
         private void FillPouch(Projectile projectileToFill)
         {
-            if (pouchFill || projectileToFill.state != Projectile.State.InPick)
+            if (pouchFill || !projectileToFill.inPick)
             {
                 return;
             }

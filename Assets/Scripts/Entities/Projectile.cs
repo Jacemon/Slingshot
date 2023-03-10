@@ -22,24 +22,18 @@ namespace Entities
         public float flightTime = 1.0f;
         public float stuckTime = 0.1f;
         public float finalScale = 0.3f;
-        public Vector2 randomVelocityRange = new (1, 3);
-        [Header("Current parameters")]
-        public State state;
+        public ParticleSystem.MinMaxCurve minMaxVelocity;
+        public ParticleSystem.MinMaxCurve minMaxAngularVelocity;
+        [Space]
+        public bool inPick;
 
         private Rigidbody2D _rb;
         private Collider2D _collider2D;
         private MouseFollower _mouseFollower;
         private Follower _follower;
-
-        private const float TimeBeforeDestroy = 2f;
+        
         private const float AppearTime = 0.5f;
-    
-        public enum State
-        {
-            InCalm,
-            InPick
-        }
-    
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -66,28 +60,25 @@ namespace Entities
             }
             target.GetDamage(damage);
             
-            // Random force
-            var randomVelocity = Random.Range(randomVelocityRange.x, randomVelocityRange.y);
+            // Random angular and regular velocity
+            var randomVelocity = minMaxVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             var direction = transform.position - target.transform.position;
             _rb.velocity = randomVelocity * direction;
+            _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
         }
 
         private void OnMouseDown()
         {
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
-            _mouseFollower.enabled = true;
+            _mouseFollower.enabled = inPick = true;
             _follower.enabled = false;
-        
-            state = State.InPick;
         }
 
         private void OnMouseUp()
         {
-            _mouseFollower.enabled = false;
+            _mouseFollower.enabled = inPick = false;
             _follower.enabled = true;
-        
-            state = State.InCalm;
         }
 
         public void Shoot(Vector2 force)
@@ -103,6 +94,7 @@ namespace Entities
         
             _rb.isKinematic = false;
             _rb.velocity = force;
+            _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             _collider2D.enabled = false;
             _follower.enabled = false;
             
@@ -116,10 +108,7 @@ namespace Entities
 
             gameObject.layer = LayerMask.NameToLayer("Back");
             
-            transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine();
-            yield return new WaitForSecondsRealtime(TimeBeforeDestroy);
-            
-            Destroy(gameObject);
+            transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine().setDestroyOnComplete(true);
         }
     }
 }

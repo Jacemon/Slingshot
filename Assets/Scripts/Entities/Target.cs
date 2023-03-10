@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Entities
 {
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
     public class Target : MonoBehaviour
@@ -22,6 +23,8 @@ namespace Entities
         
         private Slider _slider;
         private Canvas _healthBar;
+        private Animator _animator;
+        private static readonly int Hit = Animator.StringToHash("Hit");
 
         private const float TimeBeforeDestroy = 2f;
         private const float ShotColliderScale = 0.6f;
@@ -37,6 +40,8 @@ namespace Entities
             _slider = _healthBar.GetComponentInChildren<Slider>();
             _slider.maxValue = maxHealth;
             _slider.value = health;
+
+            _animator = GetComponent<Animator>();
             
             Debug.Log($"{targetName}:{level} was spawned");
         }
@@ -46,6 +51,8 @@ namespace Entities
             health -= damage;
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
         
+            _animator.SetTrigger(Hit);
+
             if (health <= 0)
             {
                 GetComponent<Rigidbody2D>().isKinematic = false;

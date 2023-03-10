@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
@@ -13,16 +12,13 @@ namespace Managers
     {
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
-        public GameObject projectileSpawnPoint;
+        public Vector2 spawnPoint;
         [Space] 
         public int projectileLevel;
         [Space] 
         public TextMeshProUGUI levelLabel;
         public Animator bundleAnimator;
         
-        private readonly Dictionary<string, Projectile> _registeredProjectilePrefabs = new();
-
-        private Vector2 _spawnPoint;
         private Projectile _spawnedProjectile;
         private readonly List<Projectile> _thrownProjectiles = new();
 
@@ -32,22 +28,7 @@ namespace Managers
         {
             GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
             GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
-
-            foreach (var projectilePrefab in projectilePrefabs)
-            {
-                if (projectilePrefab.TryGetComponent(out Projectile projectile))
-                {
-                    _registeredProjectilePrefabs[projectile.projectileName] = projectile;
-                    Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
-                }
-                else
-                {
-                    Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
-                }
-            }
-
-            _spawnPoint = projectileSpawnPoint.transform.position;
-
+            
             SpawnRock();
         }
 
@@ -69,7 +50,7 @@ namespace Managers
 
         private void Update()
         {
-            bundleAnimator.SetBool(IsFilled, _spawnedProjectile.state == Projectile.State.InCalm);
+            bundleAnimator.SetBool(IsFilled, !_spawnedProjectile.inPick);
         }
 
         private int LevelUp(int levelCount)
@@ -91,20 +72,24 @@ namespace Managers
             Debug.Log($"{projectile.name} was thrown");
         }
 
-        public void RespawnProjectile()
+        private void RespawnProjectile()
         {
             var projectileName = _spawnedProjectile.projectileName;
             Destroy(_spawnedProjectile.gameObject);
             SpawnProjectile(projectileName);
         }
         
-        private void SpawnProjectile(string projectileName) // todo reg proj
+        private void SpawnProjectile(string projectileName)
         {
-            var projectile = _registeredProjectilePrefabs[projectileName];
-            projectile.level = projectileLevel;
-            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
-            _spawnedProjectile = Instantiate(projectile, _spawnPoint, Quaternion.identity);
+            var projectile = projectilePrefabs.Find(o => 
+                o.TryGetComponent(out Projectile projectile) 
+                && projectile.name == projectileName
+            ).GetComponent<Projectile>();
             
+            projectile.level = projectileLevel;
+            projectile.GetComponent<Follower>().followPoint = spawnPoint;
+            _spawnedProjectile = Instantiate(projectile, spawnPoint, Quaternion.identity);
+                
             levelLabel.text = projectileLevel.ToString();
         }
 

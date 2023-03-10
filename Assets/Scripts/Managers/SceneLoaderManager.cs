@@ -1,34 +1,44 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Managers
 {
+    [RequireComponent(typeof(Animator))]
     public class SceneLoaderManager : MonoBehaviour
     {
-        public void QuitApplication()
-        {
-            Application.Quit();
-        }
+        public float transitionTime;
         
-        public void LoadLevelsScene()
+        private Animator _transition;
+        private static readonly int IsOpen = Animator.StringToHash("IsOpen");
+
+        private void Awake()
         {
-            SceneManager.LoadScene("Levels");
+            _transition = GetComponent<Animator>();
         }
 
-        public void LoadMainMenuScene()
+        public void LoadSceneWithTransition(string sceneName)
         {
-            SceneManager.LoadScene("MainMenu");
+            StartCoroutine(LoadSceneWithTransitionCoroutine(sceneName));
         }
-        
-        public void ReloadActiveScene()
+
+        private IEnumerator LoadSceneWithTransitionCoroutine(string sceneName)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            _transition.SetBool(IsOpen, false);
+            _transition.speed = 1 / transitionTime;
+
+            yield return new WaitForSecondsRealtime(transitionTime);
+            SceneManager.LoadSceneAsync(sceneName).completed +=
+                _ =>
+                {
+                    _transition.SetBool(IsOpen, true);
+                };
         }
-        
-        // TODO: temp
-        public void DeleteAllProgress()
+
+        public void LoadScene(string sceneName)
         {
-            PlayerPrefs.DeleteAll();
+            SceneManager.LoadScene(sceneName);
         }
     }
 }
