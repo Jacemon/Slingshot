@@ -87,10 +87,13 @@ namespace Entities
             GlobalEventManager.onTargetHitCart?.Invoke(target);
             
             // Destroy target
-            if (target.TryGetComponent(out Collider2D component) && target.TryGetComponent(out Rigidbody2D rb))
+            if (target.TryGetComponent(out Collider2D targetCollider) && 
+                target.TryGetComponent(out Rigidbody2D targetRigidbody))
             {
-                component.enabled = false;
-                rb.isKinematic = true;
+                targetCollider.enabled = false;
+                targetRigidbody.velocity = Vector2.zero;
+                targetRigidbody.angularVelocity = 0;
+                targetRigidbody.isKinematic = true;
             }
             target.LateDestroy(TargetFadeTime);
         }

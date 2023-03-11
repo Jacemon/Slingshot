@@ -26,6 +26,7 @@ namespace Entities
         private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
+        private const float AppearTime = 1.5f;
         private const float TimeBeforeDestroy = 2f;
         private const float ShotColliderScale = 0.6f;
         
@@ -42,6 +43,9 @@ namespace Entities
             _slider.value = health;
 
             _animator = GetComponent<Animator>();
+            
+            transform.localScale = Vector3.zero;
+            transform.LeanScale(Vector3.one, AppearTime).setEaseOutExpo();
             
             Debug.Log($"{targetName}:{level} was spawned");
         }

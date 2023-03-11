@@ -8,12 +8,16 @@ namespace Entities.Levels
     public class TrainingLevel : Level
     {
         public GameObject hand;
-        public Target apple;
+        public GameObject apple;
+        public Vector2 spawnPoint;
         [Space]
         public TextMeshProUGUI[] helpLabels;
+        
+        private Target _apple;
 
         private void Awake()
         {
+            Generate();
             ToggleLabel(0);
         }
 
@@ -29,6 +33,11 @@ namespace Entities.Levels
             GlobalEventManager.onTargetGetDamage -= ShowTrainingHint;
             GlobalEventManager.onTargetHitCart -= ShowTrainingGoodEnding;
             GlobalEventManager.onTargetHitGround -= ShowTrainingBadEnding;
+        }
+
+        private void Generate()
+        {
+            _apple = TargetManager.SpawnTarget(new[] { apple }, levelNumber, spawnPoint, transform);
         }
         
         // if i < -1 disable all
@@ -47,17 +56,17 @@ namespace Entities.Levels
 
         private void Update()
         {
-            hand.SetActive(apple.health == apple.maxHealth);
+            hand.SetActive(_apple.health == _apple.maxHealth);
         }
 
         private void ShowTrainingHint(Target target)
         {
-            if (target != apple)
+            if (target != _apple)
             {
                 return;
             }
 
-            switch (apple.health)
+            switch (_apple.health)
             {
                 case 1: 
                     ToggleLabel(1);
@@ -73,19 +82,13 @@ namespace Entities.Levels
 
         private void ShowTrainingBadEnding(Target target)
         {
-            if (target != apple)
-            {
-                return;
-            }
+            Generate();
             ToggleLabel(3);
         }
     
         private void ShowTrainingGoodEnding(Target target)
         {
-            if (target != apple)
-            {
-                return;
-            }
+            Generate();
             ToggleLabel(4);
         }
     }

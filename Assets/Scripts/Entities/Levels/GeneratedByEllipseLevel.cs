@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using Managers;
 using UnityEngine;
 
 namespace Entities.Levels
 {
-    public class GeneratedLevel : Level
+    public class GeneratedByEllipseLevel : Level
     {
         [Header("Target generator settings")]
         public GameObject[] targets;
@@ -19,16 +18,33 @@ namespace Entities.Levels
     
         private void Awake()
         {
-            foreach (var target in _generatedTargets.Where(target => target != null))
-            {
-                Destroy(target.gameObject);
-            }
-            _generatedTargets.Clear();
+            Generate();
+        }
+
+        private void OnEnable()
+        {
+            GlobalEventManager.onTargetHitCart += CheckTargets;
+            GlobalEventManager.onTargetHitGround += CheckTargets;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventManager.onTargetHitCart -= CheckTargets;
+            GlobalEventManager.onTargetHitGround -= CheckTargets;
+        }
+
+        private void Generate()
+        {
             _generatedTargets = TargetManager.GenerateTargetsByEllipse(targets, targetsAmount, levelNumber, 
                 spawnPoint, spawnRadius, spawnSecondRadius, spaceBetween, transform);
-            foreach (var target in _generatedTargets)
+        }
+        
+        private void CheckTargets(Target target)
+        {
+            _generatedTargets.Remove(target);
+            if (_generatedTargets.Count == 0)
             {
-                target.level = levelNumber;
+                Generate();
             }
         }
 

@@ -6,7 +6,8 @@ namespace Entities
     public class Trigger : MonoBehaviour
     {
         private Animator _animator;
-        
+        private static readonly int Play = Animator.StringToHash("Play");
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -14,7 +15,7 @@ namespace Entities
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            _animator.enabled = true;
+            _animator.SetTrigger(Play);
             
             Debug.Log($"{name} triggered");
         }
