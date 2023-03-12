@@ -6,12 +6,9 @@ namespace Managers
 {
     public static class GlobalEventManager
     {
-        public static class UnityEvents
-        {
-            // Saving
-            public static readonly UnityEvent OnSave = new();
-            public static readonly UnityEvent OnLoad = new();
-        }
+        // Saving
+        public static Action onSave;
+        public static Action onLoad;
         
         // Target
         public static Action<Target> onTargetGetDamage;

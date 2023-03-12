@@ -5188,7 +5188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Pear
-  level: 5
+  level: 8
   money: 3
   maxHealth: 5
   health: 0
@@ -5211,7 +5211,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ConstantMin: 0.5
+    m_ConstantMin: 0.6
     m_ConstantMax: 1.5
 --- !u!114 &-3742116976924089452
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ namespace Tools
             
             NotDestroyableGameObjects[key] = gameObject;
             DontDestroyOnLoad(NotDestroyableGameObjects[key]);
+        }
+
+        private void OnApplicationQuit()
+        {
+            NotDestroyableGameObjects.Remove(gameObject.name);
         }
 
         public static bool TryGetComponent<T>(string key, out T component)

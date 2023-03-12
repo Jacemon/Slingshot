@@ -37,9 +37,14 @@ namespace Managers
 
         private void Awake()
         {
-            GlobalEventManager.UnityEvents.OnLoad.AddListener(ReloadData);
+            GlobalEventManager.onLoad += ReloadData;
         }
 
+        private void OnDestroy()
+        {
+            GlobalEventManager.onLoad -= ReloadData;
+        }
+        
         public void Buy(string key)
         {
             if (purchases.TryGetValue(key, out var purchase) && 

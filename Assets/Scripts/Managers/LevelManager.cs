@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Entities.Levels;
 using TMPro;
@@ -27,8 +28,14 @@ namespace Managers
 
         private void Awake()
         {
-            GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
-            GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
+            GlobalEventManager.onLoad += LoadData;
+            GlobalEventManager.onSave += SaveData;
+        }
+
+        private void OnDestroy()
+        {
+            GlobalEventManager.onLoad -= LoadData;
+            GlobalEventManager.onSave -= SaveData;
         }
 
         private void OnEnable()
@@ -40,7 +47,7 @@ namespace Managers
         {
             GlobalEventManager.onLevelUp -= LevelUp;
         }
-        
+
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.ToString();
@@ -126,6 +133,7 @@ namespace Managers
 
         public void SaveData()
         {
+            Debug.Log("LevelManager saving");
             PlayerPrefs.SetInt("currentLevel", currentLevel);
             PlayerPrefs.SetInt("maxAvailableLevel", maxAvailableLevel);
         }

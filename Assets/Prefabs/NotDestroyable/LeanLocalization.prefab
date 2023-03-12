@@ -380,7 +380,7 @@ MonoBehaviour:
   currentLanguage: English
   detectLanguage: 1
   defaultLanguage: English
-  saveLoad: 0
+  saveLoad: 1
   prefabs: []
 --- !u!114 &1201044919010805249
 MonoBehaviour:

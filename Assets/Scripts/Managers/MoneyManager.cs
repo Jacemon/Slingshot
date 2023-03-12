@@ -12,12 +12,18 @@ namespace Managers
 
         private void Awake()
         {
-            GlobalEventManager.UnityEvents.OnLoad.AddListener(LoadData);
-            GlobalEventManager.UnityEvents.OnSave.AddListener(SaveData);
-        
+            GlobalEventManager.onLoad += LoadData;
+            GlobalEventManager.onSave += SaveData;
+            
             DepositMoney(0);
         }
 
+        private void OnDestroy()
+        {
+            GlobalEventManager.onLoad -= LoadData;
+            GlobalEventManager.onSave -= SaveData;
+        }
+        
         private void OnEnable()
         {
             GlobalEventManager.onTargetHitCart += TargetHitCart;
@@ -76,6 +82,7 @@ namespace Managers
         
         public void SaveData()
         {
+            Debug.Log("MoneyManager saving");
             PlayerPrefs.SetString("money", money.ToString());
         }
         

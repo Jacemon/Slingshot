@@ -5,10 +5,10 @@ namespace Managers
 {
     public class SaveManager : MonoBehaviour
     {
-        private void Start()
+        private void OnEnable()
         {
             Debug.Log("Start loading...");
-            GlobalEventManager.UnityEvents.OnLoad?.Invoke();
+            GlobalEventManager.onLoad?.Invoke();
             Debug.Log("End loading...");
         }
 
@@ -18,18 +18,13 @@ namespace Managers
             {
                 return;
             }
-            OnApplicationQuit();
+            OnDisable();
         }
 
         private void OnDisable()
         {
-            OnApplicationQuit();
-        }
-
-        private void OnApplicationQuit()
-        {
             Debug.Log("Start saving...");
-            GlobalEventManager.UnityEvents.OnSave?.Invoke();
+            GlobalEventManager.onSave?.Invoke();
             PlayerPrefs.Save();
             Debug.Log("End saving...");
         }
