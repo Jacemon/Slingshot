@@ -30,7 +30,12 @@ namespace Tools
         {
             var nodeCount = segments - 1;
             var lastRb = firstCorner;
-        
+
+            var startPosition = firstCorner.position;
+            var endPosition = secondCorner.position;
+            var deltaX = (startPosition.x - endPosition.x) / segments;
+            var deltaY = (startPosition.y - endPosition.y) / segments;
+            
             SpringJoint2D springJoint2D;
         
             for (var i = 0; i < nodeCount; i++)
@@ -39,9 +44,12 @@ namespace Tools
                 {
                     transform =
                     {
-                        parent = transform
+                        parent = transform,
+                        position = startPosition
                     }
                 };
+                startPosition.x += deltaX;
+                startPosition.y += deltaY;
 
                 // SpringJoint2D settings
                 springJoint2D = node.AddComponent<SpringJoint2D>();
