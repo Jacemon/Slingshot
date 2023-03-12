@@ -1,10 +1,11 @@
-using System;
 using Managers;
 using Tools;
 using UnityEngine;
 
 namespace Entities
 {
+    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Timer))]
     public class Cart : MonoBehaviour
     {
@@ -20,11 +21,14 @@ namespace Entities
         private const float TargetFadeTime = 0.3f;
         private const float ErrorRate = 0.1f;
         private const int ParticlesRate = 20;
-        
+
+        private AudioSource _audioSource;
         private Timer _timer;
     
         private void Awake()
         {
+            _audioSource = GetComponent<AudioSource>();
+            _audioSource.enabled = true;
             _timer = GetComponent<Timer>();
         }
 
@@ -42,8 +46,11 @@ namespace Entities
         {
             if (!_timer.timerDone)
             {
+                _audioSource.enabled = false;
                 return;
             }
+        
+            _audioSource.enabled = true;
         
             transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
             if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
@@ -95,6 +102,7 @@ namespace Entities
                 targetRigidbody.angularVelocity = 0;
                 targetRigidbody.isKinematic = true;
             }
+            target.GetDamage(0);
             target.LateDestroy(TargetFadeTime);
         }
     }

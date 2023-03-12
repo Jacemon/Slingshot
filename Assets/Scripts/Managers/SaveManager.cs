@@ -1,22 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Managers
 {
     public class SaveManager : MonoBehaviour
     {
-        private void Awake()
+        private void Start()
         {
             Debug.Log("Start loading...");
             GlobalEventManager.UnityEvents.OnLoad?.Invoke();
             Debug.Log("End loading...");
-        }
-
-        private void OnDestroy()
-        {
-            Debug.Log("Start saving...");
-            GlobalEventManager.UnityEvents.OnSave?.Invoke();
-            PlayerPrefs.Save();
-            Debug.Log("End saving...");
         }
 
         private void OnApplicationPause(bool pauseStatus)
@@ -25,12 +18,20 @@ namespace Managers
             {
                 return;
             }
-            OnDestroy();
+            OnApplicationQuit();
         }
-        
+
+        private void OnDisable()
+        {
+            OnApplicationQuit();
+        }
+
         private void OnApplicationQuit()
         {
-            OnDestroy();
+            Debug.Log("Start saving...");
+            GlobalEventManager.UnityEvents.OnSave?.Invoke();
+            PlayerPrefs.Save();
+            Debug.Log("End saving...");
         }
     }
 }
