@@ -26,7 +26,7 @@ namespace Managers
         {
             if (NotDestroyable.TryGetComponent("Audio", out AudioManager audioManager))
             {
-                audioManager.effectsVolumeSwitch = isOn;
+                audioManager.effectsVolumeSwitch.Value = isOn;
             }
         }
         
@@ -34,7 +34,7 @@ namespace Managers
         {
             if (NotDestroyable.TryGetComponent("Audio", out AudioManager audioManager))
             {
-                audioManager.musicVolumeSwitch = isOn;
+                audioManager.musicVolumeSwitch.Value = isOn;
             }
         }
         

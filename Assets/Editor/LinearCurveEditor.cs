@@ -1,4 +1,4 @@
-﻿using Managers.Shop.ShopItems;
+﻿using Tools.ScriptableObjects.Shop.ShopItems;
 using UnityEditor;
 using UnityEngine;
 

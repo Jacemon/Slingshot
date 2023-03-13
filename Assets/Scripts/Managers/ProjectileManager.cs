@@ -1,25 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
-using TMPro;
-using Tools;
-using Tools.Interfaces;
+using Tools.Follower;
 using Tools.ScriptableObjects;
 using UnityEngine;
 
 namespace Managers
 {
-    public class ProjectileManager : MonoBehaviour, ISavable
+    public class ProjectileManager : MonoBehaviour
     {
-        public IntReference prLevel;
-        
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
         public Vector2 spawnPoint;
         [Space] 
-        public int projectileLevel;
-        [Space] 
-        public TextMeshProUGUI levelLabel;
+        public IntReference projectileLevel;
+        [Space]
         public Animator bundleAnimator;
         
         private Projectile _spawnedProjectile;
@@ -29,21 +24,12 @@ namespace Managers
 
         private void Awake()
         {
-            GlobalEventManager.onLoad += LoadData;
-            GlobalEventManager.onSave += SaveData;
-            
             SpawnRock();
         }
 
-        private void OnDestroy()
-        {
-            GlobalEventManager.onLoad -= LoadData;
-            GlobalEventManager.onSave -= SaveData;
-        }
-        
         private void OnEnable()
         {
-            GlobalEventManager.onProjectileLevelUp += LevelUp;
+            projectileLevel.onValueChanged += OnProjectileLevelChanged;
             
             GlobalEventManager.onProjectileThrow += ProjectileThrown;
             GlobalEventManager.onLevelLoad += DeleteThrownProjectiles;
@@ -51,7 +37,7 @@ namespace Managers
         
         private void OnDisable()
         {
-            GlobalEventManager.onProjectileLevelUp -= LevelUp;
+            projectileLevel.onValueChanged -= OnProjectileLevelChanged;
             
             GlobalEventManager.onProjectileThrow -= ProjectileThrown;
             GlobalEventManager.onLevelLoad -= DeleteThrownProjectiles;
@@ -62,19 +48,13 @@ namespace Managers
             bundleAnimator.SetBool(IsFilled, !_spawnedProjectile.inPick);
         }
 
-        private int LevelUp(int levelCount)
+        private void OnProjectileLevelChanged()
         {
-            projectileLevel += levelCount;
-            if (levelCount != 0)
-            {
-                RespawnProjectile();
-            }
+            RespawnProjectile();
             
-            Debug.Log($"Projectile level: {projectileLevel - levelCount} -> {projectileLevel}");
-            
-            return projectileLevel;
+            Debug.Log($"Projectile level: -> {projectileLevel.Value}");
         }
-        
+
         private void ProjectileThrown(Projectile projectile)
         {
             SpawnProjectile(projectile.projectileName);
@@ -98,11 +78,9 @@ namespace Managers
                 && projectile.name == projectileName
             ).GetComponent<Projectile>();
             
-            projectile.level = projectileLevel;
+            projectile.level = projectileLevel.Value;
             projectile.GetComponent<Follower>().followPoint = spawnPoint;
             _spawnedProjectile = Instantiate(projectile, spawnPoint, Quaternion.identity);
-                
-            levelLabel.text = projectileLevel.ToString();
         }
 
         private void DeleteThrownProjectiles()
@@ -116,24 +94,5 @@ namespace Managers
         }
         
         public void SpawnRock() => SpawnProjectile("Rock");
-
-        public void ReloadData()
-        {
-            RespawnProjectile();
-        }
-        
-        public void SaveData()
-        {
-            Debug.Log("ProjectileManager saving");
-            PlayerPrefs.SetInt("projectileLevel", projectileLevel);
-        }
-
-        public void LoadData()
-        {
-            projectileLevel = PlayerPrefs.GetInt("projectileLevel");
-            ReloadData();
-            
-            Debug.Log($"ProjectileManager was loaded: {projectileLevel}");
-        }
     }
 }

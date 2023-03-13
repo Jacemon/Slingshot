@@ -49,9 +49,9 @@ MonoBehaviour:
   masterVolume: 1
   musicVolume: 0.8
   effectsVolume: 1
-  masterVolumeSwitch: 1
-  musicVolumeSwitch: 1
-  effectsVolumeSwitch: 1
+  masterVolumeSwitch: {fileID: 11400000, guid: c18a4a711e07ba4468dbd9d4d99d0a71, type: 2}
+  musicVolumeSwitch: {fileID: 11400000, guid: a126f20a56709d142a6e4718d6d35c68, type: 2}
+  effectsVolumeSwitch: {fileID: 11400000, guid: 4adc7864a5a69f540a854dce355f68e5, type: 2}
 --- !u!114 &2488339105824046085
 MonoBehaviour:
   m_ObjectHideFlags: 0

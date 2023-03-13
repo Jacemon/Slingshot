@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Tools;
+using Tools.Follower;
 using UnityEngine;
 using UnityEngine.Serialization;
 

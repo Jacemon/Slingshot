@@ -1,11 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tools.ScriptableObjects
 {
-    [Serializable]
-    public class IntReference : ScriptableObject
-    {
-        public int value;
-    }
+    [CreateAssetMenu(fileName = "IntReference", menuName = "Custom/Reference/Int Reference")]
+    public class IntReference : ValueReference<int> { } 
 }

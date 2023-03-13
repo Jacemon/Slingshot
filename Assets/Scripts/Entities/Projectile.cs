@@ -1,6 +1,7 @@
 using System.Collections;
 using Managers;
 using Tools;
+using Tools.Follower;
 using UnityEngine;
 
 namespace Entities

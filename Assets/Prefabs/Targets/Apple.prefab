@@ -5194,6 +5194,34 @@ MonoBehaviour:
   health: 0
   moneyCurve: {fileID: 2718324610660417536}
   maxHealthCurve: {fileID: -6051570250380670435}
+  moneyCurve1:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 0
+    k: 1
+    b: 1
   targetHitClips:
   - {fileID: 8300000, guid: 638a6e21f50eb184bbe8f65f603b3f89, type: 3}
   minMaxPitch:

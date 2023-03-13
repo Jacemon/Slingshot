@@ -1,58 +1,57 @@
-﻿using System;
-using Tools;
-using Tools.Dictionaries;
+using System;
+using System.Collections.Generic;
 using Tools.Interfaces;
+using Tools.ScriptableObjects.Shop;
+using Tools.ScriptableObjects.Shop.ShopItems;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers
 {
     public class ShopManager : MonoBehaviour, IReloadable
     {
-        public int projectileLevel;
-        public int maxAvailableLevel;
+        public GameObject shopPointPrefab;
+        public VerticalLayoutGroup verticalLayoutGroup;
         [Space]
-        public IntLinearCurve projectileCostCurve;
-        public IntLinearCurve levelCostCurve;
-        [Space]
-        public StringPurchaseDictionary purchases;
-        public StringTextMeshProUGUIDictionary purchaseLabels;
+        [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
+        public List<ShopItemWithDisplay> shopItemWithDisplays;
 
         [Serializable]
-        public class Purchase
+        public class ShopItemWithDisplay
         {
-            public long cost;
-            public Action action;
-
-            public Purchase(long cost, Action action)
-            {
-                this.cost = cost;
-                this.action = action;
-            }
-
-            public void Sell()
-            {
-                action?.Invoke();
-            }
-        }
-
-        private void Awake()
-        {
-            GlobalEventManager.onLoad += ReloadData;
-        }
-
-        private void OnDestroy()
-        {
-            GlobalEventManager.onLoad -= ReloadData;
+            public BaseShopItem shopItem;
+            public ShopItemDisplay shopItemDisplay;
         }
         
-        public void Buy(string key)
+        private void Awake()
         {
-            if (purchases.TryGetValue(key, out var purchase) && 
-                GlobalEventManager.onMoneyWithdraw.Invoke(purchase.cost))
+            ReloadData();
+        }
+
+        public void ReloadData()
+        {
+            foreach (var shopItemWithDisplay in shopItemWithDisplays)
             {
-                purchase.Sell();
-                purchases.Remove(key);
-                
+                if (shopItemWithDisplay.shopItemDisplay == null)
+                {
+                    shopItemWithDisplay.shopItemDisplay = Instantiate(shopPointPrefab, verticalLayoutGroup.transform)
+                        .GetComponent<ShopItemDisplay>();
+                }
+
+                shopItemWithDisplay.shopItemDisplay.shopItem = shopItemWithDisplay.shopItem;
+                shopItemWithDisplay.shopItemDisplay.buyButton.onClick.RemoveAllListeners();
+                shopItemWithDisplay.shopItemDisplay.buyButton.onClick.AddListener(
+                    () => Buy(shopItemWithDisplay.shopItem.itemName));
+                shopItemWithDisplay.shopItemDisplay.ReloadData();
+            }
+        }
+
+        private void Buy(string key)
+        {
+            var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemName == key).shopItem;
+            if (shopItem != null && GlobalEventManager.onMoneyWithdraw.Invoke(shopItem.ItemCost))
+            {
+                shopItem.Purchase();
                 Debug.Log($"{key} was purchased");
             }
             else
@@ -60,42 +59,6 @@ namespace Managers
                 Debug.Log($"{key} was not purchased");
             }
             ReloadData();
-        }
-
-        public void ReloadData()
-        {
-            // Purchases reloading
-            projectileLevel = GlobalEventManager.onProjectileLevelUp.Invoke(0);
-            maxAvailableLevel = GlobalEventManager.onLevelUp.Invoke(0);
-            
-            purchases["projectileLevel"] = new Purchase(
-                projectileCostCurve.ForceEvaluate(projectileLevel),
-                () =>
-                {
-                    GlobalEventManager.onProjectileLevelUp.Invoke(1);
-                }
-            );
-            purchases["maxAvailableLevel"] = new Purchase(
-                levelCostCurve.ForceEvaluate(maxAvailableLevel),
-                () =>
-                {
-                    GlobalEventManager.onLevelUp.Invoke(1);
-                }
-            );
-            // сделать так, что если предмет уже куплен, то его цена просто становится 0, и по сути он просто покупает
-            // его заново, но бесплатно
-            purchases["superSkin"] = new Purchase(1000, () => Debug.Log("You buy super duper mega skin!"));
-            
-            // Labels reloading
-            foreach (var purchase in purchases)
-            {
-                if (purchaseLabels.TryGetValue(purchase.Key, out var label) && label != null)
-                {
-                    label.SetText(purchase.Value.cost.ToString());
-                }
-            }
-            
-            Debug.Log("Shop was reloaded");
         }
     }
 }

@@ -1,19 +1,18 @@
-using System;
 using System.Linq;
 using Entities.Levels;
 using TMPro;
 using Tools.Dictionaries;
-using Tools.Interfaces;
+using Tools.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Managers
 {
-    public class LevelManager : MonoBehaviour, ISavable
+    public class LevelManager : MonoBehaviour
     {
         public IntGameObjectDictionary levels = new();
-        public int currentLevel;
-        public int maxAvailableLevel;
+        public IntReference currentLevel;
+        public IntReference maxAvailableLevel;
         [Space] 
         public Button nextButton;
         public Button prevButton;
@@ -28,48 +27,34 @@ namespace Managers
 
         private void Awake()
         {
-            GlobalEventManager.onLoad += LoadData;
-            GlobalEventManager.onSave += SaveData;
-        }
-
-        private void OnDestroy()
-        {
-            GlobalEventManager.onLoad -= LoadData;
-            GlobalEventManager.onSave -= SaveData;
+            LoadLevel(currentLevel.Value);
         }
 
         private void OnEnable()
         {
-            GlobalEventManager.onLevelUp += LevelUp;
+            maxAvailableLevel.onValueChanged += OnMaxAvailableLevelChanged;
         }
         
         private void OnDisable()
         {
-            GlobalEventManager.onLevelUp -= LevelUp;
+            maxAvailableLevel.onValueChanged -= OnMaxAvailableLevelChanged;
         }
 
-        private void CheckGUI()
+        private void OnMaxAvailableLevelChanged()
         {
-            levelLabel.text = currentLevel.ToString();
-    
-            prevButton.gameObject.SetActive(currentLevel != levels.Keys.Min());
-            nextButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel != maxAvailableLevel);
-            buyButton.gameObject.SetActive(currentLevel != levels.Keys.Max() && currentLevel == maxAvailableLevel);
-        }
-
-        private int LevelUp(int levelCount)
-        {
-            maxAvailableLevel += levelCount;
-            for (var i = 0; i < levelCount; i++)
-            {
-                NextLevel();
-            }
-            
-            Debug.Log($"Level: {maxAvailableLevel - levelCount} -> {maxAvailableLevel}");
-            
-            return maxAvailableLevel;
+            LoadLevel(maxAvailableLevel.Value);
+            Debug.Log($"MaxAvailableLevel: -> {maxAvailableLevel.Value}");
         }
         
+        private void CheckGUI()
+        {
+            levelLabel.text = currentLevel.Value.ToString();
+    
+            prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
+            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
+            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);
+        }
+
         public void LoadLevel(int levelNumber)
         {
             Debug.Log($"Start loading level {levelNumber}...");
@@ -80,33 +65,33 @@ namespace Managers
                 return;
             }
 
-            if (levelNumber > maxAvailableLevel)
+            if (levelNumber > maxAvailableLevel.Value)
             {
-                currentLevel = maxAvailableLevel;
+                currentLevel.Value = maxAvailableLevel.Value;
                 Debug.Log("Not available level");
                 return;
             }
             
-            currentLevel = levelNumber;
+            currentLevel.Value = levelNumber;
             CheckGUI();
 
             // Find the left level closest to the current one
             if (!levels.ContainsKey(levelNumber))
             {
-                var closestKey = levels.Keys.Where(k => k < currentLevel).Max();
-                levels[currentLevel] = levels[closestKey];
+                var closestKey = levels.Keys.Where(k => k < currentLevel.Value).Max();
+                levels[currentLevel.Value] = levels[closestKey];
             }
 
             // Find all the Level components and configure them
-            var levelScripts = levels[currentLevel].GetComponents<Level>();
+            var levelScripts = levels[currentLevel.Value].GetComponents<Level>();
             if (levelScripts.Length == 0)
             {
-                Debug.Log($"Level {currentLevel} has not Level scripts...");
+                Debug.Log($"Level {currentLevel.Value} has not Level scripts...");
                 return;
             }
             foreach (var level in levelScripts)
             {
-                level.levelNumber = currentLevel;
+                level.levelNumber = currentLevel.Value;
             }
 
             // Destroy old and create new level
@@ -118,38 +103,17 @@ namespace Managers
 
             GlobalEventManager.onLevelLoad?.Invoke();
             
-            Debug.Log($"End loading level {currentLevel}...");
+            Debug.Log($"End loading level {currentLevel.Value}...");
         }
 
         public void NextLevel()
         {
-            LoadLevel(currentLevel + 1);
+            LoadLevel(currentLevel.Value + 1);
         }
 
         public void PreviousLevel()
         {
-            LoadLevel(currentLevel - 1);
-        }
-
-        public void SaveData()
-        {
-            Debug.Log("LevelManager saving");
-            PlayerPrefs.SetInt("currentLevel", currentLevel);
-            PlayerPrefs.SetInt("maxAvailableLevel", maxAvailableLevel);
-        }
-
-        public void LoadData()
-        {
-            currentLevel = PlayerPrefs.GetInt("currentLevel");
-            maxAvailableLevel = PlayerPrefs.GetInt("maxAvailableLevel");
-            ReloadData();
-            
-            Debug.Log($"LevelManager was loaded: {currentLevel}/{maxAvailableLevel}");
-        }
-
-        public void ReloadData()
-        {
-            LoadLevel(currentLevel);
+            LoadLevel(currentLevel.Value - 1);
         }
     }
 }

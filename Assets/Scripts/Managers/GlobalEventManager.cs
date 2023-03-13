@@ -1,6 +1,5 @@
 ﻿using System;
 using Entities;
-using UnityEngine.Events;
 
 namespace Managers
 {
@@ -23,9 +22,5 @@ namespace Managers
         
         // Level
         public static Action onLevelLoad;
-        
-        // Upgrades
-        public static Func<int, int> onProjectileLevelUp = _ => 0;
-        public static Func<int, int> onLevelUp = _ => 0;
     }
 }

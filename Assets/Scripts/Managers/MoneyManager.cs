@@ -1,41 +1,36 @@
+using System;
 using Entities;
 using TMPro;
 using Tools.Interfaces;
+using Tools.ScriptableObjects;
 using UnityEngine;
 
 namespace Managers
 {
-    public class MoneyManager : MonoBehaviour, ISavable
+    public class MoneyManager : MonoBehaviour
     {
-        public long money;
+        public LongReference money;
         public TextMeshProUGUI moneyLabel;
 
         private void Awake()
         {
-            GlobalEventManager.onLoad += LoadData;
-            GlobalEventManager.onSave += SaveData;
-            
-            DepositMoney(0);
+            ReloadMoney();
         }
 
-        private void OnDestroy()
-        {
-            GlobalEventManager.onLoad -= LoadData;
-            GlobalEventManager.onSave -= SaveData;
-        }
-        
         private void OnEnable()
         {
             GlobalEventManager.onTargetHitCart += TargetHitCart;
-
             GlobalEventManager.onMoneyWithdraw += WithdrawMoney;
+
+            money.onValueChanged += ReloadMoney;
         }
         
         private void OnDisable()
         {
             GlobalEventManager.onTargetHitCart -= TargetHitCart;
-            
             GlobalEventManager.onMoneyWithdraw -= WithdrawMoney;
+
+            money.onValueChanged -= ReloadMoney;
         }
 
         private void TargetHitCart(Target target)
@@ -43,11 +38,30 @@ namespace Managers
             DepositMoney(target.money);
         }
 
-        public void ReloadData()
+        private void ReloadMoney()
         {
-            moneyLabel.text = FormatInteger(money);
+            moneyLabel.text = FormatInteger(money.Value);
+        }
+        
+        private void DepositMoney(long depositedMoney)
+        {
+            if (depositedMoney < 0)
+            {
+                return;
+            }
+            money.Value += depositedMoney;
         }
 
+        private bool WithdrawMoney(long withdrawnMoney)
+        {
+            if (money.Value < withdrawnMoney)
+            {
+                return false;
+            }
+            money.Value -= withdrawnMoney;
+            return true;
+        }
+        
         public static string FormatInteger(long digit)
         {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
@@ -60,43 +74,6 @@ namespace Managers
             }
 
             return $"{digit:#0.##}{names[n]}";
-        }
-        
-        private void DepositMoney(long depositedMoney)
-        {
-            if (depositedMoney < 0)
-            {
-                return;
-            }
-            money += depositedMoney;
-            
-            ReloadData();
-        }
-
-        private bool WithdrawMoney(long withdrawnMoney)
-        {
-            if (money < withdrawnMoney)
-            {
-                return false;
-            }
-            money -= withdrawnMoney;
-            
-            ReloadData();
-            return true;
-        }
-        
-        public void SaveData()
-        {
-            Debug.Log("MoneyManager saving");
-            PlayerPrefs.SetString("money", money.ToString());
-        }
-        
-        public void LoadData()
-        {
-            long.TryParse(PlayerPrefs.GetString("money"), out money);
-            ReloadData();
-            
-            Debug.Log($"MoneyManager was loaded: {money}");
         }
     }
 }
