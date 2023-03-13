@@ -33,8 +33,8 @@ namespace Tools
 
             var startPosition = firstCorner.position;
             var endPosition = secondCorner.position;
-            var deltaX = (startPosition.x - endPosition.x) / segments;
-            var deltaY = (startPosition.y - endPosition.y) / segments;
+            var deltaX = (endPosition.x - startPosition.x) / segments;
+            var deltaY = (endPosition.y - startPosition.y) / segments;
             
             SpringJoint2D springJoint2D;
         
@@ -46,8 +46,10 @@ namespace Tools
                     {
                         parent = transform,
                         position = startPosition
-                    }
+                    },
+                    hideFlags = HideFlags.HideAndDontSave
                 };
+                
                 startPosition.x += deltaX;
                 startPosition.y += deltaY;
 

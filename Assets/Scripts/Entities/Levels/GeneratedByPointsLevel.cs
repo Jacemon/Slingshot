@@ -9,7 +9,7 @@ namespace Entities.Levels
     {
         [Header("Target generator settings")]
         public List<TargetPointPair> points;
-        [Header("These targets are used instead of null targets in the Points list")]
+        [Tooltip("These targets are used instead of null targets in the Points list")]
         public GameObject[] auxiliaryTargets;
             
         private List<Target> _generatedTargets = new();

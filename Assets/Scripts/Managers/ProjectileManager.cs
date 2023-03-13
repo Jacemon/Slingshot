@@ -4,12 +4,15 @@ using Entities;
 using TMPro;
 using Tools;
 using Tools.Interfaces;
+using Tools.ScriptableObjects;
 using UnityEngine;
 
 namespace Managers
 {
     public class ProjectileManager : MonoBehaviour, ISavable
     {
+        public IntReference prLevel;
+        
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
         public Vector2 spawnPoint;

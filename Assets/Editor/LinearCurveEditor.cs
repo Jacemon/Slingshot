@@ -1,11 +1,11 @@
-﻿using Tools;
+﻿using Managers.Shop.ShopItems;
 using UnityEditor;
 using UnityEngine;
 
 namespace Editor
 {
-    [CustomEditor(typeof(IntLinearCurve))]
-    public class IntLinearCurveEditor : UnityEditor.Editor // TODO: To delete
+    [CustomEditor(typeof(CurveShopItem))]
+    public class LinearCurveEditor : UnityEditor.Editor // TODO: CurveShopItemEditor избавиться от IntLinearCurve(Editor) и написать CustomPropertyDrawer 
     {
         public override void OnInspectorGUI()
         {
@@ -13,7 +13,7 @@ namespace Editor
     
             GUILayout.Space(10);
         
-            var linearCurve = (IntLinearCurve)target;
+            var linearCurve = ((CurveShopItem)target).itemCostCurve;
 
             for (var i = 0; i < linearCurve.curve.length; i++)
             {

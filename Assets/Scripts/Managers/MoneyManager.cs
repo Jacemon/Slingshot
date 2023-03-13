@@ -45,16 +45,21 @@ namespace Managers
 
         public void ReloadData()
         {
-            float digit = money;
+            moneyLabel.text = FormatInteger(money);
+        }
+
+        public static string FormatInteger(long digit)
+        {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
             var n = 0;
-
+            
             while (n < names.Length - 1 && digit >= 1000)
             {
                 digit /= 1000;
                 n++;
             }
-            moneyLabel.text = $"{digit:#0.##}{names[n]}";
+
+            return $"{digit:#0.##}{names[n]}";
         }
         
         private void DepositMoney(long depositedMoney)

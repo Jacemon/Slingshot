@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tools
 {
-    public class IntLinearCurve : MonoBehaviour // TODO: To delete
+    [Serializable]
+    public class LinearCurve
     {
-        public string curveName;
         public AnimationCurve curve;
         public int cornerCount;
         [Header("y = Kx + B")]
