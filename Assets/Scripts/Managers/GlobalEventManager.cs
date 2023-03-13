@@ -5,10 +5,6 @@ namespace Managers
 {
     public static class GlobalEventManager
     {
-        // Saving
-        public static Action onSave;
-        public static Action onLoad;
-        
         // Target
         public static Action<Target> onTargetGetDamage;
         public static Action<Target> onTargetHitCart;

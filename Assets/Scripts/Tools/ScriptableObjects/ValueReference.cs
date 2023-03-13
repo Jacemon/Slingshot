@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tools.ScriptableObjects
 {
-    public class ValueReference<T> : ScriptableObject
+    public abstract class ValueReference<T> : ScriptableObject
     {
         [SerializeField]
         private T value;
@@ -15,8 +15,8 @@ namespace Tools.ScriptableObjects
             get => value;
             set
             {
-                onValueChanged?.Invoke();
                 this.value = value;
+                onValueChanged?.Invoke();
             }
         }
     }

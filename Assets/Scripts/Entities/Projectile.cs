@@ -107,6 +107,7 @@ namespace Entities
         
             yield return new WaitForSecondsRealtime(stuckTime);
 
+            _collider2D.enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Back");
             
             transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine().setDestroyOnComplete(true);
