@@ -1,7 +1,5 @@
-using System;
 using Entities;
 using TMPro;
-using Tools.Interfaces;
 using Tools.ScriptableObjects;
 using UnityEngine;
 

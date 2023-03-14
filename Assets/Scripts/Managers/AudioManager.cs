@@ -9,13 +9,10 @@ namespace Managers
         public AudioMixerGroup mixer;
         [Space]
         [Range(0, 1)]
-        public float masterVolume;
-        [Range(0, 1)]
         public float musicVolume;
         [Range(0, 1)]
         public float effectsVolume;
         
-        public BoolReference masterVolumeSwitch;
         public BoolReference musicVolumeSwitch;
         public BoolReference effectsVolumeSwitch;
         
@@ -28,7 +25,6 @@ namespace Managers
         
         private void Update()
         {
-            mixer.audioMixer.SetFloat("MasterVolume", PercentToVolume(masterVolumeSwitch.Value ? masterVolume : 0));
             mixer.audioMixer.SetFloat("MusicVolume", PercentToVolume(musicVolumeSwitch.Value ? musicVolume : 0));
             mixer.audioMixer.SetFloat("EffectsVolume", PercentToVolume(effectsVolumeSwitch.Value ? effectsVolume : 0));
         }

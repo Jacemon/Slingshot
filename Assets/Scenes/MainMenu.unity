@@ -183,7 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824cd7647a89668498461e0da00256d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphicTarget: {fileID: 229572307}
+  isOn: {fileID: 11400000, guid: 4adc7864a5a69f540a854dce355f68e5, type: 2}
+  graphic: {fileID: 229572307}
   onSprite: {fileID: 21300000, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
   offSprite: {fileID: 21300000, guid: 2499e23b2836e704cb908aecc4ff2385, type: 3}
 --- !u!114 &229572306
@@ -233,18 +234,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 229572305}
-        m_TargetAssemblyTypeName: Tools.CustomToggle, Assembly-CSharp
-        m_MethodName: OnToggleChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 339687642}
         m_TargetAssemblyTypeName: Managers.NotDestroyableManager, Assembly-CSharp
         m_MethodName: ToggleEffects
@@ -1467,18 +1456,6 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2117616710}
-        m_TargetAssemblyTypeName: Tools.CustomToggle, Assembly-CSharp
-        m_MethodName: OnToggleChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 339687642}
         m_TargetAssemblyTypeName: Managers.NotDestroyableManager, Assembly-CSharp
         m_MethodName: ToggleMusic
@@ -1504,7 +1481,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824cd7647a89668498461e0da00256d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphicTarget: {fileID: 2117616712}
+  isOn: {fileID: 11400000, guid: a126f20a56709d142a6e4718d6d35c68, type: 2}
+  graphic: {fileID: 2117616712}
   onSprite: {fileID: 21300000, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
   offSprite: {fileID: 21300000, guid: 4a02993c394bf4847ae4d4c9162666f2, type: 3}
 --- !u!222 &2117616711
@@ -1849,15 +1827,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6749747440104306986, guid: b19c776f5fb012642b82be7b541be7e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 711.7877
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749747440104306986, guid: b19c776f5fb012642b82be7b541be7e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1854.6027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749747440104306986, guid: b19c776f5fb012642b82be7b541be7e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.8190193
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6749747440104306986, guid: b19c776f5fb012642b82be7b541be7e4, type: 3}
       propertyPath: m_LocalRotation.w

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Tools.ScriptableObjects;
 using UnityEngine;
 
@@ -86,7 +85,7 @@ namespace Managers
             }
             foreach (var boolReference in boolReferences)
             {
-                boolReference.Value = PlayerPrefs.GetFloat(boolReference.name) != 0;
+                boolReference.Value = PlayerPrefs.GetInt(boolReference.name) != 0;
                 Debug.Log($"{boolReference.name} loading: {boolReference.Value}");
             }
             foreach (var stringReference in stringReferences)
