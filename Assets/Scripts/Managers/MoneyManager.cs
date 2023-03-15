@@ -1,32 +1,78 @@
+using Entities;
 using TMPro;
+using Tools.ScriptableObjects;
+using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 
 namespace Managers
 {
     public class MoneyManager : MonoBehaviour
     {
-        public int money;
+        public LongReference money;
         public TextMeshProUGUI moneyLabel;
 
-        private void Start()
+        private void Awake()
         {
-            DepositMoney(0);
+            ReloadMoney();
         }
 
-        private void DepositMoney(int depositedMoney)
+        private void OnEnable()
         {
-            money += depositedMoney;
-            moneyLabel.text = money.ToString();
+            GlobalEventManager.onTargetHitCart += TargetHitCart;
+            GlobalEventManager.onMoneyWithdraw += WithdrawMoney;
+
+            money.onValueChanged += ReloadMoney;
+        }
+        
+        private void OnDisable()
+        {
+            GlobalEventManager.onTargetHitCart -= TargetHitCart;
+            GlobalEventManager.onMoneyWithdraw -= WithdrawMoney;
+
+            money.onValueChanged -= ReloadMoney;
         }
 
-        private void WithdrawMoney(int withdrawnMoney)
+        private void TargetHitCart(Target target)
         {
-            if (money < withdrawnMoney)
+            DepositMoney(target.money);
+        }
+
+        private void ReloadMoney()
+        {
+            moneyLabel.text = FormatInteger(money.Value);
+        }
+        
+        private void DepositMoney(long depositedMoney)
+        {
+            if (depositedMoney < 0)
             {
                 return;
             }
-            money -= withdrawnMoney;
-            moneyLabel.text = money.ToString();
+            money.Value += depositedMoney;
+        }
+
+        private bool WithdrawMoney(long withdrawnMoney)
+        {
+            if (money.Value < withdrawnMoney)
+            {
+                return false;
+            }
+            money.Value -= withdrawnMoney;
+            return true;
+        }
+        
+        public static string FormatInteger(long digit)
+        {
+            string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
+            var n = 0;
+            
+            while (n < names.Length - 1 && digit >= 1000)
+            {
+                digit /= 1000;
+                n++;
+            }
+
+            return $"{digit:#0.##}{names[n]}";
         }
     }
 }

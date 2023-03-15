@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using Entities;
-using Tools;
+using Tools.Follower;
+using Tools.ScriptableObjects;
+using Tools.ScriptableObjects.Reference;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Projectile = Entities.Projectile;
 
 namespace Managers
 {
@@ -11,75 +12,86 @@ namespace Managers
     {
         [Header("Settings")]
         public List<GameObject> projectilePrefabs = new();
-        public GameObject projectileSpawnPoint;
+        public Vector2 spawnPoint;
+        [Space] 
+        public IntReference projectileLevel;
         [Space]
-        public Timer timer;
+        public Animator bundleAnimator;
         
-        private Vector2 _spawnPoint;
-        private readonly Dictionary<string, GameObject> _registeredProjectilePrefabs = new();
+        private Projectile _spawnedProjectile;
+        private readonly List<Projectile> _thrownProjectiles = new();
 
-        public void Awake()
+        private static readonly int IsFilled = Animator.StringToHash("IsFilled");
+
+        private void Awake()
         {
-            GlobalEventManager.OnProjectileThrown.AddListener(ProjectileThrown);
-            GlobalEventManager.OnProjectileSpawned.AddListener(ProjectileSpawned);
-            GlobalEventManager.OnLevelSwitched.AddListener(DeleteThrownProjectiles);
-        
-            // Проверка префаба на то, что он снаряд
-            foreach (var projectilePrefab in projectilePrefabs)
-            {
-                var projectile = projectilePrefab.GetComponent<Projectile>();
-                if (projectile != null)
-                {
-                    // Добавление снаряда в список
-                    _registeredProjectilePrefabs[projectile.projectileName] = projectilePrefab;
-                    Debug.Log("Projectile prefab " + projectile.projectileName + " was registered");
-                }
-                else
-                {
-                    Debug.LogError("GameObject " + projectilePrefab.name + " is not Projectile");
-                }
-            }
-        
-            _spawnPoint = projectileSpawnPoint.transform.position;
-            
             SpawnRock();
+        }
+
+        private void OnEnable()
+        {
+            projectileLevel.onValueChanged += OnProjectileLevelChanged;
+            
+            GlobalEventManager.onProjectileThrow += ProjectileThrown;
+            GlobalEventManager.onLevelLoad += DeleteThrownProjectiles;
+        }
+        
+        private void OnDisable()
+        {
+            projectileLevel.onValueChanged -= OnProjectileLevelChanged;
+            
+            GlobalEventManager.onProjectileThrow -= ProjectileThrown;
+            GlobalEventManager.onLevelLoad -= DeleteThrownProjectiles;
+        }
+
+        private void Update()
+        {
+            bundleAnimator.SetBool(IsFilled, !_spawnedProjectile.inPick);
+        }
+
+        private void OnProjectileLevelChanged()
+        {
+            RespawnProjectile();
+            
+            Debug.Log($"Projectile level: -> {projectileLevel.Value}");
         }
 
         private void ProjectileThrown(Projectile projectile)
         {
-            const float extraDelay = 1.0f;
-            // Установка большей задержи для таймера
-            timer.SetBiggerDelay(projectile.flightTime + extraDelay);
-            timer.timerOn = true;
-            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-            
             SpawnProjectile(projectile.projectileName);
 
+            _thrownProjectiles.Add(projectile);
+            
             Debug.Log($"{projectile.name} was thrown");
         }
 
-        private void ProjectileSpawned(Projectile projectile)
+        private void RespawnProjectile()
         {
-            projectile.GetComponent<Follower>().followPoint = _spawnPoint;
-            Debug.Log($"{projectile.name} was spawned");
+            var projectileName = _spawnedProjectile.projectileName;
+            Destroy(_spawnedProjectile.gameObject);
+            SpawnProjectile(projectileName);
         }
-
+        
         private void SpawnProjectile(string projectileName)
         {
-            Instantiate(_registeredProjectilePrefabs[projectileName], _spawnPoint, Quaternion.identity);
+            var projectile = projectilePrefabs.Find(o => 
+                o.TryGetComponent(out Projectile projectile) 
+                && projectile.name == projectileName
+            ).GetComponent<Projectile>();
+            
+            projectile.level = projectileLevel.Value;
+            projectile.GetComponent<Follower>().followPoint = spawnPoint;
+            _spawnedProjectile = Instantiate(projectile, spawnPoint, Quaternion.identity);
         }
 
         private void DeleteThrownProjectiles()
         {
-            var projectileObjects = GameObject.FindGameObjectsWithTag("Projectile");
-            foreach (var projectileObject in projectileObjects)
+            foreach (var projectile in _thrownProjectiles.Where(projectile => projectile != null))
             {
-                var projectile = projectileObject.GetComponent<Projectile>();
-                if (projectile != null && projectile.state is Projectile.State.InFlight or Projectile.State.InHit)
-                {
-                    Destroy(projectileObject);
-                }
+                Destroy(projectile.gameObject);
             }
+
+            _thrownProjectiles.Clear();
         }
         
         public void SpawnRock() => SpawnProjectile("Rock");

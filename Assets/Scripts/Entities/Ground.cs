@@ -28,7 +28,7 @@ namespace Entities
             var target = dropped.GetComponent<Target>();
             if (target != null)
             {
-                GlobalEventManager.OnTargetHitGround?.Invoke(target);
+                GlobalEventManager.onTargetHitGround?.Invoke(target);
             }
         }
     }

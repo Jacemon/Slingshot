@@ -1,43 +1,74 @@
+using System.Collections.Generic;
 using Managers;
+using Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Entities
 {
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
     {
         [Header("Settings")] 
-        public string targetName = "None";
+        public string targetName;
+        public int level;
         [Space]
+        public int money;
+        public int maxHealth;
         public int health;
-        public int maxHealth = 3;
-        public int points = 1;
-    
+        [Header("Special settings")]
+        public IntLinearCurve moneyCurve;
+        public IntLinearCurve maxHealthCurve; // TODO: to LinearCurve
+        [Space] 
+        public List<AudioClip> targetHitClips;
+        public ParticleSystem.MinMaxCurve minMaxPitch;
+        
         private Slider _slider;
         private Canvas _healthBar;
+        private AudioSource _audioSource;
+        private Animator _animator;
+        private static readonly int Hit = Animator.StringToHash("Hit");
 
-        private const float TimeBeforeDestroy = 4f;
+        private const float AppearTime = 1.5f;
+        private const float TimeBeforeDestroy = 2f;
         private const float ShotColliderScale = 0.6f;
-
+        
         private void Awake()
         {
-            GlobalEventManager.OnTargetSpawned?.Invoke(this);
-        
-            health = maxHealth;
-
+            maxHealth = health = maxHealthCurve.ForceEvaluate(level);
+            money = moneyCurve.ForceEvaluate(level);
+            
             _healthBar = GetComponentInChildren<Canvas>();
-            _slider = _healthBar.GetComponentInChildren<Slider>();
-
             _healthBar.enabled = false;
+
+            _slider = _healthBar.GetComponentInChildren<Slider>();
             _slider.maxValue = maxHealth;
             _slider.value = health;
+
+            _audioSource = GetComponent<AudioSource>();
+            
+            _animator = GetComponent<Animator>();
+            
+            transform.localScale = Vector3.zero;
+            transform.LeanScale(Vector3.one, AppearTime).setEaseOutExpo();
+            
+            Debug.Log($"{targetName}:{level} was spawned");
         }
-    
+
         public void GetDamage(int damage)
         {
             health -= damage;
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
-        
+
+            _audioSource.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+            _audioSource.clip = targetHitClips[Random.Range(0, targetHitClips.Count)];
+            _audioSource.Play();
+            
+            _animator.SetTrigger(Hit);
+
             if (health <= 0)
             {
                 GetComponent<Rigidbody2D>().isKinematic = false;
@@ -55,21 +86,31 @@ namespace Entities
                         break;
                 }
             
-                Invoke(nameof(LateDestroy), TimeBeforeDestroy);
+                LateDestroy();
             } 
             else if (health < maxHealth)
             {
                 _healthBar.enabled = true;
                 _slider.value = health;
             }
-            GetComponent<ParticleSystem>().Play();
+            if (TryGetComponent(out ParticleSystem particles))
+            {
+                particles.Play();
+            }
             
-            GlobalEventManager.OnTargetGetDamage?.Invoke(this);
+            GlobalEventManager.onTargetGetDamage?.Invoke(this);
         }
 
-        private void LateDestroy()
+        public void LateDestroy(float time = TimeBeforeDestroy)
         {
-            Destroy(gameObject);
+            transform.LeanScale(Vector2.zero, time)
+                .setEaseInBack()
+                .setOnComplete(
+                    () =>
+                    {
+                        Destroy(gameObject);
+                    }
+                );
         }
     }
 }

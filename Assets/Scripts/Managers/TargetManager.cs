@@ -1,45 +1,71 @@
-﻿using Entities;
-using TMPro;
+﻿using System.Collections.Generic;
+using Entities;
 using UnityEngine;
 
 namespace Managers
 {
     public class TargetManager : MonoBehaviour
     {
-        public int score;
-        public TextMeshProUGUI scoreLabel;
-
+        [Header("Spawn settings")]
+        public int maxTriesToSpawn;
+        
+        private static int _maxTries = 200;
+        
         private void Awake()
         {
-            GlobalEventManager.OnTargetHitCart.AddListener(TargetHitCart);
-            GlobalEventManager.OnTargetSpawned.AddListener(TargetSpawned);
-        
-            AddScore(0);
+            _maxTries = maxTriesToSpawn;
         }
-    
-        private void AddScore(int additionalScore)
-        {
-            score += additionalScore;
 
-            var scoreString = score switch
+        public static Target SpawnTarget(GameObject[] targets, int targetLevel,
+            Vector2 spawnPoint, Transform parent = null)
+        {
+            if (targets[Random.Range(0, targets.Length)].TryGetComponent(out Target target))
             {
-                > 1000000 => $"{score / 1000000.0f:F1}M",
-                > 1000 => $"{score / 1000.0f:F1}K",
-                _ => score.ToString()
-            };
-
-            scoreLabel.text = scoreString;
+                target.level = targetLevel;
+            }
+            
+            return Instantiate(target, spawnPoint, Quaternion.identity, parent); 
         }
-    
-        private void TargetHitCart(Target target)
+        
+        public static List<Target> GenerateTargetsByCircle(GameObject[] targets, int amount, int targetLevel,
+            Vector2 spawnPoint, float radius, float spaceBetween, Transform parent = null)
         {
-            AddScore(target.points);
-            Destroy(target.gameObject);
+            return GenerateTargetsByEllipse(targets, amount, targetLevel, spawnPoint, 
+                radius, radius, spaceBetween, parent);
         }
-
-        private void TargetSpawned(Target target)
+        
+        public static List<Target> GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
+            Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null)
         {
-            Debug.Log($"{target.name} was spawned");
+            // Coords calculating
+            List<Vector2> existingCoordinates = new();
+            var remainingAmount = amount;
+            var remainingTries = _maxTries;
+            
+            while (remainingAmount > 0 && remainingTries > 0) {
+                var t = Random.Range(0f, Mathf.PI * 2f);
+                var x = Random.Range(0f, semiMinor);
+                var y = Random.Range(0f, semiMajor);
+                var newCoordinate = new Vector2(x * Mathf.Cos(t), y * Mathf.Sin(t)) + spawnPoint;
+
+                remainingTries--;
+                if (!existingCoordinates.TrueForAll(c => Vector2.Distance(c, newCoordinate) > spaceBetween))
+                {
+                    continue;
+                }
+
+                remainingTries = _maxTries;
+                remainingAmount--;
+                existingCoordinates.Add(newCoordinate);
+            }
+
+            List<Target> generatedTargets = new ();
+            // Targets instantiating
+            existingCoordinates.ForEach(coordinate =>
+            {
+                generatedTargets.Add(SpawnTarget(targets, targetLevel, coordinate, parent));
+            });
+            return generatedTargets;
         }
     }
 }

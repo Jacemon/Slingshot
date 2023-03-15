@@ -1,18 +1,22 @@
-﻿using Entities;
-using UnityEngine.Events;
+﻿using System;
+using Entities;
 
 namespace Managers
 {
     public static class GlobalEventManager
     {
-        public static readonly UnityEvent<Target> OnTargetSpawned = new(); // useless yet
-        public static readonly UnityEvent<Target> OnTargetGetDamage = new();
-        public static readonly UnityEvent<Target> OnTargetHitCart = new();
-        public static readonly UnityEvent<Target> OnTargetHitGround = new();
+        // Target
+        public static Action<Target> onTargetGetDamage;
+        public static Action<Target> onTargetHitCart;
+        public static Action<Target> onTargetHitGround;
     
-        public static readonly UnityEvent<Projectile> OnProjectileSpawned = new(); // useless yet
-        public static readonly UnityEvent<Projectile> OnProjectileThrown = new();
+        // Projectile
+        public static Action<Projectile> onProjectileThrow;
 
-        public static readonly UnityEvent OnLevelSwitched = new();
+        // Money
+        public static Predicate<long> onMoneyWithdraw = _ => false;
+        
+        // Level
+        public static Action onLevelLoad;
     }
 }

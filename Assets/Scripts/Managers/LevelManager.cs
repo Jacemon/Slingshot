@@ -1,4 +1,9 @@
-using System.Collections.Generic;
+using System.Linq;
+using Entities.Levels;
+using TMPro;
+using Tools.Dictionaries;
+using Tools.ScriptableObjects;
+using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,57 +11,110 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public List<GameObject> levels = new();
-        public int currentLevel;
+        public IntGameObjectDictionary levels = new();
+        public IntReference currentLevel;
+        public IntReference maxAvailableLevel;
         [Space] 
         public Button nextButton;
         public Button prevButton;
-
+        public Button buyButton;
+        [Space]
         public Vector2 startPosition = Vector2.zero;
-    
+        [Space] 
+        public TextMeshProUGUI levelLabel;
+        [Space]
         [SerializeField]
-        private GameObject loadedLevel;
+        private Level loadedLevel;
 
-        public void Awake()
+        private void Awake()
         {
-            LoadLevel(0);
-
-            CheckButtonsEnabled();
+            LoadLevel(currentLevel.Value);
         }
 
-        private void CheckButtonsEnabled()
+        private void OnEnable()
         {
-            prevButton.gameObject.SetActive(currentLevel != 0);
-            nextButton.gameObject.SetActive(currentLevel != levels.Count - 1);
+            maxAvailableLevel.onValueChanged += OnMaxAvailableLevelChanged;
         }
         
+        private void OnDisable()
+        {
+            maxAvailableLevel.onValueChanged -= OnMaxAvailableLevelChanged;
+        }
+
+        private void OnMaxAvailableLevelChanged()
+        {
+            LoadLevel(maxAvailableLevel.Value);
+            Debug.Log($"MaxAvailableLevel: -> {maxAvailableLevel.Value}");
+        }
+        
+        private void CheckGUI()
+        {
+            levelLabel.text = currentLevel.Value.ToString();
+    
+            prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
+            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
+            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);
+        }
+
         public void LoadLevel(int levelNumber)
         {
-            if (levelNumber < 0 || levelNumber > levels.Count - 1)
+            Debug.Log($"Start loading level {levelNumber}...");
+            
+            if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
             {
                 Debug.Log("Edge");
                 return;
             }
-        
-            Destroy(loadedLevel);
-            loadedLevel = Instantiate(levels[levelNumber], startPosition, Quaternion.identity);
-        
-            currentLevel = levelNumber;
+
+            if (levelNumber > maxAvailableLevel.Value)
+            {
+                currentLevel.Value = maxAvailableLevel.Value;
+                Debug.Log("Not available level");
+                return;
+            }
             
-            CheckButtonsEnabled();
-        
-            GlobalEventManager.OnLevelSwitched?.Invoke();
-            Debug.Log($"Level has been switched. Current level: {currentLevel}");
+            currentLevel.Value = levelNumber;
+            CheckGUI();
+
+            // Find the left level closest to the current one
+            if (!levels.ContainsKey(levelNumber))
+            {
+                var closestKey = levels.Keys.Where(k => k < currentLevel.Value).Max();
+                levels[currentLevel.Value] = levels[closestKey];
+            }
+
+            // Find all the Level components and configure them
+            var levelScripts = levels[currentLevel.Value].GetComponents<Level>();
+            if (levelScripts.Length == 0)
+            {
+                Debug.Log($"Level {currentLevel.Value} has not Level scripts...");
+                return;
+            }
+            foreach (var level in levelScripts)
+            {
+                level.levelNumber = currentLevel.Value;
+            }
+
+            // Destroy old and create new level
+            if (loadedLevel != null)
+            {
+                Destroy(loadedLevel.gameObject);
+            }
+            loadedLevel = Instantiate(levelScripts[0], startPosition, Quaternion.identity);
+
+            GlobalEventManager.onLevelLoad?.Invoke();
+            
+            Debug.Log($"End loading level {currentLevel.Value}...");
         }
-    
+
         public void NextLevel()
         {
-            LoadLevel(currentLevel + 1);
+            LoadLevel(currentLevel.Value + 1);
         }
 
         public void PreviousLevel()
         {
-            LoadLevel(currentLevel - 1);
+            LoadLevel(currentLevel.Value - 1);
         }
     }
 }
