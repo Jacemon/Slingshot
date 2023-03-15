@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tools.ScriptableObjects;
+using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 
 namespace Managers

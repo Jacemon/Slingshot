@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Entities
 {
@@ -14,8 +13,8 @@ namespace Entities
     public class Pouch : MonoBehaviour
     {
         [Header("Settings")]
-        public float throwSpeed = 7.0f; 
-        public GameObject throwPointAnchor;
+        public float throwSpeed = 7.0f;
+        public Vector2 throwPointAnchor;
         public float throwPointOffset = 0.7f;
         [Header("Special settings")] 
         public AudioClip pouchPullingClip;
@@ -36,7 +35,6 @@ namespace Entities
         private StaticTrajectory _staticTrajectory;
         
         private Vector2 _direction;
-        private Vector2 _throwPointAnchor;
 
         private void Awake()
         {
@@ -51,8 +49,6 @@ namespace Entities
 
         private void Update()
         {
-            _throwPointAnchor = throwPointAnchor.transform.position;
-        
             if (!pouchFill)
             {
                 return;
@@ -64,23 +60,23 @@ namespace Entities
             
                 // Расчёт угла поворота
                 Vector2 currentPosition = transform.position;
-                _direction = _throwPointAnchor - new Vector2(currentPosition.x, currentPosition.y);
+                _direction = throwPointAnchor - new Vector2(currentPosition.x, currentPosition.y);
                 _direction.Normalize();
                 float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90.0f;
                 // И поворот ложи на этот угол
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                 // Расчёт скорости с которой он может полететь
-                velocity = Vector2.Distance(currentPosition, _throwPointAnchor) * throwSpeed;
+                velocity = Vector2.Distance(currentPosition, throwPointAnchor) * throwSpeed;
 
-                _audioSource.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, _throwPointAnchor) * 
+                _audioSource.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, throwPointAnchor) * 
                     pouchPullingPitchMultiplier;
             
                 // Установка значений для расчёта траектории
                 _staticTrajectory.velocity = velocity;
                 _staticTrajectory.flightTime = projectile.flightTime;
                 _staticTrajectory.startPosition = currentPosition;
-                _staticTrajectory.anchorPosition = _throwPointAnchor;
+                _staticTrajectory.anchorPosition = throwPointAnchor;
             }
             else
             {
@@ -135,7 +131,7 @@ namespace Entities
             _audioSource.clip = null;
             _audioSource.loop = false;
             
-            if (transform.position.y < _throwPointAnchor.y - throwPointOffset)
+            if (transform.position.y < throwPointAnchor.y - throwPointOffset)
             {
                 _rb.velocity = _direction * velocity;
                 
@@ -159,9 +155,9 @@ namespace Entities
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(_throwPointAnchor, 0.1f);
+            Gizmos.DrawWireSphere(throwPointAnchor, 0.1f);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(new Vector2(_throwPointAnchor.x, _throwPointAnchor.y - throwPointOffset), 0.1f);
+            Gizmos.DrawWireSphere(new Vector2(throwPointAnchor.x, throwPointAnchor.y - throwPointOffset), 0.1f);
         }
     }
 }

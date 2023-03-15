@@ -3,6 +3,7 @@ using Entities.Levels;
 using TMPro;
 using Tools.Dictionaries;
 using Tools.ScriptableObjects;
+using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 using UnityEngine.UI;
 

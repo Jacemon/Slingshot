@@ -1,4 +1,6 @@
-﻿namespace Tools.ScriptableObjects.Shop.ShopItems
+﻿using Tools.ScriptableObjects.Reference;
+
+namespace Tools.ScriptableObjects.Shop.ShopItems
 {
     public abstract class LeveledShopItem : BaseShopItem
     {

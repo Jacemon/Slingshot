@@ -8,19 +8,19 @@ namespace Tools
     {
         public GameObject firstCorner;
         public GameObject secondCorner;
-    
+        
         private SpriteShapeController _spriteShapeController;
 
         private void Awake()
         {
             _spriteShapeController = GetComponent<SpriteShapeController>();
-            transform.position = Vector2.zero;
+            transform.localPosition = Vector2.zero;
         }
 
         public void Update()
         {
-            _spriteShapeController.spline.SetPosition(0, firstCorner.transform.position);
-            _spriteShapeController.spline.SetPosition(1, secondCorner.transform.position);
+            _spriteShapeController.spline.SetPosition(0, transform.InverseTransformPoint(firstCorner.transform.position));
+            _spriteShapeController.spline.SetPosition(1, transform.InverseTransformPoint(secondCorner.transform.position));
         }
     }
 }

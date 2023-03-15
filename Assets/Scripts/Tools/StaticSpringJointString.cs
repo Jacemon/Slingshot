@@ -82,7 +82,7 @@ namespace Tools
             return springJoint2D;
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(firstCorner.position, secondCorner.position);

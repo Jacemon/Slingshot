@@ -10,19 +10,18 @@ namespace Tools.ScriptableObjects.Shop
     public class ShopItemDisplay : MonoBehaviour, IReloadable
     {
         public BaseShopItem shopItem;
-
-        [Space] public Image iconImage;
-
+        [Space] 
+        public Image iconImage;
         public TextMeshProUGUI nameLabel;
         public TextMeshProUGUI costLabel;
         public TextMeshProUGUI levelLabel;
-
-        [Space] public Button buyButton;
+        [Space] 
+        public Button buyButton;
 
         public void ReloadData()
         {
-            if (iconImage != null && shopItem.itemIcon != null) iconImage.sprite = shopItem.itemIcon;
-            if (nameLabel != null && shopItem.itemName != null) nameLabel.text = shopItem.itemName;
+            if (iconImage != null) iconImage.sprite = shopItem.itemIcon;
+            if (nameLabel != null) nameLabel.text = shopItem.itemName;
             if (costLabel != null)
                 costLabel.text = shopItem.ItemCost != 0 ? MoneyManager.FormatInteger(shopItem.ItemCost) : "Free";
             if (levelLabel != null)
