@@ -1,5 +1,3 @@
-using System;
-using Tools.ScriptableObjects;
 using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +18,8 @@ namespace Tools
         public void Awake()
         {
             _toggle = GetComponent<Toggle>();
+            
+            ReloadData();
         }
 
         private void OnEnable()
@@ -34,7 +34,7 @@ namespace Tools
             _toggle.onValueChanged.RemoveListener(OnToggleChanged);
         }
 
-        public void OnToggleChanged(bool value)
+        private void OnToggleChanged(bool value)
         {
             isOn.Value = value;
         }

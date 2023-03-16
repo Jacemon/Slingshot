@@ -1,11 +1,11 @@
 using Managers;
 using Tools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities
 {
     [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Timer))]
     public class Cart : MonoBehaviour
     {
@@ -14,6 +14,9 @@ namespace Entities
         [Space] 
         public Vector2[] positions;
         public float velocity;
+        [Header("Special settings")] 
+        public AudioSource cartMoving;
+        public AudioSource cartHit;
         [Header("Current parameters")]
         [SerializeField] 
         private int positionIndex;
@@ -21,14 +24,12 @@ namespace Entities
         private const float TargetFadeTime = 0.3f;
         private const float ErrorRate = 0.1f;
         private const int ParticlesRate = 20;
-
-        private AudioSource _audioSource;
+        
         private Timer _timer;
     
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
-            _audioSource.enabled = true;
+            cartMoving.enabled = true;
             _timer = GetComponent<Timer>();
         }
 
@@ -46,11 +47,11 @@ namespace Entities
         {
             if (!_timer.timerDone)
             {
-                _audioSource.enabled = false;
+                cartMoving.enabled = false;
                 return;
             }
         
-            _audioSource.enabled = true;
+            cartMoving.enabled = true;
         
             transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
             if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
@@ -89,6 +90,7 @@ namespace Entities
             if (TryGetComponent(out ParticleSystem particles))
             {
                 particles.Emit(ParticlesRate);
+                cartHit.Play();
             }
             
             GlobalEventManager.onTargetHitCart?.Invoke(target);

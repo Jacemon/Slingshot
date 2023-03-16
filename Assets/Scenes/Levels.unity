@@ -1250,7 +1250,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1060439530
 GameObject:
@@ -1500,7 +1500,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4632864420180867638, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
       propertyPath: m_Name
-      value: WoodenCart
+      value: Cart
       objectReference: {fileID: 0}
     - target: {fileID: 4632864420180867639, guid: 7531e803aa0a55841ae272ccf7d86c5a, type: 3}
       propertyPath: m_RootOrder
@@ -1741,7 +1741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 320, y: 0}
+  m_AnchoredPosition: {x: 410, y: 0}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475296996
@@ -2635,6 +2635,7 @@ GameObject:
   - component: {fileID: 1638824631}
   - component: {fileID: 1638824633}
   - component: {fileID: 1638824632}
+  - component: {fileID: 1638824634}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -2661,7 +2662,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -30, y: -170}
-  m_SizeDelta: {x: 200, y: 70}
+  m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638824632
 MonoBehaviour:
@@ -2683,7 +2684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level '
+  m_text: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
   m_sharedMaterial: {fileID: -8572970822850144391, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
@@ -2760,6 +2761,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638824630}
   m_CullTransparentMesh: 1
+--- !u!114 &1638824634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638824630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: LevelText
+  FallbackText: Level
 --- !u!1 &1665874976
 GameObject:
   m_ObjectHideFlags: 0
@@ -2874,6 +2889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789298986}
   - component: {fileID: 1789298985}
+  - component: {fileID: 1789298987}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -2891,9 +2907,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -2744676517222406781, guid: 7a1d1c8d9333e8f468d5e562f44a384b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 017c05e8a8e00864788e8b14c4713e5f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f7c93ca731608ee43b870d38a6c8969e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.9
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2984,14 +3000,110 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789298984}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1789298987
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789298984}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -2744676517222406781, guid: 7a1d1c8d9333e8f468d5e562f44a384b, type: 2}
+  m_audioClip: {fileID: 8300000, guid: d6eb81f1778feff48b068894ef22e482, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.4
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1802320677
 GameObject:
   m_ObjectHideFlags: 0

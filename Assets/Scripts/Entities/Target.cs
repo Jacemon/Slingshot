@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
@@ -51,11 +53,14 @@ namespace Entities
             _audioSource = GetComponent<AudioSource>();
             
             _animator = GetComponent<Animator>();
-            
+
+            Debug.Log($"{targetName}:{level} was spawned");
+        }
+
+        public void OnEnable()
+        {
             transform.localScale = Vector3.zero;
             transform.LeanScale(Vector3.one, AppearTime).setEaseOutExpo();
-            
-            Debug.Log($"{targetName}:{level} was spawned");
         }
 
         public void GetDamage(int damage)

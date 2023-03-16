@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b57e79ba613f4c0eb13e51305b6654d9, type: 3}
-  m_Name: WoodenSlingshot
+  m_Name: CommonSlingshot
   m_EditorClassIdentifier: 
   slingshotSprite: {fileID: 21300000, guid: 09a9a563a59ef09428e2a91dce4e715f, type: 3}
   pouchSprite: {fileID: 21300000, guid: f396dd4699795a841bcad34bf8daa140, type: 3}

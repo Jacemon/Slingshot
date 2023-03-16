@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
@@ -45,12 +47,15 @@ namespace Entities
             _follower = GetComponent<Follower>();
             _follower.enabled = true;
 
-            transform.localScale = Vector3.zero;
-            transform.LeanScale(Vector3.one, AppearTime).setEaseOutElastic();
-            
+            Debug.Log($"{projectileName}:{level} was spawned");
+        }
+
+        private void OnEnable()
+        {
             damage = damageCurve.ForceEvaluate(level);
             
-            Debug.Log($"{projectileName}:{level} was spawned");
+            transform.localScale = Vector3.zero;
+            transform.LeanScale(Vector3.one, AppearTime).setEaseOutElastic();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
