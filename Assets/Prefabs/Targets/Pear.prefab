@@ -5194,8 +5194,7 @@ MonoBehaviour:
   health: 0
   moneyCurve: {fileID: -3742116976924089452}
   maxHealthCurve: {fileID: -2893322220535571182}
-  targetHitClips:
-  - {fileID: 8300000, guid: 638a6e21f50eb184bbe8f65f603b3f89, type: 3}
+  targetHit: {fileID: 4201512736781985948}
   minMaxPitch:
     m_Mode: 3
     m_CurveMultiplier: 0

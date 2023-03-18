@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Entities
 {

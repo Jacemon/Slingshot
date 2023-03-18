@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tools
 {
@@ -9,6 +10,8 @@ namespace Tools
         public bool timerOn;
         public float delay;
 
+        public Action onTimerDone;
+        
         private void Update()
         {
             if (!timerOn) return;
@@ -18,6 +21,7 @@ namespace Tools
             if (delay > 0) return;
             timerDone = true;
             timerOn = false;
+            onTimerDone?.Invoke();
         }
 
         public void SetBiggerDelay(float otherDelay)

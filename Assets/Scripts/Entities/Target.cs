@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Managers;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
     {
@@ -25,12 +21,11 @@ namespace Entities
         public IntLinearCurve moneyCurve;
         public IntLinearCurve maxHealthCurve; // TODO: to LinearCurve
         [Space] 
-        public List<AudioClip> targetHitClips;
+        public AudioSource targetHit;
         public ParticleSystem.MinMaxCurve minMaxPitch;
         
         private Slider _slider;
         private Canvas _healthBar;
-        private AudioSource _audioSource;
         private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
@@ -50,8 +45,6 @@ namespace Entities
             _slider.maxValue = maxHealth;
             _slider.value = health;
 
-            _audioSource = GetComponent<AudioSource>();
-            
             _animator = GetComponent<Animator>();
 
             Debug.Log($"{targetName}:{level} was spawned");
@@ -68,9 +61,8 @@ namespace Entities
             health -= damage;
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
 
-            _audioSource.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-            _audioSource.clip = targetHitClips[Random.Range(0, targetHitClips.Count)];
-            _audioSource.Play();
+            targetHit.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+            targetHit.Play();
             
             _animator.SetTrigger(Hit);
 

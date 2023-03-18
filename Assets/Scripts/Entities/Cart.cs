@@ -1,81 +1,107 @@
+using DG.Tweening;
 using Managers;
 using Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Entities
 {
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Timer))]
     public class Cart : MonoBehaviour
     {
         [Header("Settings")] 
-        public string cartName = "None";
+        public string cartName;
         [Space] 
-        public Vector2[] positions;
+        public Vector2[] points;
         public float velocity;
+        [Tooltip("Extra time after the projectile flight time")]
+        public float fallTime;
         [Header("Special settings")] 
         public AudioSource cartMoving;
         public AudioSource cartHit;
-        [Header("Current parameters")]
-        [SerializeField] 
-        private int positionIndex;
 
+        private const float AnimationSpeedCoefficient = 0.5f;
         private const float TargetFadeTime = 0.3f;
-        private const float ErrorRate = 0.1f;
         private const int ParticlesRate = 20;
-        
+
         private Timer _timer;
-    
+        private Sequence _sequence;
+        private Animator _animator;
+        private static readonly int IsMovingLeft = Animator.StringToHash("IsMovingLeft");
+
         private void Awake()
         {
-            cartMoving.enabled = true;
             _timer = GetComponent<Timer>();
+            _animator = GetComponent<Animator>();
+            _animator.speed = velocity * AnimationSpeedCoefficient;
+            Tween();
         }
 
         private void OnEnable()
         {
             GlobalEventManager.onProjectileThrow += AddTimerDelay;
+            _timer.onTimerDone += ResumeCart;
         }
         
         private void OnDisable()
         {
             GlobalEventManager.onProjectileThrow -= AddTimerDelay;
+            _timer.onTimerDone -= ResumeCart;
         }
 
-        private void FixedUpdate()
+        private void PauseCart()
         {
-            if (!_timer.timerDone)
+            cartMoving.mute = true;
+            _animator.enabled = false;
+            _sequence.Pause();
+        }
+
+        private void ResumeCart()
+        {
+            cartMoving.mute = false;
+            _animator.enabled = true;
+            _sequence.Play();
+        }
+
+        private void Tween()
+        {
+            transform.position = points[^1];
+
+            _sequence = DOTween.Sequence().SetLoops(-1);
+
+            _sequence.AppendCallback(() => CheckDirection(points[^1], points[0]));
+            _sequence.Append(transform
+                .DOMove(points[0], Vector2.Distance(points[^1], points[0]) / velocity)
+                .SetEase(Ease.Linear)
+            );
+            for (var i = 1; i < points.Length; i++)
             {
-                cartMoving.enabled = false;
-                return;
-            }
-        
-            cartMoving.enabled = true;
-        
-            transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
-            if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
-            {
-                NextPosition();
+                var startPoint = points[i - 1];
+                var endPoint = points[i];
+                
+                _sequence.AppendCallback(() => CheckDirection(startPoint, endPoint));
+                _sequence.Append(transform
+                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) / velocity)
+                    .SetEase(Ease.Linear)
+                );
             }
         }
 
+        private void CheckDirection(Vector2 start, Vector2 end)
+        {
+            _animator.SetBool(IsMovingLeft, end.x < start.x);
+            Debug.Log("Is moving " + (end.x < start.x ? "left" : "right"));
+        }
+        
         private void AddTimerDelay(Projectile projectile)
         {
-            const float extraDelay = 1.0f;
+            PauseCart();
             
-            _timer.SetBiggerDelay(projectile.flightTime + extraDelay);
+            _timer.SetBiggerDelay(projectile.flightTime + fallTime);
             _timer.timerOn = true;
-            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-        }
-        
-        private void NextPosition()
-        {
-            positionIndex++;
-            if (positionIndex == positions.Length)
-            {
-                positionIndex = 0;
-            }
+            
+            Debug.Log($"Try set timer to {projectile.flightTime + fallTime}s");
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

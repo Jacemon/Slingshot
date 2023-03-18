@@ -16,11 +16,6 @@ namespace Tools.ScriptableObjects.Slingshot
         public SpriteRenderer pouchSpriteRenderer;
         public List<SpriteShapeController> stringSpriteShapeControllers;
 
-        private void Awake() // TODO: skin manager
-        {
-            ReloadData();
-        }
-
         public void ReloadData()
         {
             if (slingshotSpriteRenderer != null) slingshotSpriteRenderer.sprite = baseSlingshotSkin.slingshotSprite;

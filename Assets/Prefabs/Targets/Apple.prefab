@@ -5068,7 +5068,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -6595665222745308837, guid: 7a1d1c8d9333e8f468d5e562f44a384b, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 638a6e21f50eb184bbe8f65f603b3f89, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -5188,42 +5188,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Apple
-  level: 4
+  level: 2
   money: 1
   maxHealth: 3
   health: 0
   moneyCurve: {fileID: 2718324610660417536}
   maxHealthCurve: {fileID: -6051570250380670435}
-  moneyCurve1:
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    cornerCount: 0
-    k: 1
-    b: 1
-  targetHitClips:
-  - {fileID: 8300000, guid: 638a6e21f50eb184bbe8f65f603b3f89, type: 3}
+  targetHit: {fileID: 8997539569738722077}
   minMaxPitch:
     m_Mode: 3
     m_CurveMultiplier: 0

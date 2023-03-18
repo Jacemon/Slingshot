@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
@@ -7,7 +6,6 @@ namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(MouseFollower))]
     [RequireComponent(typeof(StaticTrajectory))]
     public class Pouch : MonoBehaviour
@@ -17,10 +15,10 @@ namespace Entities
         public Vector2 throwPointAnchor;
         public float throwPointOffset = 0.7f;
         [Header("Special settings")] 
-        public AudioClip pouchPullingClip;
+        public AudioSource pouchPulling;
         public float pouchPullingPitchMin;
         public float pouchPullingPitchMultiplier;
-        public List<AudioClip> pouchShootClips;
+        public AudioSource pouchShoot;
         public ParticleSystem.MinMaxCurve minMaxPouchShootPitch;
         [Header("Current parameters")]
         [SerializeField]
@@ -30,7 +28,6 @@ namespace Entities
         
         private Rigidbody2D _rb;
         private Collider2D _collider2D;
-        private AudioSource _audioSource;
         private MouseFollower _mouseFollower;
         private StaticTrajectory _staticTrajectory;
         
@@ -40,7 +37,6 @@ namespace Entities
         {
             _rb = GetComponent<Rigidbody2D>();
             _collider2D = GetComponent<Collider2D>();
-            _audioSource = GetComponent<AudioSource>();
             _mouseFollower = GetComponent<MouseFollower>();
             _mouseFollower.enabled = false;
         
@@ -62,14 +58,14 @@ namespace Entities
                 Vector2 currentPosition = transform.position;
                 _direction = throwPointAnchor - new Vector2(currentPosition.x, currentPosition.y);
                 _direction.Normalize();
-                float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90.0f;
+                var angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90.0f;
                 // И поворот ложи на этот угол
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                 // Расчёт скорости с которой он может полететь
                 velocity = Vector2.Distance(currentPosition, throwPointAnchor) * throwSpeed;
 
-                _audioSource.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, throwPointAnchor) * 
+                pouchPulling.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, throwPointAnchor) * 
                     pouchPullingPitchMultiplier;
             
                 // Установка значений для расчёта траектории
@@ -103,9 +99,7 @@ namespace Entities
         
             pouchFill = true;
 
-            _audioSource.clip = pouchPullingClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            pouchPulling.mute = false;
             
             GetComponent<Collider2D>().enabled = false;
         
@@ -128,16 +122,14 @@ namespace Entities
         {
             pouchFill = false;
             
-            _audioSource.clip = null;
-            _audioSource.loop = false;
+            pouchPulling.mute = true;
             
             if (transform.position.y < throwPointAnchor.y - throwPointOffset)
             {
                 _rb.velocity = _direction * velocity;
                 
-                _audioSource.pitch = minMaxPouchShootPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-                _audioSource.clip = pouchShootClips[Random.Range(0, pouchShootClips.Count)];
-                _audioSource.Play();
+                pouchShoot.pitch = minMaxPouchShootPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+                pouchShoot.Play();
                 
                 projectile.Shoot(_direction * velocity);
             }
