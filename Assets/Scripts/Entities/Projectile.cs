@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using Managers;
 using Tools;
 using Tools.Follower;
@@ -53,9 +54,14 @@ namespace Entities
             damage = damageCurve.ForceEvaluate(level);
             
             transform.localScale = Vector3.zero;
-            transform.LeanScale(Vector3.one, AppearTime).setEaseOutElastic();
+            transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutElastic);
         }
-
+        
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+        
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision == null || !collision.gameObject.TryGetComponent(out Target target))
@@ -102,7 +108,7 @@ namespace Entities
             _collider2D.enabled = false;
             _follower.enabled = false;
             
-            transform.LeanScale(new Vector2(finalScale, finalScale), flightTime).setEaseOutSine();
+            transform.DOScale(new Vector2(finalScale, finalScale), flightTime).SetEase(Ease.OutSine);
             yield return new WaitForSecondsRealtime(flightTime);
 
             _collider2D.enabled = true;
@@ -113,7 +119,9 @@ namespace Entities
             _collider2D.enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Back");
             
-            transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine().setDestroyOnComplete(true);
+            transform.DOScale(Vector2.zero, flightTime)
+                .SetEase(Ease.OutSine)
+                .OnComplete(() => Destroy(gameObject));
         }
     }
 }

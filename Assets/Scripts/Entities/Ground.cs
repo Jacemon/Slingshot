@@ -29,6 +29,7 @@ namespace Entities
             if (target != null)
             {
                 GlobalEventManager.onTargetHitGround?.Invoke(target);
+                target.LateDestroy();
             }
         }
     }

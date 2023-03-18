@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -53,9 +54,14 @@ namespace Entities
         public void OnEnable()
         {
             transform.localScale = Vector3.zero;
-            transform.LeanScale(Vector3.one, AppearTime).setEaseOutExpo();
+            transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutExpo);
         }
-
+        
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+        
         public void GetDamage(int damage)
         {
             health -= damage;
@@ -82,8 +88,6 @@ namespace Entities
                         GetComponent<CapsuleCollider2D>().size *= ShotColliderScale;
                         break;
                 }
-            
-                LateDestroy();
             } 
             else if (health < maxHealth)
             {
@@ -100,14 +104,12 @@ namespace Entities
 
         public void LateDestroy(float time = TimeBeforeDestroy)
         {
-            transform.LeanScale(Vector2.zero, time)
-                .setEaseInBack()
-                .setOnComplete(
-                    () =>
-                    {
-                        Destroy(gameObject);
-                    }
-                );
+            if (transform != null)
+            {
+                transform.DOScale(Vector2.zero, time)
+                    .SetEase(Ease.InBack)
+                    .OnComplete(() => Destroy(gameObject));
+            }
         }
     }
 }

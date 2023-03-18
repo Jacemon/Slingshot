@@ -50,6 +50,12 @@ namespace Entities
             _timer.onTimerDone -= ResumeCart;
         }
 
+        private void OnDestroy()
+        {
+            transform.DOKill();
+            _sequence.Kill();
+        }
+
         private void PauseCart()
         {
             cartMoving.mute = true;
@@ -70,7 +76,7 @@ namespace Entities
 
             _sequence = DOTween.Sequence().SetLoops(-1);
 
-            _sequence.AppendCallback(() => CheckDirection(points[^1], points[0]));
+            _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, points[^1].x < points[0].x));
             _sequence.Append(transform
                 .DOMove(points[0], Vector2.Distance(points[^1], points[0]) / velocity)
                 .SetEase(Ease.Linear)
@@ -80,7 +86,7 @@ namespace Entities
                 var startPoint = points[i - 1];
                 var endPoint = points[i];
                 
-                _sequence.AppendCallback(() => CheckDirection(startPoint, endPoint));
+                _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, endPoint.x < startPoint.x));
                 _sequence.Append(transform
                     .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) / velocity)
                     .SetEase(Ease.Linear)
@@ -88,12 +94,6 @@ namespace Entities
             }
         }
 
-        private void CheckDirection(Vector2 start, Vector2 end)
-        {
-            _animator.SetBool(IsMovingLeft, end.x < start.x);
-            Debug.Log("Is moving " + (end.x < start.x ? "left" : "right"));
-        }
-        
         private void AddTimerDelay(Projectile projectile)
         {
             PauseCart();

@@ -1,6 +1,5 @@
 using Entities;
 using TMPro;
-using Tools.ScriptableObjects;
 using Tools.ScriptableObjects.Reference;
 using UnityEngine;
 
@@ -61,7 +60,7 @@ namespace Managers
             return true;
         }
         
-        public static string FormatInteger(long digit)
+        public static string FormatInteger(decimal digit)
         {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
             var n = 0;
