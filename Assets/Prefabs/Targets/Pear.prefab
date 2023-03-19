@@ -229,9 +229,7 @@ GameObject:
   - component: {fileID: 4201512736781985948}
   - component: {fileID: 1744002962946711579}
   - component: {fileID: 5030656357949858020}
-  - component: {fileID: -3742116976924089452}
   - component: {fileID: 5850777044229197107}
-  - component: {fileID: -2893322220535571182}
   m_Layer: 7
   m_Name: Pear
   m_TagString: Untagged
@@ -5192,8 +5190,26 @@ MonoBehaviour:
   money: 3
   maxHealth: 5
   health: 0
-  moneyCurve: {fileID: -3742116976924089452}
-  maxHealthCurve: {fileID: -2893322220535571182}
+  moneyCurve:
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 0
+    k: 3
+    b: 3
+  maxHealthCurve:
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 0
+    k: 5
+    b: 5
   targetHit: {fileID: 4201512736781985948}
   minMaxPitch:
     m_Mode: 3
@@ -5212,28 +5228,6 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 0.6
     m_ConstantMax: 1.5
---- !u!114 &-3742116976924089452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030656357949858016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cc32bae9304357a337c77d50cb6f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curveName: Money
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cornerCount: 0
-  k: 3
-  b: 3
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5306,28 +5300,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-2893322220535571182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030656357949858016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cc32bae9304357a337c77d50cb6f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curveName: MaxHealth
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cornerCount: 0
-  k: 5
-  b: 5
 --- !u!1 &5030656358253466971
 GameObject:
   m_ObjectHideFlags: 0

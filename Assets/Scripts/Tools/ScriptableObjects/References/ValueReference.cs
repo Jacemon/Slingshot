@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Tools.ScriptableObjects.Reference
+namespace Tools.ScriptableObjects.References
 {
     public abstract class ValueReference<T> : ScriptableObject
     {

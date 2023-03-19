@@ -1,6 +1,6 @@
 using Entities;
 using TMPro;
-using Tools.ScriptableObjects.Reference;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Managers

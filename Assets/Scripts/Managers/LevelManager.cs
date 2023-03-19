@@ -3,7 +3,7 @@ using Entities.Levels;
 using TMPro;
 using Tools.Dictionaries;
 using Tools.ScriptableObjects;
-using Tools.ScriptableObjects.Reference;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +19,7 @@ namespace Managers
         public Button prevButton;
         public Button buyButton;
         [Space]
-        public Vector2 startPosition = Vector2.zero;
+        public Vector2 startPosition;
         [Space] 
         public TextMeshProUGUI levelLabel;
         [Space]

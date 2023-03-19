@@ -20,7 +20,7 @@ namespace Entities
         public int health;
         [Header("Special settings")]
         public IntLinearCurve moneyCurve;
-        public IntLinearCurve maxHealthCurve; // TODO: to LinearCurve
+        public IntLinearCurve maxHealthCurve;
         [Space] 
         public AudioSource targetHit;
         public ParticleSystem.MinMaxCurve minMaxPitch;
