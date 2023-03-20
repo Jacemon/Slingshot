@@ -83,11 +83,10 @@ namespace Entities
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null || !collision.gameObject.TryGetComponent(out Projectile projectileToFill))
+            if (collision != null && collision.gameObject.TryGetComponent(out Projectile projectileToFill))
             {
-                return;
+                FillPouch(projectileToFill);
             }
-            FillPouch(projectileToFill);
         }
 
         private void FillPouch(Projectile projectileToFill)

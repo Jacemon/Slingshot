@@ -37,7 +37,8 @@ namespace Entities.Levels
 
         private void Generate()
         {
-            _apple = TargetManager.SpawnTarget(new[] { apple }, levelNumber, spawnPoint, transform);
+            _apple = TargetManager.SpawnTarget(new[] { apple }, levelNumber, 
+                transform.TransformPoint(spawnPoint), transform);
         }
         
         // if i < -1 disable all

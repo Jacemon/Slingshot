@@ -28,8 +28,8 @@ RectTransform:
   m_GameObject: {fileID: 975948716120334812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7083788309310602348}
   m_Father: {fileID: 1762295560233629599}
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.4}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 60, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3471862502995384405
@@ -226,12 +226,12 @@ GameObject:
   - component: {fileID: 5030656357949858021}
   - component: {fileID: 5030656357949858018}
   - component: {fileID: 6281463333959393238}
-  - component: {fileID: 8997539569738722077}
-  - component: {fileID: 6416359334025844552}
+  - component: {fileID: 8906769904812675544}
+  - component: {fileID: 1744002962946711579}
   - component: {fileID: 5030656357949858020}
   - component: {fileID: 5850777044229197107}
   m_Layer: 7
-  m_Name: Apple
+  m_Name: Cherry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,7 +269,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 1
 --- !u!50 &5030656357949858018
 Rigidbody2D:
   serializedVersion: 4
@@ -484,9 +484,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.8147526, g: 0.9056604, b: 0.49982202, a: 1}
-        key1: {r: 0.5921569, g: 0.7019608, b: 0.21176472, a: 1}
-        key2: {r: 0.34509805, g: 0.44705886, b: 0.12941177, a: 0}
+        key0: {r: 0.8962264, g: 0, b: 0.14740552, a: 1}
+        key1: {r: 0.6, g: 0, b: 0.098039225, a: 1}
+        key2: {r: 0.3372549, g: 0, b: 0.058823533, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5056,7 +5056,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!82 &8997539569738722077
+--- !u!82 &8906769904812675544
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5152,7 +5152,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &6416359334025844552
+--- !u!95 &1744002962946711579
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -5185,8 +5185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2a99c59e068244182764d2d81b93bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetName: Apple
-  level: 2
+  targetName: Cherry
+  level: 10
   money: 1
   maxHealth: 3
   health: 0
@@ -5196,7 +5196,7 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5205,7 +5205,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 2
+        value: 1
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5214,7 +5214,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
-        value: 3
+        value: 2
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5223,7 +5223,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 3
-        value: 4
+        value: 3
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5232,7 +5232,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 4
-        value: 5
+        value: 4
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5241,7 +5241,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 5
-        value: 6
+        value: 5
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5250,7 +5250,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 6
-        value: 7
+        value: 6
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5259,7 +5259,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 7
-        value: 8
+        value: 7
         inSlope: 1
         outSlope: 1
         tangentMode: 69
@@ -5268,17 +5268,17 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 8
-        value: 9
+        value: 8
         inSlope: 1
-        outSlope: 1
+        outSlope: 0.5
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 9
-        value: 10
-        inSlope: 1
+        time: 10
+        value: 9
+        inSlope: 0.5
         outSlope: 1
         tangentMode: 69
         weightedMode: 0
@@ -5296,89 +5296,89 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 3
+        value: 0
         inSlope: 3
-        outSlope: 3
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 6
-        inSlope: 3
-        outSlope: 3
+        value: 1
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
-        value: 9
-        inSlope: 3
-        outSlope: 3
+        value: 2
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 3
-        value: 12
-        inSlope: 3
-        outSlope: 3
+        value: 3
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 4
-        value: 15
-        inSlope: 3
-        outSlope: 3
+        value: 4
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 5
-        value: 18
-        inSlope: 3
-        outSlope: 3
+        value: 5
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 6
-        value: 21
-        inSlope: 3
-        outSlope: 3
+        value: 6
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 7
-        value: 24
-        inSlope: 3
-        outSlope: 3
+        value: 7
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 8
-        value: 27
-        inSlope: 3
-        outSlope: 3
+        value: 8
+        inSlope: 1
+        outSlope: 1
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 9
-        value: 30
-        inSlope: 3
+        value: 9
+        inSlope: 1
         outSlope: 3
         tangentMode: 69
         weightedMode: 0
@@ -5390,7 +5390,7 @@ MonoBehaviour:
     cornerCount: 10
     k: 3
     b: 3
-  targetHit: {fileID: 8997539569738722077}
+  targetHit: {fileID: 8906769904812675544}
   minMaxPitch:
     m_Mode: 3
     m_CurveMultiplier: 0
@@ -5406,8 +5406,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ConstantMin: 0.7
-    m_ConstantMax: 2
+    m_ConstantMin: 1
+    m_ConstantMax: 2.3
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5447,9 +5447,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -1
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5506,7 +5506,7 @@ Transform:
   m_GameObject: {fileID: 5030656358253466971}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1762295560233629599}
@@ -5550,10 +5550,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 51c933fdc543ff94b9e1d97d95cd3c23, type: 3}
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -1
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: f5ff0a319b182a642b05296c6467bcd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -45,7 +45,7 @@ namespace Entities.Levels
             {
                 _generatedTargets.Add(
                     TargetManager.SpawnTarget(point.target == null ? auxiliaryTargets : new [] { point.target }, 
-                        levelNumber, point.point, transform));
+                        levelNumber, transform.TransformPoint(point.point), transform));
             }
         }
         
@@ -63,7 +63,7 @@ namespace Entities.Levels
             foreach (var point in points)
             {
                 Gizmos.color = point.target == null ? Color.yellow : Color.green;
-                Gizmos.DrawWireSphere(point.point, 0.1f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(point.point), transform.localScale.x);
             }
         }
     }

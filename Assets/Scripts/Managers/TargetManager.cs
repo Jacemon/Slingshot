@@ -26,14 +26,7 @@ namespace Managers
             
             return Instantiate(target, spawnPoint, Quaternion.identity, parent); 
         }
-        
-        public static List<Target> GenerateTargetsByCircle(GameObject[] targets, int amount, int targetLevel,
-            Vector2 spawnPoint, float radius, float spaceBetween, Transform parent = null)
-        {
-            return GenerateTargetsByEllipse(targets, amount, targetLevel, spawnPoint, 
-                radius, radius, spaceBetween, parent);
-        }
-        
+
         public static List<Target> GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
             Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null)
         {

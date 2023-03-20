@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Entities
 {
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(ParticleSystem))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Timer))]
     public class Cart : MonoBehaviour
@@ -23,10 +24,10 @@ namespace Entities
 
         private const float AnimationSpeedCoefficient = 0.5f;
         private const float TargetFadeTime = 0.3f;
-        private const int ParticlesRate = 20;
 
         private Timer _timer;
         private Sequence _sequence;
+        private ParticleSystem _particleSystem;
         private Animator _animator;
         private static readonly int IsMovingLeft = Animator.StringToHash("IsMovingLeft");
 
@@ -35,6 +36,7 @@ namespace Entities
             _timer = GetComponent<Timer>();
             _animator = GetComponent<Animator>();
             _animator.speed = velocity * AnimationSpeedCoefficient;
+            _particleSystem = GetComponent<ParticleSystem>();
             Tween();
         }
 
@@ -76,7 +78,7 @@ namespace Entities
 
             _sequence = DOTween.Sequence().SetLoops(-1);
 
-            _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, points[^1].x < points[0].x));
+            _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, points[^1].x > points[0].x));
             _sequence.Append(transform
                 .DOMove(points[0], Vector2.Distance(points[^1], points[0]) / velocity)
                 .SetEase(Ease.Linear)
@@ -86,7 +88,7 @@ namespace Entities
                 var startPoint = points[i - 1];
                 var endPoint = points[i];
                 
-                _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, endPoint.x < startPoint.x));
+                _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, startPoint.x > endPoint.x));
                 _sequence.Append(transform
                     .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) / velocity)
                     .SetEase(Ease.Linear)
@@ -113,12 +115,10 @@ namespace Entities
             {
                 return;
             }
-            if (TryGetComponent(out ParticleSystem particles))
-            {
-                particles.Emit(ParticlesRate);
-                cartHit.Play();
-            }
             
+            _particleSystem.Play();
+            cartHit.Play();
+
             GlobalEventManager.onTargetHitCart?.Invoke(target);
             
             // Destroy target

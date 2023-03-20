@@ -35,8 +35,14 @@ namespace Entities.Levels
 
         private void Generate()
         {
-            _generatedTargets = TargetManager.GenerateTargetsByEllipse(targets, targetsAmount, levelNumber, 
-                spawnPoint, spawnRadius, spawnSecondRadius, spaceBetween, transform);
+            _generatedTargets = TargetManager.GenerateTargetsByEllipse(
+                targets, targetsAmount, levelNumber, 
+                transform.TransformPoint(spawnPoint), 
+                spawnRadius * transform.localScale.x, 
+                spawnSecondRadius * transform.localScale.y, 
+                spaceBetween * transform.localScale.x,
+                transform
+            );
         }
         
         private void CheckTargets(Target target)
@@ -53,11 +59,11 @@ namespace Entities.Levels
             Gizmos.color = Color.green;
 
             Vector2 yUp, yDown, xLeft, xRight;
-            yUp = yDown = xLeft = xRight = spawnPoint;
-            yUp.y += spawnSecondRadius;
-            yDown.y -= spawnSecondRadius;
-            xRight.x += spawnRadius;
-            xLeft.x -= spawnRadius;
+            yUp = yDown = xLeft = xRight = transform.TransformPoint(spawnPoint);
+            yUp.y += spawnSecondRadius * transform.localScale.y;
+            yDown.y -= spawnSecondRadius * transform.localScale.y;
+            xRight.x += spawnRadius * transform.localScale.x;
+            xLeft.x -= spawnRadius * transform.localScale.x;
             Gizmos.DrawLine(yUp, yDown);
             Gizmos.DrawLine(xRight, xLeft);
         }

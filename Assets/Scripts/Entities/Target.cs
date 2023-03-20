@@ -8,6 +8,7 @@ namespace Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(ParticleSystem))]
     [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
     {
@@ -27,6 +28,7 @@ namespace Entities
         
         private Slider _slider;
         private Canvas _healthBar;
+        private ParticleSystem _particleSystem;
         private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
@@ -47,6 +49,8 @@ namespace Entities
             _slider.value = health;
 
             _animator = GetComponent<Animator>();
+
+            _particleSystem = GetComponent<ParticleSystem>();
 
             Debug.Log($"{targetName}:{level} was spawned");
         }
@@ -70,15 +74,17 @@ namespace Entities
             targetHit.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             targetHit.Play();
             
+            _particleSystem.Play();
+            
             _animator.SetTrigger(Hit);
 
             if (health <= 0)
             {
                 GetComponent<Rigidbody2D>().isKinematic = false;
                 Debug.Log($"{targetName} shot down");
-                gameObject.layer = LayerMask.NameToLayer("Back");
+                gameObject.layer = LayerMask.NameToLayer("RearMiddle");
                 _healthBar.enabled = false;
-            
+                
                 switch (GetComponent<Collider2D>())
                 {
                     case CircleCollider2D:
@@ -94,11 +100,7 @@ namespace Entities
                 _healthBar.enabled = true;
                 _slider.value = health;
             }
-            if (TryGetComponent(out ParticleSystem particles))
-            {
-                particles.Play();
-            }
-            
+
             GlobalEventManager.onTargetGetDamage?.Invoke(this);
         }
 

@@ -28,8 +28,8 @@ RectTransform:
   m_GameObject: {fileID: 975948716120334812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7083788309310602348}
   m_Father: {fileID: 1762295560233629599}
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.4}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 60, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3471862502995384405
@@ -223,15 +223,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762295560233629599}
-  - component: {fileID: 5030656357949858021}
+  - component: {fileID: 6747937516923968323}
   - component: {fileID: 5030656357949858018}
   - component: {fileID: 6281463333959393238}
-  - component: {fileID: 8906769904812675544}
+  - component: {fileID: 4201512736781985948}
   - component: {fileID: 1744002962946711579}
   - component: {fileID: 5030656357949858020}
   - component: {fileID: 5850777044229197107}
   m_Layer: 7
-  m_Name: Cherry
+  m_Name: Pear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,8 +254,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &5030656357949858021
-CircleCollider2D:
+--- !u!70 &6747937516923968323
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -267,9 +267,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.35
+  m_Offset: {x: 0, y: -0.2}
+  m_Size: {x: 2, y: 2.5}
+  m_Direction: 0
 --- !u!50 &5030656357949858018
 Rigidbody2D:
   serializedVersion: 4
@@ -484,9 +484,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.8962264, g: 0, b: 0.14740552, a: 1}
-        key1: {r: 0.6, g: 0, b: 0.098039225, a: 1}
-        key2: {r: 0.3372549, g: 0, b: 0.058823533, a: 0}
+        key0: {r: 0.9339623, g: 0.82110953, b: 0.5594963, a: 1}
+        key1: {r: 0.78823537, g: 0.6156863, b: 0.21568629, a: 1}
+        key2: {r: 0.30980393, g: 0.20392159, b: 0.039215688, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5056,7 +5056,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!82 &8906769904812675544
+--- !u!82 &4201512736781985948
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5185,10 +5185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2a99c59e068244182764d2d81b93bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetName: Cherry
-  level: 0
-  money: 1
-  maxHealth: 3
+  targetName: Pear
+  level: 3
+  money: 3
+  maxHealth: 5
   health: 0
   moneyCurve:
     curve:
@@ -5198,8 +5198,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     cornerCount: 0
-    k: 1
-    b: 1
+    k: 3
+    b: 3
   maxHealthCurve:
     curve:
       serializedVersion: 2
@@ -5208,9 +5208,9 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     cornerCount: 0
-    k: 2
-    b: 2
-  targetHit: {fileID: 8906769904812675544}
+    k: 5
+    b: 5
+  targetHit: {fileID: 4201512736781985948}
   minMaxPitch:
     m_Mode: 3
     m_CurveMultiplier: 0
@@ -5226,8 +5226,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ConstantMin: 1
-    m_ConstantMax: 2.3
+    m_ConstantMin: 0.6
+    m_ConstantMax: 1.5
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5267,9 +5267,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -1
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5326,7 +5326,7 @@ Transform:
   m_GameObject: {fileID: 5030656358253466971}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1762295560233629599}
@@ -5370,10 +5370,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f5ff0a319b182a642b05296c6467bcd3, type: 3}
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -1
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: 37be6edd02c6f06409ed32d023bca2cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

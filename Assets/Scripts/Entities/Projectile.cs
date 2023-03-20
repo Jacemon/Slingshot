@@ -64,17 +64,24 @@ namespace Entities
         
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null || !collision.gameObject.TryGetComponent(out Target target))
+            if (collision == null || inPick || _follower.enabled)
             {
                 return;
             }
-            target.GetDamage(damage);
+
+            if (collision.gameObject.TryGetComponent(out Target target))
+            {
+                target.GetDamage(damage);
+            }
             
             // Random angular and regular velocity
             var randomVelocity = minMaxVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-            var direction = transform.position - target.transform.position;
+            var direction = transform.position - collision.collider.bounds.center;
+            direction.Normalize();
             _rb.velocity = randomVelocity * direction;
             _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+
+            _collider2D.enabled = false;
         }
 
         private void OnMouseDown()
@@ -115,8 +122,7 @@ namespace Entities
             Debug.Log($"{projectileName} can be stuck in target");
         
             yield return new WaitForSecondsRealtime(stuckTime);
-
-            _collider2D.enabled = false;
+            
             gameObject.layer = LayerMask.NameToLayer("Back");
             
             transform.DOScale(Vector2.zero, flightTime)
