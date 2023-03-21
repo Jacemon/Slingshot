@@ -1,3 +1,4 @@
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Tools.ScriptableObjects.Shop.ShopItems
@@ -6,7 +7,8 @@ namespace Tools.ScriptableObjects.Shop.ShopItems
     {
         public Sprite itemIcon;
         public string itemName;
-
+        public BoolReference isPurchased;
+        
         public abstract int ItemCost { get; }
 
         public abstract void Purchase();

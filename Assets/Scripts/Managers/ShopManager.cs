@@ -53,10 +53,13 @@ namespace Managers
         private void Buy(string key)
         {
             var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemName == key).shopItem;
-            if (shopItem != null && MoneyManager.WithdrawMoney(shopItem.ItemCost))
+            if (shopItem != null &&
+                ((shopItem.isPurchased != null && shopItem.isPurchased.Value) || 
+                MoneyManager.WithdrawMoney(shopItem.ItemCost))
+                )
             {
-                shopItem.Purchase();
-                Debug.Log($"{key} was purchased");
+                    shopItem.Purchase();
+                    Debug.Log($"{key} was purchased");
             }
             else
             {

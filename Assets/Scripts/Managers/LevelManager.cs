@@ -1,8 +1,7 @@
 using System.Linq;
 using Entities.Levels;
+using RotaryHeart.Lib.SerializableDictionary;
 using TMPro;
-using Tools.Dictionaries;
-using Tools.ScriptableObjects;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +10,7 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public IntGameObjectDictionary levels = new();
+        public SerializableDictionaryBase<int, GameObject> levels = new();
         public IntReference currentLevel;
         public IntReference maxAvailableLevel;
         [Space] 

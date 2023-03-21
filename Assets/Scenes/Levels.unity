@@ -1956,7 +1956,7 @@ MonoBehaviour:
       draggable: 1
       expandable: 1
       multipleSelection: 1
-      isExpanded: 0
+      isExpanded: 1
       label:
         m_Text: Keys
         m_Image: {fileID: 0}
@@ -1971,7 +1971,7 @@ MonoBehaviour:
       elementNameOverride: 
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
-    isExpanded: 0
+    isExpanded: 1
     _keyValues: 00000000010000000200000003000000050000000a000000140000003200000064000000aa000000c8000000
     _keys: 00000000010000000200000003000000050000000a000000140000003200000064000000aa000000c8000000
     _values:
@@ -2071,7 +2071,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slingshot: {fileID: 967721611}
-  slingshotSkins: []
+  slingshotSkins:
+  - baseSlingshotSkin: {fileID: 11400000, guid: e10fd2f4ef64f1b4292d25644769c96d, type: 2}
+    boolReference: {fileID: 11400000, guid: 5308a5009c137e74ebed6e4be283d93f, type: 2}
+  - baseSlingshotSkin: {fileID: 11400000, guid: dbbf4395bd63e424c8a5e019c94aa154, type: 2}
+    boolReference: {fileID: 11400000, guid: dc1ff6635b991b44d8ac0b75a3753963, type: 2}
   currentSkin: {fileID: 11400000, guid: 44b7d8fcb8b861d4591e86263fcc0beb, type: 2}
 --- !u!1 &1539792837
 GameObject:

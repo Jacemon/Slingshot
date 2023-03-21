@@ -1,4 +1,3 @@
-using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Tools.ScriptableObjects.Shop.ShopItems
@@ -7,8 +6,7 @@ namespace Tools.ScriptableObjects.Shop.ShopItems
     public class FreeShopItem : BaseShopItem
     {
         public override int ItemCost => 0;
-        public BoolReference isPurchased;
-        
+
         public override void Purchase()
         {
             isPurchased.Value = true;

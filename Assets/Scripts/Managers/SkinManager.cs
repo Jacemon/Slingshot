@@ -52,12 +52,12 @@ namespace Managers
                 slingshot.baseSlingshotSkin = slingshotSkin.baseSlingshotSkin;
                 slingshot.ReloadData();
                 
-                currentSkin.Value = slingshot.baseSlingshotSkin.name;
-                Debug.Log($"Skin {slingshot.baseSlingshotSkin.name} was set");
+                currentSkin.Value = slingshot.baseSlingshotSkin.slingshotName;
+                Debug.Log($"Skin {skinName} was set");
             }
             else
             {
-                Debug.Log("Skin was not set");
+                Debug.Log($"Skin {skinName} was not set");
             }
         }
     }
