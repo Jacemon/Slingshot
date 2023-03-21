@@ -1,4 +1,3 @@
-using Entities;
 using TMPro;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
@@ -9,57 +8,49 @@ namespace Managers
     {
         public LongReference money;
         public TextMeshProUGUI moneyLabel;
-
+        
+        private static LongReference _money;
+        
         private void Awake()
         {
+            _money = money;
             ReloadMoney();
         }
 
         private void OnEnable()
         {
-            GlobalEventManager.onTargetHitCart += TargetHitCart;
-            GlobalEventManager.onMoneyWithdraw += WithdrawMoney;
-
-            money.onValueChanged += ReloadMoney;
+           _money.onValueChanged += ReloadMoney;
         }
         
         private void OnDisable()
         {
-            GlobalEventManager.onTargetHitCart -= TargetHitCart;
-            GlobalEventManager.onMoneyWithdraw -= WithdrawMoney;
-
-            money.onValueChanged -= ReloadMoney;
+            _money.onValueChanged -= ReloadMoney;
         }
 
-        private void TargetHitCart(Target target)
-        {
-            DepositMoney(target.money);
-        }
-
-        private void ReloadMoney()
-        {
-            moneyLabel.text = FormatInteger(money.Value);
-        }
-        
-        private void DepositMoney(long depositedMoney)
+        public static void DepositMoney(long depositedMoney)
         {
             if (depositedMoney < 0)
             {
                 return;
             }
-            money.Value += depositedMoney;
+            _money.Value += depositedMoney;
         }
 
-        private bool WithdrawMoney(long withdrawnMoney)
+        public static bool WithdrawMoney(long withdrawnMoney)
         {
-            if (money.Value < withdrawnMoney)
+            if (_money.Value < withdrawnMoney)
             {
                 return false;
             }
-            money.Value -= withdrawnMoney;
+            _money.Value -= withdrawnMoney;
             return true;
         }
         
+        private void ReloadMoney()
+        {
+            moneyLabel.text = FormatInteger(_money.Value);
+        }
+
         public static string FormatInteger(decimal digit)
         {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };

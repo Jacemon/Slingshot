@@ -67,4 +67,6 @@ MonoBehaviour:
   boolReferences:
   - {fileID: 11400000, guid: a126f20a56709d142a6e4718d6d35c68, type: 2}
   - {fileID: 11400000, guid: 4adc7864a5a69f540a854dce355f68e5, type: 2}
-  stringReferences: []
+  - {fileID: 11400000, guid: 5308a5009c137e74ebed6e4be283d93f, type: 2}
+  stringReferences:
+  - {fileID: 11400000, guid: 44b7d8fcb8b861d4591e86263fcc0beb, type: 2}

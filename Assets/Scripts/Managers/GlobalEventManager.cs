@@ -13,9 +13,6 @@ namespace Managers
         // Projectile
         public static Action<Projectile> onProjectileThrow;
 
-        // Money
-        public static Predicate<long> onMoneyWithdraw = _ => false;
-        
         // Level
         public static Action onLevelLoad;
     }

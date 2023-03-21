@@ -119,6 +119,7 @@ namespace Entities
             _particleSystem.Play();
             cartHit.Play();
 
+            MoneyManager.DepositMoney(target.money);
             GlobalEventManager.onTargetHitCart?.Invoke(target);
             
             // Destroy target

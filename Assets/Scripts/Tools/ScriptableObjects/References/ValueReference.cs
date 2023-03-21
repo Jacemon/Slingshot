@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tools.ScriptableObjects.References
 {
+    [Serializable]
     public abstract class ValueReference<T> : ScriptableObject
     {
         [SerializeField]

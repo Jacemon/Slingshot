@@ -15,6 +15,10 @@ namespace Managers
         [Space]
         [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
         public List<ShopItemWithDisplay> shopItemWithDisplays;
+        [Space] 
+        public Animator shopAnimator;
+        public float shopAnimationSpeed = 1f;
+        private static readonly int IsOpen = Animator.StringToHash("IsOpen");
 
         [Serializable]
         public class ShopItemWithDisplay
@@ -22,7 +26,7 @@ namespace Managers
             public BaseShopItem shopItem;
             public ShopItemDisplay shopItemDisplay;
         }
-        
+
         private void Awake()
         {
             ReloadData();
@@ -49,7 +53,7 @@ namespace Managers
         private void Buy(string key)
         {
             var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemName == key).shopItem;
-            if (shopItem != null && GlobalEventManager.onMoneyWithdraw.Invoke(shopItem.ItemCost))
+            if (shopItem != null && MoneyManager.WithdrawMoney(shopItem.ItemCost))
             {
                 shopItem.Purchase();
                 Debug.Log($"{key} was purchased");
@@ -59,6 +63,12 @@ namespace Managers
                 Debug.Log($"{key} was not purchased");
             }
             ReloadData();
+        }
+
+        public void ToggleShop(bool isOpen)
+        {
+            shopAnimator.speed = shopAnimationSpeed;
+            shopAnimator.SetBool(IsOpen, isOpen);
         }
     }
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BlackSlingshot
   m_EditorClassIdentifier: 
   slingshotName: Black slingshot
-  slingshotSprite: {fileID: 21300000, guid: 09a9a563a59ef09428e2a91dce4e715f, type: 3}
-  pouchSprite: {fileID: 21300000, guid: f396dd4699795a841bcad34bf8daa140, type: 3}
+  slingshotSprite: {fileID: -1535501091, guid: d110983d1b0998e47b7a644520cb9f27, type: 3}
+  pouchSprite: {fileID: 21300000, guid: 2115a994535ecd64d83a2ec82b4e4bc0, type: 3}
   stringSpriteShape: {fileID: 11400000, guid: ac2de96c38e026a4386c557bea833774, type: 2}
