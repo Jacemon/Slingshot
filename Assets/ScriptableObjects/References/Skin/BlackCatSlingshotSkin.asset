@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c52a38242f4ed9a26b0fd1be21ad4d, type: 3}
   m_Name: BlackCatSlingshotSkin
   m_EditorClassIdentifier: 
-  value: 0
+  value: 1

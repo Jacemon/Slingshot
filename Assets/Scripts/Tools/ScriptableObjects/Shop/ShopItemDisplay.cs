@@ -23,11 +23,22 @@ namespace Tools.ScriptableObjects.Shop
             if (iconImage != null) iconImage.sprite = shopItem.itemIcon;
             if (nameLabel != null) nameLabel.text = shopItem.itemName;
             if (costLabel != null)
-                costLabel.text = shopItem.ItemCost != 0 ? MoneyManager.FormatInteger(shopItem.ItemCost) : "Free";
+            {
+                if (shopItem.isPurchased != null && shopItem.isPurchased.Value)
+                {
+                    costLabel.text = "Purchased";
+                }
+                else
+                {
+                    costLabel.text = shopItem.ItemCost != 0 ? MoneyManager.FormatInteger(shopItem.ItemCost) : "Free";
+                }
+            }
             if (levelLabel != null)
+            {
                 levelLabel.text = shopItem is LeveledShopItem leveledShopItem
                     ? $"{leveledShopItem.itemLevel.Value}->{leveledShopItem.itemLevel.Value + 1}lvl"
                     : "";
+            }
         }
     }
 }
