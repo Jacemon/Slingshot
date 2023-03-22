@@ -14,7 +14,7 @@ namespace Tools.ScriptableObjects.Slingshot.SlingshotSkins
 
         public override int GetHashCode()
         {
-            return slingshotName.GetHashCode();
+            return slingshotName == null ? base.GetHashCode() : slingshotName.GetHashCode();
         }
 
         public bool Equals(BaseSlingshotSkin other)

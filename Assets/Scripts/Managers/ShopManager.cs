@@ -4,13 +4,14 @@ using Tools.Interfaces;
 using Tools.ScriptableObjects.Shop;
 using Tools.ScriptableObjects.Shop.ShopItems;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
 {
     public class ShopManager : MonoBehaviour, IReloadable
     {
-        public GameObject shopPointPrefab;
+        [FormerlySerializedAs("shopPointPrefab")] public GameObject shopItemPrefab;
         public VerticalLayoutGroup verticalLayoutGroup;
         [Space]
         [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
@@ -38,7 +39,7 @@ namespace Managers
             {
                 if (shopItemWithDisplay.shopItemDisplay == null)
                 {
-                    shopItemWithDisplay.shopItemDisplay = Instantiate(shopPointPrefab, verticalLayoutGroup.transform)
+                    shopItemWithDisplay.shopItemDisplay = Instantiate(shopItemPrefab, verticalLayoutGroup.transform)
                         .GetComponent<ShopItemDisplay>();
                 }
 

@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0220d140e18d046448ba50ab831e3732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopPointPrefab: {fileID: 4927322815282887217, guid: 1a3eb1ddbbab6b145a448ebc109b0ae9, type: 3}
+  shopItemPrefab: {fileID: 4927322815282887217, guid: 1a3eb1ddbbab6b145a448ebc109b0ae9, type: 3}
   verticalLayoutGroup: {fileID: 1665874980}
   shopItemWithDisplays:
   - shopItem: {fileID: 11400000, guid: aaa50a293c93cb747b1b99c6998590f3, type: 2}
