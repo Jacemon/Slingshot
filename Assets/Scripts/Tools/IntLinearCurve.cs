@@ -39,9 +39,9 @@ namespace Tools
 
         public int ForceEvaluate(int x)
         {
-            while (curve.length - 1 < x)
+            if (curve.length - 1 < x)
             {
-                AddCorner();
+                return k * x + b;
             }
 
             return Evaluate(x);

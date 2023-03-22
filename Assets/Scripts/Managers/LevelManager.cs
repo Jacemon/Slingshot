@@ -1,6 +1,6 @@
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Entities.Levels;
-using RotaryHeart.Lib.SerializableDictionary;
 using TMPro;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
@@ -10,7 +10,9 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public SerializableDictionaryBase<int, GameObject> levels = new();
+        [SerializedDictionary("Level number", "Level prefab")]
+        public SerializedDictionary<int, GameObject> levels;
+        [Space]
         public IntReference currentLevel;
         public IntReference maxAvailableLevel;
         [Space] 
@@ -49,7 +51,7 @@ namespace Managers
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.Value.ToString();
-    
+            
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
             nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
             buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);

@@ -57,7 +57,7 @@ namespace Entities
             transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutElastic);
         }
         
-        private void OnDestroy()
+        private void OnDisable()
         {
             transform.DOKill();
         }

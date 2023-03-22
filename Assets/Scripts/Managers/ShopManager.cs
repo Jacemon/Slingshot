@@ -55,8 +55,7 @@ namespace Managers
             var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemName == key).shopItem;
             if (shopItem != null &&
                 ((shopItem.isPurchased != null && shopItem.isPurchased.Value) || 
-                MoneyManager.WithdrawMoney(shopItem.ItemCost))
-                )
+                MoneyManager.WithdrawMoney(shopItem.ItemCost)))
             {
                     shopItem.Purchase();
                     Debug.Log($"{key} was purchased");

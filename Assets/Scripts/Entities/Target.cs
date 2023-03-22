@@ -61,7 +61,7 @@ namespace Entities
             transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutExpo);
         }
         
-        private void OnDestroy()
+        private void OnDisable()
         {
             transform.DOKill();
         }
@@ -84,7 +84,7 @@ namespace Entities
                 Debug.Log($"{targetName} shot down");
                 gameObject.layer = LayerMask.NameToLayer("RearMiddle");
                 _healthBar.enabled = false;
-                
+
                 switch (GetComponent<Collider2D>())
                 {
                     case CircleCollider2D:

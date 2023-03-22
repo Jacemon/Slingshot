@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Tools.ScriptableObjects.References;
 using Tools.ScriptableObjects.Slingshot;
 using Tools.ScriptableObjects.Slingshot.SlingshotSkins;
@@ -12,16 +12,10 @@ namespace Managers
     {
         public SlingshotDisplay slingshot;
         [Space]
-        public List<SlingshotSkinBoolReference> slingshotSkins;
+        [SerializedDictionary("Slingshot skin", "Bool reference")]
+        public SerializedDictionary<BaseSlingshotSkin, BoolReference> slingshotSkins;
         public StringReference currentSkin;
 
-        [Serializable]
-        public class SlingshotSkinBoolReference
-        {
-            public BaseSlingshotSkin baseSlingshotSkin;
-            public BoolReference boolReference;
-        }
-        
         private void Awake()
         {
             PutOnSkin(currentSkin.Value);
@@ -31,7 +25,7 @@ namespace Managers
         {
             foreach (var slingshotSkin in slingshotSkins)
             {
-                slingshotSkin.boolReference.onValueChanged += () => PutOnSkin(slingshotSkin.baseSlingshotSkin.slingshotName);
+                slingshotSkin.Value.onValueChanged += () => PutOnSkin(slingshotSkin.Key.slingshotName);
             }
         }
         
@@ -39,17 +33,17 @@ namespace Managers
         {
             foreach (var slingshotSkin in slingshotSkins)
             {
-                slingshotSkin.boolReference.onValueChanged -= () => PutOnSkin(slingshotSkin.baseSlingshotSkin.slingshotName);
+                slingshotSkin.Value.onValueChanged -= () => PutOnSkin(slingshotSkin.Key.slingshotName);
             }
         }
 
         private void PutOnSkin(string skinName)
         {
             var slingshotSkin = slingshotSkins.FirstOrDefault(slingshotSkin =>
-                slingshotSkin.baseSlingshotSkin.slingshotName == skinName && slingshotSkin.boolReference.Value);
-            if (slingshotSkin?.baseSlingshotSkin != null)
+                slingshotSkin.Key.slingshotName == skinName && slingshotSkin.Value.Value);
+            if (slingshotSkin.Key != null)
             {
-                slingshot.baseSlingshotSkin = slingshotSkin.baseSlingshotSkin;
+                slingshot.baseSlingshotSkin = slingshotSkin.Key;
                 slingshot.ReloadData();
                 
                 currentSkin.Value = slingshot.baseSlingshotSkin.slingshotName;

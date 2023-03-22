@@ -50,10 +50,7 @@ namespace Entities
         {
             GlobalEventManager.onProjectileThrow -= AddTimerDelay;
             _timer.onTimerDone -= ResumeCart;
-        }
-
-        private void OnDestroy()
-        {
+            
             transform.DOKill();
             _sequence.Kill();
         }
@@ -109,18 +106,17 @@ namespace Entities
         private void OnCollisionEnter2D(Collision2D collision)
         {
             Debug.Log($"{collision.gameObject.name} collided with {cartName}");
-        
-            var target = collision.gameObject.GetComponent<Target>();
-            if (target == null)
+            
+            if (!collision.gameObject.TryGetComponent(out Target target))
             {
                 return;
             }
             
+            GlobalEventManager.onTargetHitCart?.Invoke(target);
+            MoneyManager.DepositMoney(target.money);
+
             _particleSystem.Play();
             cartHit.Play();
-
-            MoneyManager.DepositMoney(target.money);
-            GlobalEventManager.onTargetHitCart?.Invoke(target);
             
             // Destroy target
             if (target.TryGetComponent(out Collider2D targetCollider) && 
