@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -328,15 +328,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      slider_4: 1402988404
       slider_0: -1565605368
-      slider_2: 1467746623
       slider_1: 1536803548
+      slider_2: 1467746623
       slider_3: 1766527823
+      slider_4: 1402988404
+      slider_5: -1183440218
+      slider_6: 502781717
       slider_7: -1246576724
       slider_8: -923545438
-      slider_6: 502781717
-      slider_5: -1183440218
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BlackCatSlingshot
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 187524391, guid: d110983d1b0998e47b7a644520cb9f27, type: 3}
-  itemName: Black Cat
+  itemNameKey: Levels/Shop/ShopItem/MaxPunkBlackCat
   isPurchased: {fileID: 11400000, guid: 5308a5009c137e74ebed6e4be283d93f, type: 2}
   cost: 2000

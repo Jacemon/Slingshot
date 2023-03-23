@@ -11,7 +11,8 @@ namespace Managers
 {
     public class ShopManager : MonoBehaviour, IReloadable
     {
-        [FormerlySerializedAs("shopPointPrefab")] public GameObject shopItemPrefab;
+        [FormerlySerializedAs("shopPointPrefab")] 
+        public GameObject shopItemPrefab;
         public VerticalLayoutGroup verticalLayoutGroup;
         [Space]
         [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
@@ -46,14 +47,14 @@ namespace Managers
                 shopItemWithDisplay.shopItemDisplay.shopItem = shopItemWithDisplay.shopItem;
                 shopItemWithDisplay.shopItemDisplay.buyButton.onClick.RemoveAllListeners();
                 shopItemWithDisplay.shopItemDisplay.buyButton.onClick.AddListener(
-                    () => Buy(shopItemWithDisplay.shopItem.itemName));
+                    () => Buy(shopItemWithDisplay.shopItem.itemNameKey));
                 shopItemWithDisplay.shopItemDisplay.ReloadData();
             }
         }
 
         private void Buy(string key)
         {
-            var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemName == key).shopItem;
+            var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemNameKey == key).shopItem;
             if (shopItem != null &&
                 ((shopItem.isPurchased != null && shopItem.isPurchased.Value) || 
                 MoneyManager.WithdrawMoney(shopItem.ItemCost)))

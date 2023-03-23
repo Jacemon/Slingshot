@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MaxAvailableLevelItem
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: f20e077c194676246aa15e1dcf6830b2, type: 3}
-  itemName: Level
+  itemNameKey: Levels/Shop/ShopItem/MaxAvailableLevel
+  isPurchased: {fileID: 0}
   itemLevel: {fileID: 11400000, guid: 8b57832cbf49000408563281995f7ffd, type: 2}
   itemCostCurve:
     curve:

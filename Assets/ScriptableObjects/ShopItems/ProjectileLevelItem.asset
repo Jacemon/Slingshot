@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ProjectileLevelItem
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 823adc3a562ab474480d9c2b7a613a0b, type: 3}
-  itemName: Rock
+  itemNameKey: Levels/Shop/ShopItem/Rock
+  isPurchased: {fileID: 0}
   itemLevel: {fileID: 11400000, guid: ca8f2f64204a9474fa8178aea40795a1, type: 2}
   itemCostCurve:
     curve:

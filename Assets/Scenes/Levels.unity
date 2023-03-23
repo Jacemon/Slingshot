@@ -1004,6 +1004,7 @@ GameObject:
   - component: {fileID: 1403833193}
   - component: {fileID: 1403833192}
   - component: {fileID: 1403833194}
+  - component: {fileID: 1403833195}
   m_Layer: 5
   m_Name: ShopLabel
   m_TagString: Untagged
@@ -1150,6 +1151,22 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1403833195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403833190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Levels/Shop/ShopLabel
+  FallbackText: 'Shop
+
+'
 --- !u!1 &1475296994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1837,10 @@ MonoBehaviour:
   iconImage: {fileID: 0}
   nameLabel: {fileID: 0}
   costLabel: {fileID: 441868082}
-  levelLabel: {fileID: 1802320678}
+  levelLabel: {fileID: 0}
+  nextLevelLabel: {fileID: 1802320678}
+  arrowLabel: {fileID: 0}
+  levelText: {fileID: 0}
   buyButton: {fileID: 1539792840}
 --- !u!1 &1638824630
 GameObject:
@@ -1970,7 +1990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationName: LevelText
+  translationName: Levels/LevelText
   FallbackText: Level
 --- !u!1 &1665874976
 GameObject:
@@ -2409,7 +2429,7 @@ GameObject:
   - component: {fileID: 1802320679}
   - component: {fileID: 1802320678}
   m_Layer: 5
-  m_Name: MaxAvailableLevelLabel
+  m_Name: NextLevelLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2435,7 +2455,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100->120lvl
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
   m_sharedMaterial: {fileID: -8572970822850144391, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
@@ -2462,7 +2482,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.65
+  m_fontSize: 71.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

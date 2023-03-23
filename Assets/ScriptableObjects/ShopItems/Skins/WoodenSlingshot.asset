@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WoodenSlingshot
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 820335462, guid: 09a9a563a59ef09428e2a91dce4e715f, type: 3}
-  itemName: Wooden slingshot
+  itemNameKey: Levels/Shop/ShopItem/WoodenSlingshot
   isPurchased: {fileID: 11400000, guid: dc1ff6635b991b44d8ac0b75a3753963, type: 2}

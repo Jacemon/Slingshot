@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -202,9 +202,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hand_2: -976018766
-      hand_1: 601528467
       hand_0: 1253948020
+      hand_1: 601528467
+      hand_2: -976018766
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

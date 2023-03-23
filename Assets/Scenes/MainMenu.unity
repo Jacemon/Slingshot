@@ -630,7 +630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: PLAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
   m_sharedMaterial: {fileID: -8572970822850144391, guid: ebf44aa8c3f2bca49b4dac587281da49, type: 2}
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationName: PlayButton
+  translationName: MainMenu/PlayButton
   FallbackText: PLAY
 --- !u!1 &1139249432
 GameObject:
