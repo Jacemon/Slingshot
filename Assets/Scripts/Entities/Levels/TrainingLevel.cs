@@ -37,7 +37,7 @@ namespace Entities.Levels
         private void Generate()
         {
             _apple = TargetManager.SpawnTarget(new[] { apple }, levelNumber, 
-                transform.TransformPoint(spawnPoint), transform);
+                transform.TransformPoint(spawnPoint), transform, new ParticleSystem.MinMaxCurve(1));
         }
         
         // if i < -1 disable all

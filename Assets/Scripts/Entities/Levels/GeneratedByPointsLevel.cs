@@ -11,7 +11,8 @@ namespace Entities.Levels
         public List<TargetPointPair> points;
         [Tooltip("These targets are used instead of null targets in the Points list")]
         public GameObject[] auxiliaryTargets;
-            
+        public ParticleSystem.MinMaxCurve minMaxScale = new(1);
+        
         private List<Target> _generatedTargets = new();
         
         [Serializable]
@@ -45,7 +46,7 @@ namespace Entities.Levels
             {
                 _generatedTargets.Add(
                     TargetManager.SpawnTarget(point.target == null ? auxiliaryTargets : new [] { point.target }, 
-                        levelNumber, transform.TransformPoint(point.point), transform));
+                        levelNumber, transform.TransformPoint(point.point), transform, minMaxScale));
             }
         }
         

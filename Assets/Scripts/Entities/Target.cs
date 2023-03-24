@@ -2,7 +2,6 @@ using DG.Tweening;
 using Managers;
 using Tools;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Entities
 {
@@ -23,11 +22,12 @@ namespace Entities
         public IntLinearCurve moneyCurve;
         public IntLinearCurve maxHealthCurve;
         [Space] 
+        public IntHealthBar healthBar; 
         public AudioSource targetHit;
         public ParticleSystem.MinMaxCurve minMaxPitch;
+        [Space] 
+        public float endScale = 1;
         
-        private Slider _slider;
-        private Canvas _healthBar;
         private ParticleSystem _particleSystem;
         private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
@@ -38,18 +38,12 @@ namespace Entities
         
         private void Awake()
         {
-            maxHealth = health = maxHealthCurve.ForceEvaluate(level);
+            health = maxHealth = maxHealthCurve.ForceEvaluate(level);
             money = moneyCurve.ForceEvaluate(level);
+
+            healthBar.Health = healthBar.MaxHealth = maxHealth;
             
-            _healthBar = GetComponentInChildren<Canvas>();
-            _healthBar.enabled = false;
-
-            _slider = _healthBar.GetComponentInChildren<Slider>();
-            _slider.maxValue = maxHealth;
-            _slider.value = health;
-
             _animator = GetComponent<Animator>();
-
             _particleSystem = GetComponent<ParticleSystem>();
 
             Debug.Log($"{targetName}:{level} was spawned");
@@ -58,7 +52,7 @@ namespace Entities
         public void OnEnable()
         {
             transform.localScale = Vector3.zero;
-            transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutExpo);
+            transform.DOScale(endScale, AppearTime).SetEase(Ease.OutExpo);
         }
         
         private void OnDisable()
@@ -69,13 +63,13 @@ namespace Entities
         public void GetDamage(int damage)
         {
             health -= damage;
+            healthBar.Health -= damage;
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
 
             targetHit.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             targetHit.Play();
             
             _particleSystem.Play();
-            
             _animator.SetTrigger(Hit);
 
             if (health <= 0)
@@ -83,22 +77,13 @@ namespace Entities
                 GetComponent<Rigidbody2D>().isKinematic = false;
                 Debug.Log($"{targetName} shot down");
                 gameObject.layer = LayerMask.NameToLayer("RearMiddle");
-                _healthBar.enabled = false;
-
-                switch (GetComponent<Collider2D>())
+                
+                object dummy = GetComponent<Collider2D>() switch
                 {
-                    case CircleCollider2D:
-                        GetComponent<CircleCollider2D>().radius *= ShotColliderScale;
-                        break;
-                    case CapsuleCollider2D:
-                        GetComponent<CapsuleCollider2D>().size *= ShotColliderScale;
-                        break;
-                }
-            } 
-            else if (health < maxHealth)
-            {
-                _healthBar.enabled = true;
-                _slider.value = health;
+                    CircleCollider2D circle => circle.radius *= ShotColliderScale,
+                    CapsuleCollider2D capsule => capsule.size *= ShotColliderScale,
+                    _ => null
+                };
             }
 
             GlobalEventManager.onTargetGetDamage?.Invoke(this);

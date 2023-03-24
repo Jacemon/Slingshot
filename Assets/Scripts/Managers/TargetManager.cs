@@ -17,18 +17,19 @@ namespace Managers
         }
 
         public static Target SpawnTarget(GameObject[] targets, int targetLevel,
-            Vector2 spawnPoint, Transform parent = null)
+            Vector2 spawnPoint, Transform parent = null, ParticleSystem.MinMaxCurve minMaxScale = default)
         {
             if (targets[Random.Range(0, targets.Length)].TryGetComponent(out Target target))
             {
                 target.level = targetLevel;
+                target.endScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             }
-            
-            return Instantiate(target, spawnPoint, Quaternion.identity, parent); 
+            return Instantiate(target, spawnPoint, Quaternion.identity, parent);
         }
 
         public static List<Target> GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
-            Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null)
+            Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null, 
+            ParticleSystem.MinMaxCurve minMaxScale = default)
         {
             // Coords calculating
             List<Vector2> existingCoordinates = new();
@@ -56,7 +57,7 @@ namespace Managers
             // Targets instantiating
             existingCoordinates.ForEach(coordinate =>
             {
-                generatedTargets.Add(SpawnTarget(targets, targetLevel, coordinate, parent));
+                generatedTargets.Add(SpawnTarget(targets, targetLevel, coordinate, parent, minMaxScale));
             });
             return generatedTargets;
         }

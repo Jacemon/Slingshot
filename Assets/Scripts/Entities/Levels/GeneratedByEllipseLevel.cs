@@ -9,6 +9,7 @@ namespace Entities.Levels
         [Header("Target generator settings")]
         public GameObject[] targets;
         public int targetsAmount;
+        public ParticleSystem.MinMaxCurve minMaxScale = new(1);
         public Vector2 spawnPoint;
         public float spawnRadius;
         public float spawnSecondRadius;
@@ -41,7 +42,8 @@ namespace Entities.Levels
                 spawnRadius * transform.localScale.x, 
                 spawnSecondRadius * transform.localScale.y, 
                 spaceBetween * transform.localScale.x,
-                transform
+                transform,
+                minMaxScale
             );
         }
         
