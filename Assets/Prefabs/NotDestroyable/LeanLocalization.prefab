@@ -47,7 +47,7 @@ MonoBehaviour:
   Source: {fileID: 4900000, guid: dfaf25457124bd449aa1926b24424438, type: 3}
   Format: 1
   Language: Russian
-  Cache: 0
+  Cache: 3
   entries: []
 --- !u!1 &1364392744
 GameObject:
@@ -96,7 +96,7 @@ MonoBehaviour:
   Source: {fileID: 4900000, guid: f815d813a7da3fd4e828f72417be4e11, type: 3}
   Format: 1
   Language: English
-  Cache: 0
+  Cache: 3
   entries: []
 --- !u!1 &3969411242421361785
 GameObject:
