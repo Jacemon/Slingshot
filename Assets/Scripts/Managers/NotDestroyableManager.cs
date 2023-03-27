@@ -14,14 +14,6 @@ namespace Managers
             }
         }
 
-        public void LoadScene(string sceneName)
-        {
-            if (NotDestroyable.TryGetComponent("Transition", out SceneLoaderManager sceneLoaderManager))
-            {
-                sceneLoaderManager.LoadSceneWithTransition(sceneName);
-            }
-        }
-
         public void ToggleEffects(bool isOn)
         {
             if (NotDestroyable.TryGetComponent("Audio", out AudioManager audioManager))
@@ -37,7 +29,23 @@ namespace Managers
                 audioManager.musicVolumeSwitch.Value = isOn;
             }
         }
-        
+
+        public void ShowRewardedAd()
+        {
+            if (NotDestroyable.TryGetComponent("Ad", out AdManager adManager))
+            {
+                adManager.ShowRewardedAd();
+            }
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            if (NotDestroyable.TryGetComponent("Transition", out SceneLoaderManager sceneLoaderManager))
+            {
+                sceneLoaderManager.LoadSceneWithTransition(sceneName);
+            }
+        }
+            
         public void QuitApplication()
         {
             Application.Quit();
