@@ -134,7 +134,6 @@ MonoBehaviour:
   levelNumber: 0
   targets:
   - {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-  - {fileID: 5030656357949858016, guid: fa23c2715286c9f47b9754b51483315e, type: 3}
   targetsAmount: 15
   minMaxScale:
     m_Mode: 3

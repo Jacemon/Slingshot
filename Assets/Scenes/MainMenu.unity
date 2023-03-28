@@ -185,8 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOn: {fileID: 11400000, guid: 4adc7864a5a69f540a854dce355f68e5, type: 2}
   graphic: {fileID: 229572307}
-  onSprite: {fileID: 21300000, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
-  offSprite: {fileID: 21300000, guid: 2499e23b2836e704cb908aecc4ff2385, type: 3}
+  onSprite: {fileID: -831842765, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
+  offSprite: {fileID: 6046635, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
 --- !u!114 &229572306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
+  m_Sprite: {fileID: -831842765, guid: 96fbd5b5792fe55419012af0308541bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1538,8 +1538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOn: {fileID: 11400000, guid: a126f20a56709d142a6e4718d6d35c68, type: 2}
   graphic: {fileID: 2117616712}
-  onSprite: {fileID: 21300000, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
-  offSprite: {fileID: 21300000, guid: 4a02993c394bf4847ae4d4c9162666f2, type: 3}
+  onSprite: {fileID: -1620858240, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
+  offSprite: {fileID: 372986633, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
 --- !u!222 &2117616711
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1568,7 +1568,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
+  m_Sprite: {fileID: -1620858240, guid: e7f1fe3c7d7b2bf4bb4af8cfebaa16d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

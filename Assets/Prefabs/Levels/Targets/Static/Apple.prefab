@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Apple
-  level: 7
+  level: 1
   money: 1
   maxHealth: 3
   health: 0
@@ -5247,6 +5247,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 0.7
     m_ConstantMax: 2
+  endScale: 1
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6

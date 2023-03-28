@@ -1,3 +1,4 @@
+using Entities.Targets;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -22,14 +23,14 @@ namespace Entities.Levels
 
         private void OnEnable()
         {
-            GlobalEventManager.onTargetGetDamage += ShowTrainingHint;
+            _apple.onHealthChanged += ShowTrainingHint;
             GlobalEventManager.onTargetHitCart += ShowTrainingGoodEnding;
             GlobalEventManager.onTargetHitGround += ShowTrainingBadEnding;
         }
 
         private void OnDisable()
         {
-            GlobalEventManager.onTargetGetDamage -= ShowTrainingHint;
+            _apple.onHealthChanged -= ShowTrainingHint;
             GlobalEventManager.onTargetHitCart -= ShowTrainingGoodEnding;
             GlobalEventManager.onTargetHitGround -= ShowTrainingBadEnding;
         }
@@ -59,13 +60,8 @@ namespace Entities.Levels
             hand.SetActive(_apple.health == _apple.maxHealth);
         }
 
-        private void ShowTrainingHint(Target target)
+        private void ShowTrainingHint()
         {
-            if (target != _apple)
-            {
-                return;
-            }
-
             switch (_apple.health)
             {
                 case 1: 

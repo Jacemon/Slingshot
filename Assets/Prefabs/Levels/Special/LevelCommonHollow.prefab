@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4927523153820241988}
   - component: {fileID: -4219800424216351375}
   m_Layer: 0
-  m_Name: LevelCommon2
+  m_Name: LevelCommonHollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

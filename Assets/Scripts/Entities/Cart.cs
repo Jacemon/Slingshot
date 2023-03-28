@@ -1,6 +1,7 @@
-using DG.Tweening;
+using Entities.Targets;
 using Managers;
 using Tools;
+using Tools.Follower;
 using UnityEngine;
 
 namespace Entities
@@ -9,13 +10,12 @@ namespace Entities
     [RequireComponent(typeof(ParticleSystem))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Timer))]
+    [RequireComponent(typeof(PathFollower))]
     public class Cart : MonoBehaviour
     {
         [Header("Settings")] 
         public string cartName;
-        [Space] 
-        public Vector2[] points;
-        public float velocity;
+        [Space]
         [Tooltip("Extra time after the projectile flight time")]
         public float fallTime;
         [Header("Special settings")] 
@@ -26,7 +26,7 @@ namespace Entities
         private const float TargetFadeTime = 0.3f;
 
         private Timer _timer;
-        private Sequence _sequence;
+        private PathFollower _pathFollower;
         private ParticleSystem _particleSystem;
         private Animator _animator;
         private static readonly int IsMovingLeft = Animator.StringToHash("IsMovingLeft");
@@ -34,63 +34,50 @@ namespace Entities
         private void Awake()
         {
             _timer = GetComponent<Timer>();
+            _pathFollower = GetComponent<PathFollower>();
             _animator = GetComponent<Animator>();
-            _animator.speed = velocity * AnimationSpeedCoefficient;
+            _animator.speed = _pathFollower.velocity * AnimationSpeedCoefficient;
             _particleSystem = GetComponent<ParticleSystem>();
-            Tween();
         }
 
         private void OnEnable()
         {
             GlobalEventManager.onProjectileThrow += AddTimerDelay;
             _timer.onTimerDone += ResumeCart;
+            _pathFollower.onMovingLeft += MoveLeft;
+            _pathFollower.onMovingRight += MoveRight;
         }
         
         private void OnDisable()
         {
             GlobalEventManager.onProjectileThrow -= AddTimerDelay;
             _timer.onTimerDone -= ResumeCart;
-            
-            transform.DOKill();
-            _sequence.Kill();
+            _pathFollower.onMovingLeft -= MoveLeft;
+            _pathFollower.onMovingRight -= MoveRight;
         }
 
+        private void MoveLeft()
+        {
+            _animator.SetBool(IsMovingLeft, true);
+        }
+        
+        private void MoveRight()
+        {
+            _animator.SetBool(IsMovingLeft, false);
+        }
+        
         private void PauseCart()
         {
             cartMoving.mute = true;
             _animator.enabled = false;
-            _sequence.Pause();
+            _pathFollower.Pause();
         }
 
         private void ResumeCart()
         {
             cartMoving.mute = false;
             _animator.enabled = true;
-            _sequence.Play();
-        }
-
-        private void Tween()
-        {
-            transform.position = points[^1];
-
-            _sequence = DOTween.Sequence().SetLoops(-1);
-
-            _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, points[^1].x > points[0].x));
-            _sequence.Append(transform
-                .DOMove(points[0], Vector2.Distance(points[^1], points[0]) / velocity)
-                .SetEase(Ease.Linear)
-            );
-            for (var i = 1; i < points.Length; i++)
-            {
-                var startPoint = points[i - 1];
-                var endPoint = points[i];
-                
-                _sequence.AppendCallback(() => _animator.SetBool(IsMovingLeft, startPoint.x > endPoint.x));
-                _sequence.Append(transform
-                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) / velocity)
-                    .SetEase(Ease.Linear)
-                );
-            }
+            _pathFollower.Resume();
         }
 
         private void AddTimerDelay(Projectile projectile)

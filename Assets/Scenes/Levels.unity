@@ -288,6 +288,7 @@ RectTransform:
   m_Children:
   - {fileID: 943608862}
   - {fileID: 582214793}
+  - {fileID: 1689643181}
   m_Father: {fileID: 1237418583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -963,7 +964,6 @@ RectTransform:
   - {fileID: 1487421802}
   - {fileID: 502566868}
   - {fileID: 1539792838}
-  - {fileID: 1689643181}
   - {fileID: 1665874977}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1547,7 +1547,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1531259703
 MonoBehaviour:
@@ -1616,6 +1616,8 @@ MonoBehaviour:
     - Key: 3
       Value: {fileID: 400266552143185750, guid: 48ea5ccc101295c498e76fdfd981dfb5, type: 3}
     - Key: 10
+      Value: {fileID: 2977628496677427846, guid: 9ade857b3089c254aa6ca6701a84f995, type: 3}
+    - Key: 11
       Value: {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
     - Key: 20
       Value: {fileID: 400266552143185750, guid: 1da8f46cb3416d54ebd4f5cd06188009, type: 3}
@@ -2354,7 +2356,7 @@ RectTransform:
   m_Children:
   - {fileID: 1403833191}
   m_Father: {fileID: 1237418583}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2478,12 +2480,12 @@ RectTransform:
   m_Children:
   - {fileID: 1638824631}
   - {fileID: 1475296995}
-  m_Father: {fileID: 1237418583}
-  m_RootOrder: 4
+  m_Father: {fileID: 281940715}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -170}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 800, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1689643182
@@ -3215,7 +3217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9182851437151506040, guid: d72e3b6ad7778af4b9d1ee6adb701faa, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9182851437151506040, guid: d72e3b6ad7778af4b9d1ee6adb701faa, type: 3}
       propertyPath: m_LocalPosition.x

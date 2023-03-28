@@ -9,16 +9,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762295560233629599}
-  - component: {fileID: 6747937516923968323}
+  - component: {fileID: 5030656357949858021}
   - component: {fileID: 5030656357949858018}
-  - component: {fileID: 6708299719470335018}
+  - component: {fileID: 1082055614730072460}
   - component: {fileID: 6281463333959393238}
-  - component: {fileID: 4201512736781985948}
-  - component: {fileID: 1744002962946711579}
-  - component: {fileID: 5030656357949858020}
+  - component: {fileID: 8997539569738722077}
+  - component: {fileID: 6416359334025844552}
   - component: {fileID: 5850777044229197107}
+  - component: {fileID: 6013852745420377210}
+  - component: {fileID: -7428359753690675145}
   m_Layer: 7
-  m_Name: Pear
+  m_Name: Crow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,14 +35,14 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 5663448776867299058}
+  - {fileID: 2576600546984767108}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &6747937516923968323
-CapsuleCollider2D:
+--- !u!58 &5030656357949858021
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -53,9 +54,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  m_Size: {x: 2, y: 2.5}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!50 &5030656357949858018
 Rigidbody2D:
   serializedVersion: 4
@@ -77,7 +78,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!212 &6708299719470335018
+--- !u!212 &1082055614730072460
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +119,7 @@ SpriteRenderer:
   m_SortingLayerID: 1996668811
   m_SortingLayer: -1
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 37be6edd02c6f06409ed32d023bca2cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 51c933fdc543ff94b9e1d97d95cd3c23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -322,9 +323,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9339623, g: 0.82110953, b: 0.5594963, a: 1}
-        key1: {r: 0.78823537, g: 0.6156863, b: 0.21568629, a: 1}
-        key2: {r: 0.30980393, g: 0.20392159, b: 0.039215688, a: 0}
+        key0: {r: 0.8147526, g: 0.9056604, b: 0.49982202, a: 1}
+        key1: {r: 0.5921569, g: 0.7019608, b: 0.21176472, a: 1}
+        key2: {r: 0.34509805, g: 0.44705886, b: 0.12941177, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -4894,7 +4895,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!82 &4201512736781985948
+--- !u!82 &8997539569738722077
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4990,7 +4991,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &1744002962946711579
+--- !u!95 &6416359334025844552
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -5011,62 +5012,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5030656357949858020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030656357949858016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2a99c59e068244182764d2d81b93bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetName: Pear
-  level: 3
-  money: 3
-  maxHealth: 5
-  health: 0
-  moneyCurve:
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    cornerCount: 0
-    k: 3
-    b: 3
-  maxHealthCurve:
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    cornerCount: 0
-    k: 5
-    b: 5
-  healthBar: {fileID: 5120215888428360285}
-  targetHit: {fileID: 4201512736781985948}
-  minMaxPitch:
-    m_Mode: 3
-    m_CurveMultiplier: 0
-    m_CurveMin:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_CurveMax:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ConstantMin: 0.6
-    m_ConstantMax: 1.5
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5139,7 +5084,83 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1001 &5225668270913188678
+--- !u!114 &6013852745420377210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030656357949858016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0de28df39fad47ebaa0303e2c45d133f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points:
+  - {x: -1.9, y: 1.8}
+  - {x: 2.3, y: 1.8}
+  velocity: 1
+  loops: -1
+--- !u!114 &-7428359753690675145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030656357949858016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b65d33fb81425c996a3e54564afc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetName: Crow
+  level: 1
+  money: 1
+  maxHealth: 0
+  health: 0
+  moneyCurve:
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 0
+    k: 1
+    b: 1
+  maxHealthCurve:
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 0
+    k: 3
+    b: 3
+  healthBar: {fileID: 3051145983573652011}
+  targetHit: {fileID: 8997539569738722077}
+  minMaxPitch:
+    m_Mode: 3
+    m_CurveMultiplier: 0
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0.9
+    m_ConstantMax: 1.5
+  appearScale: 1
+  appearTime: 1.5
+  destroyTime: 2
+--- !u!1001 &2728123338086834992
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -5244,10 +5265,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f83caa157630b64ba48768aba2edf1f, type: 3}
---- !u!114 &5120215888428360285 stripped
+--- !u!224 &2576600546984767108 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 440738355744132532, guid: 5f83caa157630b64ba48768aba2edf1f, type: 3}
+  m_PrefabInstance: {fileID: 2728123338086834992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3051145983573652011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1120240325271097627, guid: 5f83caa157630b64ba48768aba2edf1f, type: 3}
-  m_PrefabInstance: {fileID: 5225668270913188678}
+  m_PrefabInstance: {fileID: 2728123338086834992}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -5255,8 +5281,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86e75db1146445f9bbed219e43c9c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &5663448776867299058 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 440738355744132532, guid: 5f83caa157630b64ba48768aba2edf1f, type: 3}
-  m_PrefabInstance: {fileID: 5225668270913188678}
-  m_PrefabAsset: {fileID: 0}

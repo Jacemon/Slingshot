@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Entities.Targets;
 using UnityEngine;
 
 namespace Managers
@@ -22,7 +23,7 @@ namespace Managers
             if (targets[Random.Range(0, targets.Length)].TryGetComponent(out Target target))
             {
                 target.level = targetLevel;
-                target.endScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+                target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             }
             return Instantiate(target, spawnPoint, Quaternion.identity, parent);
         }

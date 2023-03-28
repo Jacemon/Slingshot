@@ -1,9 +1,11 @@
+using System;
 using DG.Tweening;
 using Managers;
 using Tools;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace Entities
+namespace Entities.Targets
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
@@ -26,17 +28,19 @@ namespace Entities
         public AudioSource targetHit;
         public ParticleSystem.MinMaxCurve minMaxPitch;
         [Space] 
-        public float endScale = 1;
+        public float appearScale = 1;
+        public float appearTime = 1.5f;
+        public float destroyTime = 2f;
+
+        public Action onHealthChanged;
         
         private ParticleSystem _particleSystem;
         private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
-        private const float AppearTime = 1.5f;
-        private const float TimeBeforeDestroy = 2f;
         private const float ShotColliderScale = 0.6f;
         
-        private void Awake()
+        protected virtual void Awake()
         {
             health = maxHealth = maxHealthCurve.ForceEvaluate(level);
             money = moneyCurve.ForceEvaluate(level);
@@ -49,18 +53,22 @@ namespace Entities
             Debug.Log($"{targetName}:{level} was spawned");
         }
 
-        public void OnEnable()
+        protected virtual void OnEnable()
         {
             transform.localScale = Vector3.zero;
-            transform.DOScale(endScale, AppearTime).SetEase(Ease.OutExpo);
+            transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
+
+            onHealthChanged += CheckHealth;
         }
         
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             transform.DOKill();
+            
+            onHealthChanged -= CheckHealth;
         }
         
-        public void GetDamage(int damage)
+        public virtual void GetDamage(int damage)
         {
             health -= damage;
             healthBar.Health -= damage;
@@ -72,24 +80,30 @@ namespace Entities
             _particleSystem.Play();
             _animator.SetTrigger(Hit);
 
-            if (health <= 0)
-            {
-                GetComponent<Rigidbody2D>().isKinematic = false;
-                Debug.Log($"{targetName} shot down");
-                gameObject.layer = LayerMask.NameToLayer("RearMiddle");
-                
-                object dummy = GetComponent<Collider2D>() switch
-                {
-                    CircleCollider2D circle => circle.radius *= ShotColliderScale,
-                    CapsuleCollider2D capsule => capsule.size *= ShotColliderScale,
-                    _ => null
-                };
-            }
-
-            GlobalEventManager.onTargetGetDamage?.Invoke(this);
+            onHealthChanged?.Invoke();
         }
 
-        public void LateDestroy(float time = TimeBeforeDestroy)
+        private void CheckHealth()
+        {
+            if (health > 0) return;
+            
+            GetComponent<Rigidbody2D>().isKinematic = false;
+            Debug.Log($"{targetName} shot down");
+            gameObject.layer = LayerMask.NameToLayer("RearMiddle");
+                
+            object dummy = GetComponent<Collider2D>() switch
+            {
+                CircleCollider2D circle => circle.radius *= ShotColliderScale,
+                CapsuleCollider2D capsule => capsule.size *= ShotColliderScale,
+                _ => null
+            };
+        }
+
+        public void LateDestroy()
+        {
+            LateDestroy(destroyTime);
+        }
+        public void LateDestroy(float time)
         {
             if (transform != null)
             {

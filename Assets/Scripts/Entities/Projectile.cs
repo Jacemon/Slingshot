@@ -1,5 +1,6 @@
 using System.Collections;
 using DG.Tweening;
+using Entities.Targets;
 using Managers;
 using Tools;
 using Tools.Follower;
