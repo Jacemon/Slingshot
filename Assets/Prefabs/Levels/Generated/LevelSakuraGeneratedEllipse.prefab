@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 400266552143185749}
   - component: {fileID: 1883251798490685960}
   m_Layer: 0
-  m_Name: LevelSakuraGenerated
+  m_Name: LevelSakuraGeneratedEllipse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

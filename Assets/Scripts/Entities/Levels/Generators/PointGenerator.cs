@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Entities.Levels.Generators
@@ -24,9 +25,9 @@ namespace Entities.Levels.Generators
             {
                 generatedTargets.Add(
                     TargetManager.SpawnTarget(
+                        parent != null ? parent.TransformPoint(point.point) : point.point,
                         point.target == null ? randomTargets : new List<GameObject> { point.target },
                         level,
-                        parent.TransformPoint(point.point),
                         parent, 
                         minMaxScale
                     )
@@ -38,9 +39,12 @@ namespace Entities.Levels.Generators
         {
             foreach (var point in points)
             {
-                Gizmos.color = point.target == null ? Color.yellow : Color.green;
-                Gizmos.DrawWireSphere(parent != null ? parent.TransformPoint(point.point) : point.point, 
-                    parent.localScale.x);
+                Handles.color = point.target == null ? Color.yellow : Color.green;
+                Handles.DrawWireDisc(
+                    parent != null ? parent.TransformPoint(point.point) : point.point,
+                    Vector3.forward,
+                    parent.localScale.x
+                );
             }
         }
     }

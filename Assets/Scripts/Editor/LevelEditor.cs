@@ -16,13 +16,17 @@ namespace Editor
             
             GUILayout.BeginHorizontal();
 
+            if (GUILayout.Button("Add Point generator"))
+            {
+                generators.Add(new PointGenerator());
+            }
             if (GUILayout.Button("Add Ellipse generator"))
             {
                 generators.Add(new EllipseGenerator());
             }
-            if (GUILayout.Button("Add Point generator"))
+            if (GUILayout.Button("Add Rectangle generator"))
             {
-                generators.Add(new PointGenerator());
+                generators.Add(new RectangleGenerator());
             }
             
             GUILayout.EndHorizontal();
