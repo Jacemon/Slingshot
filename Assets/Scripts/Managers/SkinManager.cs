@@ -25,7 +25,7 @@ namespace Managers
         {
             foreach (var slingshotSkin in slingshotSkins)
             {
-                slingshotSkin.Value.onValueChanged += () => PutOnSkin(slingshotSkin.Key.slingshotName);
+                slingshotSkin.Value.OnValueChanged += () => PutOnSkin(slingshotSkin.Key.slingshotName);
             }
         }
         
@@ -33,7 +33,7 @@ namespace Managers
         {
             foreach (var slingshotSkin in slingshotSkins)
             {
-                slingshotSkin.Value.onValueChanged -= () => PutOnSkin(slingshotSkin.Key.slingshotName);
+                slingshotSkin.Value.OnValueChanged -= () => PutOnSkin(slingshotSkin.Key.slingshotName);
             }
         }
 

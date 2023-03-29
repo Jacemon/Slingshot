@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4927523153820241988}
-  - component: {fileID: -4219800424216351375}
+  - component: {fileID: 6302296615212791199}
   m_Layer: 0
   m_Name: LevelCommonHollow
   m_TagString: Untagged
@@ -119,7 +119,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4219800424216351375
+--- !u!114 &6302296615212791199
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,26 +128,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 4927523153820241989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fe91ab11ca240128f0997efc35719e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 18d63cf38b9d400b9e5fa2a9f0494053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   levelNumber: 0
-  points:
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: -4, y: 2.6}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: -4.3, y: 7.4}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 1.2, y: 10.5}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: -0.9, y: 5.7}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 1.2, y: 1.2}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 5.4, y: 4.9}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 4.3, y: 8.3}
-  auxiliaryTargets: []
+  generators:
+  - rid: 403430157798604814
+  references:
+    version: 2
+    RefIds:
+    - rid: 403430157798604814
+      type: {class: PointGenerator, ns: Entities.Levels.Generators, asm: Assembly-CSharp}
+      data:
+        randomTargets:
+        - {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+        parent: {fileID: 4927523153820241988}
+        autoRegenerate: 1
+        generatedTargets: []
+        level: 0
+        minMaxScale:
+          m_Mode: 3
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 0.7
+          m_ConstantMax: 1
+        points:
+        - target: {fileID: 0}
+          point: {x: -4, y: 2.6}
+        - target: {fileID: 0}
+          point: {x: -4.3, y: 7.4}
+        - target: {fileID: 0}
+          point: {x: 1.2, y: 10.5}
+        - target: {fileID: 0}
+          point: {x: -0.9, y: 5.7}
+        - target: {fileID: 0}
+          point: {x: 1.2, y: 1.2}
+        - target: {fileID: 0}
+          point: {x: 5.4, y: 4.9}
+        - target: {fileID: 0}
+          point: {x: 4.3, y: 8.3}
 --- !u!1 &8186042878259940709
 GameObject:
   m_ObjectHideFlags: 0

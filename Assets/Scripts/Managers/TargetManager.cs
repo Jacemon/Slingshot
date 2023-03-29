@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Entities;
 using Entities.Targets;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Managers
 {
@@ -17,10 +17,10 @@ namespace Managers
             _maxTries = maxTriesToSpawn;
         }
 
-        public static Target SpawnTarget(GameObject[] targets, int targetLevel,
-            Vector2 spawnPoint, Transform parent = null, ParticleSystem.MinMaxCurve minMaxScale = default)
+        public static Target SpawnTarget(List<GameObject> targets, int targetLevel,
+            Vector2 spawnPoint, Transform parent = null, MinMaxCurve minMaxScale = default)
         {
-            if (targets[Random.Range(0, targets.Length)].TryGetComponent(out Target target))
+            if (targets[Random.Range(0, targets.Count)].TryGetComponent(out Target target))
             {
                 target.level = targetLevel;
                 target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
@@ -28,9 +28,9 @@ namespace Managers
             return Instantiate(target, spawnPoint, Quaternion.identity, parent);
         }
 
-        public static List<Target> GenerateTargetsByEllipse(GameObject[] targets, int amount, int targetLevel,
+        public static List<Target> GenerateTargetsByEllipse(List<GameObject> targets, int amount, int targetLevel,
             Vector2 spawnPoint, float semiMinor, float semiMajor, float spaceBetween, Transform parent = null, 
-            ParticleSystem.MinMaxCurve minMaxScale = default)
+            MinMaxCurve minMaxScale = default)
         {
             // Coords calculating
             List<Vector2> existingCoordinates = new();

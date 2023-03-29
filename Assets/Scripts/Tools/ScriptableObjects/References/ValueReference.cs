@@ -9,7 +9,7 @@ namespace Tools.ScriptableObjects.References
         [SerializeField]
         private T value;
 
-        public Action onValueChanged;
+        public Action OnValueChanged;
         
         public T Value
         {
@@ -17,7 +17,7 @@ namespace Tools.ScriptableObjects.References
             set
             {
                 this.value = value;
-                onValueChanged?.Invoke();
+                OnValueChanged?.Invoke();
             }
         }
     }

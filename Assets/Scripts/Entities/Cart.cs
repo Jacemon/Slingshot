@@ -42,16 +42,16 @@ namespace Entities
 
         private void OnEnable()
         {
-            GlobalEventManager.onProjectileThrow += AddTimerDelay;
-            _timer.onTimerDone += ResumeCart;
+            GlobalEventManager.OnProjectileThrow += AddTimerDelay;
+            _timer.OnTimerDone += ResumeCart;
             _pathFollower.onMovingLeft += MoveLeft;
             _pathFollower.onMovingRight += MoveRight;
         }
         
         private void OnDisable()
         {
-            GlobalEventManager.onProjectileThrow -= AddTimerDelay;
-            _timer.onTimerDone -= ResumeCart;
+            GlobalEventManager.OnProjectileThrow -= AddTimerDelay;
+            _timer.OnTimerDone -= ResumeCart;
             _pathFollower.onMovingLeft -= MoveLeft;
             _pathFollower.onMovingRight -= MoveRight;
         }
@@ -99,7 +99,7 @@ namespace Entities
                 return;
             }
             
-            GlobalEventManager.onTargetHitCart?.Invoke(target);
+            GlobalEventManager.OnTargetHitCart?.Invoke(target);
             MoneyManager.DepositMoney(target.money);
 
             _particleSystem.Play();

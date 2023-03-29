@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400266552143185749}
-  - component: {fileID: 7615896187341429999}
+  - component: {fileID: 7192298086715486148}
   m_Layer: 0
   m_Name: LevelCommon
   m_TagString: Untagged
@@ -211,7 +211,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7615896187341429999
+--- !u!114 &7192298086715486148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,22 +220,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 400266552143185750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fe91ab11ca240128f0997efc35719e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 18d63cf38b9d400b9e5fa2a9f0494053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   levelNumber: 0
-  points:
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: -4.3, y: 8}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 0, y: 10}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: -2.9, y: 3.7}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 3.4, y: 6.3}
-  - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
-    point: {x: 2, y: 2.3}
-  auxiliaryTargets: []
+  generators:
+  - rid: 403430157798604813
+  references:
+    version: 2
+    RefIds:
+    - rid: 403430157798604813
+      type: {class: PointGenerator, ns: Entities.Levels.Generators, asm: Assembly-CSharp}
+      data:
+        randomTargets: []
+        parent: {fileID: 400266552143185749}
+        autoRegenerate: 1
+        generatedTargets: []
+        level: 0
+        minMaxScale:
+          m_Mode: 3
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 0.7
+          m_ConstantMax: 1
+        points:
+        - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+          point: {x: -4.3, y: 8}
+        - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+          point: {x: 0, y: 10}
+        - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+          point: {x: -2.9, y: 3.7}
+        - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+          point: {x: 3.4, y: 6.3}
+        - target: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+          point: {x: 2, y: 2.3}
 --- !u!1 &8948145408517813558
 GameObject:
   m_ObjectHideFlags: 0

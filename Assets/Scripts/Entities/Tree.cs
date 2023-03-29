@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Entities
 {
@@ -12,9 +13,9 @@ namespace Entities
         public GameObject trunkHitPrefab;
         [Space]
         public AudioSource leavesHit;
-        public ParticleSystem.MinMaxCurve minMaxLeavesHitPitch;
+        public MinMaxCurve minMaxLeavesHitPitch;
         public AudioSource trunkHit;
-        public ParticleSystem.MinMaxCurve minMaxTrunkHitPitch;
+        public MinMaxCurve minMaxTrunkHitPitch;
     
         private void OnCollisionEnter2D(Collision2D collision)
         {

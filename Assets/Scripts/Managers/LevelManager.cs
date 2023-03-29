@@ -29,17 +29,20 @@ namespace Managers
 
         private void Awake()
         {
+            CheckGUI();
             LoadLevel(currentLevel.Value);
         }
 
         private void OnEnable()
         {
-            maxAvailableLevel.onValueChanged += OnMaxAvailableLevelChanged;
+            maxAvailableLevel.OnValueChanged += OnMaxAvailableLevelChanged;
+            currentLevel.OnValueChanged += CheckGUI;
         }
         
         private void OnDisable()
         {
-            maxAvailableLevel.onValueChanged -= OnMaxAvailableLevelChanged;
+            maxAvailableLevel.OnValueChanged -= OnMaxAvailableLevelChanged;
+            currentLevel.OnValueChanged -= CheckGUI;
         }
 
         private void OnMaxAvailableLevelChanged()
@@ -74,36 +77,34 @@ namespace Managers
                 return;
             }
             
-            currentLevel.Value = levelNumber;
-            CheckGUI();
-
             // Find the left level closest to the current one
             if (!levels.ContainsKey(levelNumber))
             {
-                var closestKey = levels.Keys.Where(k => k < currentLevel.Value).Max();
-                levels[currentLevel.Value] = levels[closestKey];
+                var closestKey = levels.Keys.Where(k => k < levelNumber).Max();
+                levels[levelNumber] = levels[closestKey];
             }
 
-            // Find all the Level components and configure them
-            var levelScripts = levels[currentLevel.Value].GetComponents<Level>();
-            if (levelScripts.Length == 0)
+            // Configure Level component if exists
+            if (levels[levelNumber].TryGetComponent(out Level level))
             {
-                Debug.Log($"Level {currentLevel.Value} has not Level scripts...");
+                level.levelNumber = levelNumber;
+            }
+            else
+            {
+                Debug.Log($"Level {levelNumber} has not Level script...");
                 return;
             }
-            foreach (var level in levelScripts)
-            {
-                level.levelNumber = currentLevel.Value;
-            }
+            
+            currentLevel.Value = levelNumber;
 
             // Destroy old and create new level
             if (loadedLevel != null)
             {
                 Destroy(loadedLevel.gameObject);
             }
-            loadedLevel = Instantiate(levelScripts[0], startPosition, Quaternion.identity);
+            loadedLevel = Instantiate(level, startPosition, Quaternion.identity);
 
-            GlobalEventManager.onLevelLoad?.Invoke();
+            GlobalEventManager.OnLevelLoad?.Invoke();
             
             Debug.Log($"End loading level {currentLevel.Value}...");
         }

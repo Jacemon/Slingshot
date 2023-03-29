@@ -22,7 +22,7 @@ namespace Entities
             
             if (collision.gameObject.TryGetComponent(out Target target))
             {
-                GlobalEventManager.onTargetHitGround?.Invoke(target);
+                GlobalEventManager.OnTargetHitGround?.Invoke(target);
                 target.LateDestroy();
             }
         }

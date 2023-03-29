@@ -17,13 +17,13 @@ namespace Entities.Targets
         protected override void OnEnable()
         {
             base.OnEnable();
-            onHealthChanged += CheckPathFollower;
+            OnHealthChanged += CheckPathFollower;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            onHealthChanged -= CheckPathFollower;
+            OnHealthChanged -= CheckPathFollower;
         }
 
         private void CheckPathFollower()

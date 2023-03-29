@@ -1,9 +1,9 @@
 using System;
 using DG.Tweening;
-using Managers;
 using Tools;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static UnityEngine.ParticleSystem;
 
 namespace Entities.Targets
 {
@@ -26,13 +26,13 @@ namespace Entities.Targets
         [Space] 
         public IntHealthBar healthBar; 
         public AudioSource targetHit;
-        public ParticleSystem.MinMaxCurve minMaxPitch;
+        public MinMaxCurve minMaxPitch;
         [Space] 
         public float appearScale = 1;
         public float appearTime = 1.5f;
         public float destroyTime = 2f;
 
-        public Action onHealthChanged;
+        public Action OnHealthChanged;
         
         private ParticleSystem _particleSystem;
         private Animator _animator;
@@ -58,14 +58,14 @@ namespace Entities.Targets
             transform.localScale = Vector3.zero;
             transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
 
-            onHealthChanged += CheckHealth;
+            OnHealthChanged += CheckHealth;
         }
         
         protected virtual void OnDisable()
         {
             transform.DOKill();
             
-            onHealthChanged -= CheckHealth;
+            OnHealthChanged -= CheckHealth;
         }
         
         public virtual void GetDamage(int damage)
@@ -80,7 +80,7 @@ namespace Entities.Targets
             _particleSystem.Play();
             _animator.SetTrigger(Hit);
 
-            onHealthChanged?.Invoke();
+            OnHealthChanged?.Invoke();
         }
 
         private void CheckHealth()

@@ -1,6 +1,7 @@
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Entities
 {
@@ -19,7 +20,7 @@ namespace Entities
         public float pouchPullingPitchMin;
         public float pouchPullingPitchMultiplier;
         public AudioSource pouchShoot;
-        public ParticleSystem.MinMaxCurve minMaxPouchShootPitch;
+        public MinMaxCurve minMaxPouchShootPitch;
         [Header("Current parameters")]
         [SerializeField]
         private bool pouchFill;

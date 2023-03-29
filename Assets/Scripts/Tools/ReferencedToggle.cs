@@ -24,13 +24,13 @@ namespace Tools
 
         private void OnEnable()
         {
-            isOn.onValueChanged += ReloadData;
+            isOn.OnValueChanged += ReloadData;
             _toggle.onValueChanged.AddListener(OnToggleChanged);
         }
         
         private void OnDisable()
         {
-            isOn.onValueChanged -= ReloadData;
+            isOn.OnValueChanged -= ReloadData;
             _toggle.onValueChanged.RemoveListener(OnToggleChanged);
         }
 

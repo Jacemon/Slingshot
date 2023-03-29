@@ -10,7 +10,7 @@ namespace Tools
         public bool timerOn;
         public float delay;
 
-        public Action onTimerDone;
+        public Action OnTimerDone;
         
         private void Update()
         {
@@ -21,7 +21,7 @@ namespace Tools
             if (delay > 0) return;
             timerDone = true;
             timerOn = false;
-            onTimerDone?.Invoke();
+            OnTimerDone?.Invoke();
         }
 
         public void SetBiggerDelay(float otherDelay)

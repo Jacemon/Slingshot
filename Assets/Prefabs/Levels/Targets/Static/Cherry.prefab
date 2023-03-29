@@ -5226,8 +5226,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     cornerCount: 10
-    k: 3
-    b: 3
+    k: 2
+    b: 2
   healthBar: {fileID: 1341292685865911513}
   targetHit: {fileID: 8906769904812675544}
   minMaxPitch:
@@ -5247,7 +5247,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 1
     m_ConstantMax: 2.3
-  endScale: 1
+  appearScale: 1
+  appearTime: 1.5
+  destroyTime: 2
 --- !u!199 &5850777044229197107
 ParticleSystemRenderer:
   serializedVersion: 6

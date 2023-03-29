@@ -1614,25 +1614,23 @@ MonoBehaviour:
     - Key: 2
       Value: {fileID: 4927523153820241989, guid: 8f493fd4b240c0e40a28e5a4d37805d0, type: 3}
     - Key: 3
-      Value: {fileID: 400266552143185750, guid: 48ea5ccc101295c498e76fdfd981dfb5, type: 3}
+      Value: {fileID: 7096316851838854402, guid: 4157437bb5fd5cc4f89e1dabfe710cc3, type: 3}
     - Key: 10
-      Value: {fileID: 2977628496677427846, guid: 9ade857b3089c254aa6ca6701a84f995, type: 3}
-    - Key: 11
-      Value: {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
+      Value: {fileID: 2977628496677427846, guid: 76c35ddf4e070c04da26256a9621196f, type: 3}
     - Key: 20
-      Value: {fileID: 400266552143185750, guid: 1da8f46cb3416d54ebd4f5cd06188009, type: 3}
+      Value: {fileID: 400266552143185750, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
     - Key: 30
-      Value: {fileID: 400266552143185750, guid: 48ea5ccc101295c498e76fdfd981dfb5, type: 3}
+      Value: {fileID: 7096316851838854402, guid: 4157437bb5fd5cc4f89e1dabfe710cc3, type: 3}
     - Key: 50
-      Value: {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
+      Value: {fileID: 2977628496677427846, guid: 76c35ddf4e070c04da26256a9621196f, type: 3}
     - Key: 80
-      Value: {fileID: 400266552143185750, guid: 1da8f46cb3416d54ebd4f5cd06188009, type: 3}
+      Value: {fileID: 400266552143185750, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
     - Key: 120
-      Value: {fileID: 400266552143185750, guid: 48ea5ccc101295c498e76fdfd981dfb5, type: 3}
+      Value: {fileID: 7096316851838854402, guid: 4157437bb5fd5cc4f89e1dabfe710cc3, type: 3}
     - Key: 160
-      Value: {fileID: 2977628496677427846, guid: 48a828a2f882c844f9eed368e3deedb1, type: 3}
+      Value: {fileID: 2977628496677427846, guid: 76c35ddf4e070c04da26256a9621196f, type: 3}
     - Key: 200
-      Value: {fileID: 400266552143185750, guid: 1da8f46cb3416d54ebd4f5cd06188009, type: 3}
+      Value: {fileID: 400266552143185750, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
   currentLevel: {fileID: 11400000, guid: 968d0bb311c2671409b7c1c533094fd4, type: 2}
   maxAvailableLevel: {fileID: 11400000, guid: 8b57832cbf49000408563281995f7ffd, type: 2}
   nextButton: {fileID: 1487421803}

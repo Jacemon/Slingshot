@@ -19,12 +19,12 @@ namespace Managers
 
         private void OnEnable()
         {
-           _money.onValueChanged += ReloadMoney;
+           _money.OnValueChanged += ReloadMoney;
         }
         
         private void OnDisable()
         {
-            _money.onValueChanged -= ReloadMoney;
+            _money.OnValueChanged -= ReloadMoney;
         }
 
         public static void DepositMoney(long depositedMoney)

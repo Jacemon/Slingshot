@@ -11,7 +11,7 @@ namespace Tools
         public Canvas healthBarCanvas;
         public bool alwaysVisible;
 
-        public Action onHealthChanged;
+        public Action OnHealthChanged;
 
         private int _health;
         private int _maxHealth;
@@ -50,7 +50,7 @@ namespace Tools
                 
                 healthBarSlider.value = _health;
                 
-                onHealthChanged?.Invoke();
+                OnHealthChanged?.Invoke();
             }
         }
     }

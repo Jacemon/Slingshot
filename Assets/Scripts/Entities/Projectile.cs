@@ -5,6 +5,7 @@ using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Entities
 {
@@ -25,8 +26,8 @@ namespace Entities
         public float flightTime = 1.0f;
         public float stuckTime = 0.1f;
         public float finalScale = 0.3f;
-        public ParticleSystem.MinMaxCurve minMaxVelocity;
-        public ParticleSystem.MinMaxCurve minMaxAngularVelocity;
+        public MinMaxCurve minMaxVelocity;
+        public MinMaxCurve minMaxAngularVelocity;
         [Space]
         public bool inPick;
 
@@ -106,7 +107,7 @@ namespace Entities
 
         private IEnumerator ShootCoroutine(Vector2 force)
         {
-            GlobalEventManager.onProjectileThrow?.Invoke(this);
+            GlobalEventManager.OnProjectileThrow?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         
