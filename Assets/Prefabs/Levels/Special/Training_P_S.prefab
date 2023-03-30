@@ -867,7 +867,7 @@ GameObject:
   - component: {fileID: 400266552143185749}
   - component: {fileID: 1269523931453206560}
   m_Layer: 0
-  m_Name: LevelTraining
+  m_Name: Training_P_S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

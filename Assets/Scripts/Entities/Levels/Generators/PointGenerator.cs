@@ -10,38 +10,40 @@ namespace Entities.Levels.Generators
     public class PointGenerator : BaseGenerator
     {
         [Header("Points settings")]
-        public List<TargetPointPair> points = new();
+        public List<Vector2> points = new();
 
-        [Serializable]
-        public class TargetPointPair
-        {
-            public GameObject target;
-            public Vector2 point;
-        }
-        
         protected override void StartGenerate()
         {
-            foreach (var point in points)
+            List<Vector2> globalPoints = new();
+            
+            if (parent != null)
             {
-                generatedTargets.Add(
-                    TargetManager.SpawnTarget(
-                        parent != null ? parent.TransformPoint(point.point) : point.point,
-                        point.target == null ? randomTargets : new List<GameObject> { point.target },
-                        level,
-                        parent, 
-                        minMaxScale
-                    )
-                );
+                foreach (var point in points)
+                {
+                    globalPoints.Add(parent.TransformPoint(point));
+                }
             }
+            else
+            {
+                globalPoints = points;
+            }
+            
+            generatedTargets = TargetManager.SpawnTargetsByPoints(
+                globalPoints,
+                randomTargets,
+                level,
+                parent, 
+                minMaxScale
+            );
         }
         
         public override void DrawGizmos()
         {
             foreach (var point in points)
             {
-                Handles.color = point.target == null ? Color.yellow : Color.green;
+                Handles.color = Color.green;
                 Handles.DrawWireDisc(
-                    parent != null ? parent.TransformPoint(point.point) : point.point,
+                    parent != null ? parent.TransformPoint(point) : point,
                     Vector3.forward,
                     parent.localScale.x
                 );

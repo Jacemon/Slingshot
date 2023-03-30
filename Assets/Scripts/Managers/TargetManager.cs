@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entities.Targets;
 using UnityEngine;
+using static Tools.PointsGenerators;
 using static UnityEngine.ParticleSystem;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
@@ -33,7 +36,40 @@ namespace Managers
             return Instantiate(target, spawnPoint, Quaternion.identity, parent);
         }
 
-        public static List<Target> GenerateTargetsByRectangle(
+        public static List<Target> SpawnTargetsByFunction(
+            Func<List<Vector2>> generationFunction,
+            List<GameObject> targets,
+            int targetLevel,
+            Transform parent = null,
+            MinMaxCurve minMaxScale = default)
+        {
+            var existingCoordinates = generationFunction.Invoke();
+            
+            List<Target> generatedTargets = new();
+            existingCoordinates.ForEach(coordinate =>
+            {
+                generatedTargets.Add(SpawnTarget(coordinate, targets, targetLevel, parent, minMaxScale));
+            });
+            return generatedTargets;
+        }
+
+        public static List<Target> SpawnTargetsByPoints(
+            List<Vector2> points,
+            List<GameObject> targets,
+            int targetLevel,
+            Transform parent = null,
+            MinMaxCurve minMaxScale = default
+        )
+        {
+            return SpawnTargetsByFunction(
+                () => points,
+                targets,
+                targetLevel,
+                parent,
+                minMaxScale);
+        }
+        
+        public static List<Target> SpawnTargetsByRectangle(
             Rect rectangle, 
             int amount,
             float spaceBetween,
@@ -43,37 +79,15 @@ namespace Managers
             MinMaxCurve minMaxScale = default
         )
         {
-            List<Vector2> existingCoordinates = new();
-            var remainingAmount = amount;
-            var remainingTries = _maxTries;
-            
-            while (remainingAmount > 0 && remainingTries > 0) {
-                var newCoordinate = new Vector2(
-                    Random.Range(rectangle.x, rectangle.x + rectangle.width),
-                    Random.Range(rectangle.y, rectangle.y + rectangle.height)
-                );
-                
-                remainingTries--;
-                if (!existingCoordinates.TrueForAll(c => Vector2.Distance(c, newCoordinate) > spaceBetween))
-                {
-                    continue;
-                }
-
-                remainingTries = _maxTries;
-                remainingAmount--;
-                existingCoordinates.Add(newCoordinate);
-            }
-
-            // Targets instantiating
-            List<Target> generatedTargets = new();
-            existingCoordinates.ForEach(coordinate =>
-            {
-                generatedTargets.Add(SpawnTarget(coordinate, targets, targetLevel, parent, minMaxScale));
-            });
-            return generatedTargets;
+            return SpawnTargetsByFunction(
+                () => GetRandomRectanglePoints(rectangle, amount, spaceBetween, _maxTries),
+                targets,
+                targetLevel,
+                parent,
+                minMaxScale);
         }
 
-        public static List<Target> GenerateTargetsByEllipse(
+        public static List<Target> SpawnTargetsByEllipse(
             Vector2 center,
             float semiMinor,
             float semiMajor,
@@ -85,35 +99,12 @@ namespace Managers
             MinMaxCurve minMaxScale = default
         )
         {
-            // Coords calculating
-            List<Vector2> existingCoordinates = new();
-            var remainingAmount = amount;
-            var remainingTries = _maxTries;
-            
-            while (remainingAmount > 0 && remainingTries > 0) {
-                var t = Random.Range(0f, Mathf.PI * 2f);
-                var x = Random.Range(0f, semiMinor);
-                var y = Random.Range(0f, semiMajor);
-                var newCoordinate = new Vector2(x * Mathf.Cos(t), y * Mathf.Sin(t)) + center;
-
-                remainingTries--;
-                if (!existingCoordinates.TrueForAll(c => Vector2.Distance(c, newCoordinate) > spaceBetween))
-                {
-                    continue;
-                }
-
-                remainingTries = _maxTries;
-                remainingAmount--;
-                existingCoordinates.Add(newCoordinate);
-            }
-
-            // Targets instantiating
-            List<Target> generatedTargets = new();
-            existingCoordinates.ForEach(coordinate =>
-            {
-                generatedTargets.Add(SpawnTarget(coordinate, targets, targetLevel, parent, minMaxScale));
-            });
-            return generatedTargets;
+            return SpawnTargetsByFunction(
+                () => GetRandomEllipsePoints(center, semiMinor, semiMajor, amount, spaceBetween, _maxTries),
+                targets,
+                targetLevel,
+                parent,
+                minMaxScale);
         }
     }
 }

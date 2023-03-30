@@ -21,7 +21,7 @@ namespace Entities.Levels.Generators
                 parent.TransformPoint(rectangle.x, rectangle.y, 0),
                 new Vector2(rectangle.width * scale.x, rectangle.height * scale.y)
             ) : rectangle;
-            generatedTargets = TargetManager.GenerateTargetsByRectangle(
+            generatedTargets = TargetManager.SpawnTargetsByRectangle(
                 localRectangle,
                 targetsAmount,
                 spaceBetween * scale.x,

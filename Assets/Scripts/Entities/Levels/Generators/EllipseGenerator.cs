@@ -18,7 +18,7 @@ namespace Entities.Levels.Generators
         protected override void StartGenerate()
         {
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
-            generatedTargets = TargetManager.GenerateTargetsByEllipse(
+            generatedTargets = TargetManager.SpawnTargetsByEllipse(
                 parent != null ? parent.TransformPoint(centerPoint) : centerPoint,
                 spawnRadius * scale.x,
                 spawnSecondRadius * scale.y,

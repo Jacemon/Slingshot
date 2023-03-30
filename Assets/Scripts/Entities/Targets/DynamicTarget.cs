@@ -18,14 +18,32 @@ namespace Entities.Targets
         {
             base.OnEnable();
             OnHealthChanged += CheckPathFollower;
+            _pathFollower.onMovingLeft += MoveLeft;
+            _pathFollower.onMovingRight += MoveRight;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             OnHealthChanged -= CheckPathFollower;
+            _pathFollower.onMovingLeft -= MoveLeft;
+            _pathFollower.onMovingRight -= MoveRight;
         }
 
+        private void MoveLeft()
+        {
+            var newScale = transform.localScale;
+            newScale.x = Mathf.Abs(newScale.x);
+            transform.localScale = newScale;
+        }
+        
+        private void MoveRight()
+        {
+            var newScale = transform.localScale;
+            newScale.x = -Mathf.Abs(newScale.x);
+            transform.localScale = newScale;
+        }
+        
         private void CheckPathFollower()
         {
             _pathFollower.enabled = health > 0;

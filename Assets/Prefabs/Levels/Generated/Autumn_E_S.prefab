@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 2977628496677427847}
   - component: {fileID: 1935570414632649780}
   m_Layer: 0
-  m_Name: LevelAutumnGeneratedEllipse
+  m_Name: Autumn_E_S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

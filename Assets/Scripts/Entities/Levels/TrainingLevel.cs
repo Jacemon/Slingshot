@@ -42,7 +42,8 @@ namespace Entities.Levels
             var pointGenerator = new PointGenerator
             {
                 parent = transform,
-                points = new List<PointGenerator.TargetPointPair> { new() { target = apple, point = spawnPoint } }
+                points = new List<Vector2> { spawnPoint },
+                randomTargets = new List<GameObject> { apple }
             };
             generators.Add(pointGenerator);
             generators[0].Generate();
