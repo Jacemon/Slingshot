@@ -1777,7 +1777,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3969411242421361785, guid: a4301ff0b75ec9a47a596cb02721a225, type: 3}
       propertyPath: m_Name
-      value: LeanLocalization
+      value: Localization
       objectReference: {fileID: 0}
     - target: {fileID: 3969411242421361791, guid: a4301ff0b75ec9a47a596cb02721a225, type: 3}
       propertyPath: m_RootOrder

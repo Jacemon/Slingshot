@@ -31,6 +31,7 @@ namespace Entities.Levels.Generators
             );
         }
 
+#if UNITY_EDITOR
         public override void DrawGizmos()
         {
             Gizmos.color = Color.green;
@@ -47,5 +48,6 @@ namespace Entities.Levels.Generators
             Gizmos.DrawLine(yUp, yDown);
             Gizmos.DrawLine(xRight, xLeft);
         }
+#endif
     }
 }

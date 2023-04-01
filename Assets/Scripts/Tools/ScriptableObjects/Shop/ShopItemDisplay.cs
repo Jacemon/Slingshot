@@ -24,7 +24,7 @@ namespace Tools.ScriptableObjects.Shop
         [Space] 
         public Button buyButton;
 
-        public void ReloadData()
+        public void Reload()
         {
             if (iconImage != null) iconImage.sprite = shopItem.itemIcon;
             if (nameLabel != null) nameLabel.text = LeanLocalization.GetTranslationText(shopItem.itemNameKey);

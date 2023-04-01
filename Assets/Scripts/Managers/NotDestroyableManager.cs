@@ -8,7 +8,7 @@ namespace Managers
     {
         public void SetLanguage(string languageName)
         {
-            if (NotDestroyable.TryGetComponent("LeanLocalization", out LeanLocalization leanLocalization))
+            if (NotDestroyable.TryGetComponent("Localization", out LeanLocalization leanLocalization))
             {
                 leanLocalization.CurrentLanguage = languageName;
             }

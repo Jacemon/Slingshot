@@ -37,6 +37,7 @@ namespace Entities.Levels.Generators
             );
         }
         
+#if UNITY_EDITOR
         public override void DrawGizmos()
         {
             foreach (var point in points)
@@ -49,5 +50,6 @@ namespace Entities.Levels.Generators
                 );
             }
         }
+#endif
     }
 }

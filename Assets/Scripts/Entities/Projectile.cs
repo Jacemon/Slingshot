@@ -5,6 +5,7 @@ using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UnityEngine.ParticleSystem;
 
 namespace Entities
@@ -24,7 +25,7 @@ namespace Entities
         public IntLinearCurve damageCurve;
         [Space]
         public float flightTime = 1.0f;
-        public float stuckTime = 0.1f;
+        [FormerlySerializedAs("stuckTime")] public float hitTime = 0.1f;
         public float finalScale = 0.3f;
         public MinMaxCurve minMaxVelocity;
         public MinMaxCurve minMaxAngularVelocity;
@@ -107,7 +108,7 @@ namespace Entities
 
         private IEnumerator ShootCoroutine(Vector2 force)
         {
-            GlobalEventManager.OnProjectileThrow?.Invoke(this);
+            GlobalEventManager.OnProjectileThrown?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         
@@ -117,13 +118,14 @@ namespace Entities
             _collider2D.enabled = false;
             _follower.enabled = false;
             
-            transform.DOScale(new Vector2(finalScale, finalScale), flightTime).SetEase(Ease.OutSine);
+            transform.DOScale(new Vector2(finalScale, finalScale), flightTime)
+                .SetEase(Ease.OutSine);
             yield return new WaitForSecondsRealtime(flightTime);
 
             _collider2D.enabled = true;
-            Debug.Log($"{projectileName} can be stuck in target");
+            Debug.Log($"{projectileName} can hit the target");
         
-            yield return new WaitForSecondsRealtime(stuckTime);
+            yield return new WaitForSecondsRealtime(hitTime);
             
             gameObject.layer = LayerMask.NameToLayer("Back");
             

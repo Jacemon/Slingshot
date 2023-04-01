@@ -10,10 +10,11 @@ namespace Entities.Levels
     public class Level : MonoBehaviour, IGenerator
     {
         public int levelNumber;
+        [Header("Generator settings")]
         [SerializeReference]
         public List<IGenerator> generators = new();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Generate();
         }

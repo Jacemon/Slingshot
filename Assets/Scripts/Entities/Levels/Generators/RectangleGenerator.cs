@@ -31,7 +31,8 @@ namespace Entities.Levels.Generators
                 minMaxScale
             );
         }
-
+        
+#if UNITY_EDITOR
         public override void DrawGizmos()
         {
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
@@ -44,5 +45,6 @@ namespace Entities.Levels.Generators
             
             Handles.DrawSolidRectangleWithOutline(localRectangle, Color.clear, Color.green);
         }
+#endif
     }
 }

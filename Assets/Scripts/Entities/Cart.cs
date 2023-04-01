@@ -36,24 +36,25 @@ namespace Entities
             _timer = GetComponent<Timer>();
             _pathFollower = GetComponent<PathFollower>();
             _animator = GetComponent<Animator>();
-            _animator.speed = _pathFollower.velocity * AnimationSpeedCoefficient;
+            _animator.speed = _pathFollower.velocity
+                .Evaluate(Time.time, Random.Range(0.0f, 1.0f)) * AnimationSpeedCoefficient;
             _particleSystem = GetComponent<ParticleSystem>();
         }
 
         private void OnEnable()
         {
-            GlobalEventManager.OnProjectileThrow += AddTimerDelay;
+            GlobalEventManager.OnProjectileThrown += AddTimerDelay;
             _timer.OnTimerDone += ResumeCart;
-            _pathFollower.onMovingLeft += MoveLeft;
-            _pathFollower.onMovingRight += MoveRight;
+            _pathFollower.OnMovingLeft += MoveLeft;
+            _pathFollower.OnMovingRight += MoveRight;
         }
         
         private void OnDisable()
         {
-            GlobalEventManager.OnProjectileThrow -= AddTimerDelay;
+            GlobalEventManager.OnProjectileThrown -= AddTimerDelay;
             _timer.OnTimerDone -= ResumeCart;
-            _pathFollower.onMovingLeft -= MoveLeft;
-            _pathFollower.onMovingRight -= MoveRight;
+            _pathFollower.OnMovingLeft -= MoveLeft;
+            _pathFollower.OnMovingRight -= MoveRight;
         }
 
         private void MoveLeft()

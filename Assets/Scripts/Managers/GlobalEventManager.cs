@@ -11,9 +11,9 @@ namespace Managers
         public static Action<Target> OnTargetHitGround;
     
         // Projectile
-        public static Action<Projectile> OnProjectileThrow;
+        public static Action<Projectile> OnProjectileThrown;
 
         // Level
-        public static Action OnLevelLoad;
+        public static Action OnLevelLoaded;
     }
 }

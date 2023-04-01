@@ -32,16 +32,16 @@ namespace Managers
         {
             projectileLevel.OnValueChanged += OnProjectileLevelChanged;
             
-            GlobalEventManager.OnProjectileThrow += ProjectileThrown;
-            GlobalEventManager.OnLevelLoad += DeleteThrownProjectiles;
+            GlobalEventManager.OnProjectileThrown += ProjectileThrown;
+            GlobalEventManager.OnLevelLoaded += DeleteThrownProjectiles;
         }
         
         private void OnDisable()
         {
             projectileLevel.OnValueChanged -= OnProjectileLevelChanged;
             
-            GlobalEventManager.OnProjectileThrow -= ProjectileThrown;
-            GlobalEventManager.OnLevelLoad -= DeleteThrownProjectiles;
+            GlobalEventManager.OnProjectileThrown -= ProjectileThrown;
+            GlobalEventManager.OnLevelLoaded -= DeleteThrownProjectiles;
         }
 
         private void Update()

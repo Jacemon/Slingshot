@@ -1,4 +1,5 @@
-﻿using Tools.Follower;
+﻿using DG.Tweening;
+using Tools.Follower;
 using UnityEngine;
 
 namespace Entities.Targets
@@ -6,6 +7,7 @@ namespace Entities.Targets
     [RequireComponent(typeof(PathFollower))]
     public class DynamicTarget : Target
     {
+        [Header("Dynamic settings")]
         private PathFollower _pathFollower;
         
         protected override void Awake()
@@ -16,18 +18,29 @@ namespace Entities.Targets
 
         protected override void OnEnable()
         {
-            base.OnEnable();
             OnHealthChanged += CheckPathFollower;
-            _pathFollower.onMovingLeft += MoveLeft;
-            _pathFollower.onMovingRight += MoveRight;
+            _pathFollower.OnMovingLeft += MoveLeft;
+            _pathFollower.OnMovingRight += MoveRight;
+            base.OnEnable();
         }
 
         protected override void OnDisable()
         {
-            base.OnDisable();
             OnHealthChanged -= CheckPathFollower;
-            _pathFollower.onMovingLeft -= MoveLeft;
-            _pathFollower.onMovingRight -= MoveRight;
+            _pathFollower.OnMovingLeft -= MoveLeft;
+            _pathFollower.OnMovingRight -= MoveRight;
+            base.OnDisable();
+        }
+
+        protected override void Appear()
+        {
+            transform.localScale = Vector3.zero;
+            transform.DOScale(new Vector2(
+                        appearScale * 
+                        (PathFollower.CheckDirection(_pathFollower.points[^1], _pathFollower.points[0]) ? 1 : -1),
+                        appearScale),
+                    appearTime)
+                .SetEase(Ease.OutExpo);
         }
 
         private void MoveLeft()

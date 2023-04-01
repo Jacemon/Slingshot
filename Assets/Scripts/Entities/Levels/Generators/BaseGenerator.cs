@@ -17,6 +17,7 @@ namespace Entities.Levels.Generators
         [HideInInspector]
         public List<Target> generatedTargets = new();
         [Header("Target settings")]
+        [HideInInspector]
         public int level;
         [Space]
         public MinMaxCurve minMaxScale = new(1);

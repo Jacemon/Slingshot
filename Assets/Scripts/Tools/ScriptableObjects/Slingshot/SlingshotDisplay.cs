@@ -16,7 +16,7 @@ namespace Tools.ScriptableObjects.Slingshot
         public SpriteRenderer pouchSpriteRenderer;
         public List<SpriteShapeController> stringSpriteShapeControllers;
 
-        public void ReloadData()
+        public void Reload()
         {
             if (slingshotSpriteRenderer != null) slingshotSpriteRenderer.sprite = baseSlingshotSkin.slingshotSprite;
             if (pouchSpriteRenderer != null) pouchSpriteRenderer.sprite = baseSlingshotSkin.pouchSprite;

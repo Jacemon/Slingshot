@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1996668811
+  m_SortingLayerID: 385297267
   m_SortingLayer: -1
-  m_SortingOrder: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1902810472, guid: ca2bdcd1deed29a45b2595f27ab8427d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -191,9 +191,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1996668811
+  m_SortingLayerID: 385297267
   m_SortingLayer: -1
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1087474549, guid: ca2bdcd1deed29a45b2595f27ab8427d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5254,7 +5254,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1996668811
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5301,8 +5301,25 @@ MonoBehaviour:
   points:
   - {x: 2, y: -2.1}
   - {x: -2, y: -2.1}
-  velocity: 5
+  velocity:
+    m_Mode: 0
+    m_CurveMultiplier: 0
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0
+    m_ConstantMax: 5
   loops: -1
+  loopType: 0
 --- !u!1 &7111921025102998162
 GameObject:
   m_ObjectHideFlags: 0
@@ -5373,9 +5390,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1996668811
+  m_SortingLayerID: 385297267
   m_SortingLayer: -1
-  m_SortingOrder: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1902810472, guid: ca2bdcd1deed29a45b2595f27ab8427d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

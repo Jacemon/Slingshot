@@ -1,25 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using Tools.Interfaces;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
+using Random = UnityEngine.Random;
 using Sequence = DG.Tweening.Sequence;
 
 namespace Tools.Follower
 {
-    public class PathFollower : MonoBehaviour
+    public class PathFollower : MonoBehaviour, IReloadable
     {
-        public Vector2[] points;
-        public float velocity = 1;
+        public List<Vector2> points = new();
+        public MinMaxCurve velocity = 1;
         [Space]
         [Tooltip("Number of cycles to play (-1 for infinite)")]
         public int loops = -1;
+        public LoopType loopType = LoopType.Restart;
         
-        public Action onMovingLeft;
-        public Action onMovingRight;
+        public Action OnMovingLeft;
+        public Action OnMovingRight;
 
         private Sequence _sequence;
         private ParticleSystem _particleSystem;
         
-        private void Awake()
+        private void OnEnable()
         {
             Tween();
         }
@@ -30,9 +35,18 @@ namespace Tools.Follower
             _sequence.Kill();
         }
         
-        private void CheckDirection(Vector2 startPoint, Vector2 endPoint)
+        /// <returns>
+        /// true - left,
+        /// false - right
+        /// </returns>
+        public static bool CheckDirection(Vector2 startPoint, Vector2 endPoint)
         {
-            (startPoint.x > endPoint.x ? onMovingLeft : onMovingRight)?.Invoke();
+            return startPoint.x > endPoint.x;
+        }
+        
+        private void CheckDirectionInvoke(Vector2 startPoint, Vector2 endPoint)
+        {
+            (CheckDirection(startPoint, endPoint) ? OnMovingLeft : OnMovingRight)?.Invoke();
         }
 
         public void Pause()
@@ -44,31 +58,55 @@ namespace Tools.Follower
         {
             _sequence.Play();
         }
+
+        public void Reload()
+        {
+            transform.DOKill();
+            _sequence.Kill();
+            Tween();
+        }
         
         private void Tween()
         {
-            if (points.Length == 0) return;
+            if (points.Count == 0) return;
 
             transform.position = points[^1];
 
-            _sequence = DOTween.Sequence().SetLoops(loops);
+            _sequence = DOTween.Sequence().SetLoops(loops, loopType);
 
-            _sequence.AppendCallback(() => CheckDirection(points[^1], points[0]));
+            _sequence.AppendCallback(() => CheckDirectionInvoke(points[^1], points[0]));
             _sequence.Append(transform
-                .DOMove(points[0], Vector2.Distance(points[^1], points[0]) / velocity)
+                .DOMove(points[0], Vector2.Distance(points[^1], points[0]) 
+                                   / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
                 .SetEase(Ease.Linear)
             );
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < points.Count; i++)
             {
                 var startPoint = points[i - 1];
                 var endPoint = points[i];
                 
-                _sequence.AppendCallback(() => CheckDirection(startPoint, endPoint));
+                _sequence.AppendCallback(() => CheckDirectionInvoke(startPoint, endPoint));
                 _sequence.Append(transform
-                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) / velocity)
+                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) 
+                                      / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
                     .SetEase(Ease.Linear)
                 );
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            
+            if (points.Count == 0) return;
+
+            var prevPoint = points[0];
+            for (var i = 1; i < points.Count; i++)
+            {
+                Gizmos.DrawLine(prevPoint, points[i]);
+                prevPoint = points[i];
+            }
+            Gizmos.DrawLine(points[0], points[^1]);
         }
     }
 }

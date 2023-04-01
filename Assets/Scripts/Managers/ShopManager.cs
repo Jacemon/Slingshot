@@ -31,10 +31,10 @@ namespace Managers
 
         private void Awake()
         {
-            ReloadData();
+            Reload();
         }
 
-        public void ReloadData()
+        public void Reload()
         {
             foreach (var shopItemWithDisplay in shopItemWithDisplays)
             {
@@ -48,7 +48,7 @@ namespace Managers
                 shopItemWithDisplay.shopItemDisplay.buyButton.onClick.RemoveAllListeners();
                 shopItemWithDisplay.shopItemDisplay.buyButton.onClick.AddListener(
                     () => Buy(shopItemWithDisplay.shopItem.itemNameKey));
-                shopItemWithDisplay.shopItemDisplay.ReloadData();
+                shopItemWithDisplay.shopItemDisplay.Reload();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Managers
             {
                 Debug.Log($"{key} was not purchased");
             }
-            ReloadData();
+            Reload();
         }
 
         public void ToggleShop(bool isOpen)

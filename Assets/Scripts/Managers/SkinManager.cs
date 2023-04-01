@@ -44,7 +44,7 @@ namespace Managers
             if (slingshotSkin.Key != null)
             {
                 slingshot.baseSlingshotSkin = slingshotSkin.Key;
-                slingshot.ReloadData();
+                slingshot.Reload();
                 
                 currentSkin.Value = slingshot.baseSlingshotSkin.slingshotName;
                 Debug.Log($"Skin {skinName} was set");

@@ -55,9 +55,7 @@ namespace Entities.Targets
 
         protected virtual void OnEnable()
         {
-            transform.localScale = Vector3.zero;
-            transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
-
+            Appear();
             OnHealthChanged += CheckHealth;
         }
         
@@ -66,6 +64,12 @@ namespace Entities.Targets
             transform.DOKill();
             
             OnHealthChanged -= CheckHealth;
+        }
+
+        protected virtual void Appear()
+        {
+            transform.localScale = Vector3.zero;
+            transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
         }
         
         public virtual void GetDamage(int damage)
@@ -90,7 +94,9 @@ namespace Entities.Targets
             GetComponent<Rigidbody2D>().isKinematic = false;
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("RearMiddle");
-                
+
+            DOVirtual.DelayedCall(_animator.GetCurrentAnimatorStateInfo(0).length, () => _animator.enabled = false);
+
             object dummy = GetComponent<Collider2D>() switch
             {
                 CircleCollider2D circle => circle.radius *= ShotColliderScale,

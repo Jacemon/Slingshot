@@ -104,7 +104,7 @@ namespace Managers
             }
             loadedLevel = Instantiate(level, startPosition, Quaternion.identity);
 
-            GlobalEventManager.OnLevelLoad?.Invoke();
+            GlobalEventManager.OnLevelLoaded?.Invoke();
             
             Debug.Log($"End loading level {currentLevel.Value}...");
         }

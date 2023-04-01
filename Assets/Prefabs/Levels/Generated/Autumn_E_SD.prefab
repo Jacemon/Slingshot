@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2977628496677427847}
-  - component: {fileID: 1935570414632649780}
+  - component: {fileID: 9144961784482537085}
   m_Layer: 0
   m_Name: Autumn_E_SD
   m_TagString: Untagged
@@ -295,7 +295,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1935570414632649780
+--- !u!114 &9144961784482537085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,11 +309,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 0
   generators:
-  - rid: 403430157798604806
+  - rid: 1559571507244171264
+  - rid: 403430230920003584
+  - rid: 1559571507244171265
   references:
     version: 2
     RefIds:
-    - rid: 403430157798604806
+    - rid: 403430230920003584
+      type: {class: DynamicRectangleGenerator, ns: Entities.Levels.Generators.DynamicGenerators, asm: Assembly-CSharp}
+      data:
+        randomTargets:
+        - {fileID: 5030656357949858016, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+        parent: {fileID: 2977628496677427847}
+        autoRegenerate: 1
+        generatedTargets: []
+        level: 0
+        minMaxScale:
+          m_Mode: 3
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 0.7
+          m_ConstantMax: 1
+        rectangle:
+          serializedVersion: 2
+          x: -6.2
+          y: 10
+          width: 12.4
+          height: 4
+        targetsAmount: 2
+        spaceBetween: 2
+        pointsCount:
+          m_Mode: 3
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 2
+          m_ConstantMax: 3
+    - rid: 1559571507244171264
       type: {class: EllipseGenerator, ns: Entities.Levels.Generators, asm: Assembly-CSharp}
       data:
         randomTargets:
@@ -341,10 +394,61 @@ MonoBehaviour:
           m_ConstantMin: 0.7
           m_ConstantMax: 1
         centerPoint: {x: 0, y: 6}
-        spawnRadius: 5.7
-        spawnSecondRadius: 4.5
+        spawnRadius: 6
+        spawnSecondRadius: 5
         targetsAmount: 15
-        spaceBetween: 2.5
+        spaceBetween: 2
+    - rid: 1559571507244171265
+      type: {class: DynamicRectangleGenerator, ns: Entities.Levels.Generators.DynamicGenerators, asm: Assembly-CSharp}
+      data:
+        randomTargets:
+        - {fileID: 5030656357949858016, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+        parent: {fileID: 2977628496677427847}
+        autoRegenerate: 1
+        generatedTargets: []
+        level: 0
+        minMaxScale:
+          m_Mode: 0
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 0
+          m_ConstantMax: 1
+        rectangle:
+          serializedVersion: 2
+          x: -6.2
+          y: -2
+          width: 12.4
+          height: 4
+        targetsAmount: 2
+        spaceBetween: 2
+        pointsCount:
+          m_Mode: 3
+          m_CurveMultiplier: 0
+          m_CurveMin:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_CurveMax:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          m_ConstantMin: 2
+          m_ConstantMax: 3
 --- !u!1001 &3986983050848447590
 PrefabInstance:
   m_ObjectHideFlags: 0

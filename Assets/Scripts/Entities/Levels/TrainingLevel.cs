@@ -17,7 +17,7 @@ namespace Entities.Levels
         
         private Target _apple;
         
-        private void Awake()
+        protected override void Awake()
         {
             Generate();
             ToggleLabel(0);
