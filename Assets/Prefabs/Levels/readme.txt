@@ -9,4 +9,6 @@ D - With dynamic targets
 B - With Boss
 
 Example:
-Autumn_2PE_D - Autumn level this 2 generators by point and one generator by ellipse with dynamic targets.
+Autumn_2PE_S - Autumn level this 2 generators by point and one generator by ellipse with static targets.
+Autumn_2P-E_SD - Autumn level this 2 generators by point with static targets 
+                 and one generator by ellipse with dynamic targets.

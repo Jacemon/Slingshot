@@ -187,17 +187,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7428359753690675145, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
-      propertyPath: appearScale
-      value: 0.8402014
-      objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_LocalScale.x
-      value: -0.35
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_LocalScale.y
@@ -213,7 +209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: 1.09
       objectReference: {fileID: 0}
     - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -247,13 +243,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1762295560233629599, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5030656357949858016, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_Name
       value: Crow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013852745420377210, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+      propertyPath: points.Array.data[0].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013852745420377210, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+      propertyPath: points.Array.data[0].y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013852745420377210, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+      propertyPath: points.Array.data[1].x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013852745420377210, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+      propertyPath: points.Array.data[1].y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6214793075870724601, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
       propertyPath: m_AnchorMax.x

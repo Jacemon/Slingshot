@@ -55,23 +55,17 @@ namespace Entities.Targets
 
         protected virtual void OnEnable()
         {
-            Appear();
+            transform.localScale = Vector3.zero;
+            transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
             OnHealthChanged += CheckHealth;
         }
         
         protected virtual void OnDisable()
         {
             transform.DOKill();
-            
             OnHealthChanged -= CheckHealth;
         }
 
-        protected virtual void Appear()
-        {
-            transform.localScale = Vector3.zero;
-            transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
-        }
-        
         public virtual void GetDamage(int damage)
         {
             health -= damage;
