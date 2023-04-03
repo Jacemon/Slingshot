@@ -89,7 +89,10 @@ namespace Entities.Targets
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("RearMiddle");
 
-            DOVirtual.DelayedCall(_animator.GetCurrentAnimatorStateInfo(0).length, () => _animator.enabled = false);
+            DOVirtual.DelayedCall(_animator.GetCurrentAnimatorStateInfo(0).length, () =>
+            {
+                if (_animator != null) _animator.enabled = false;
+            });
 
             object dummy = GetComponent<Collider2D>() switch
             {

@@ -16,8 +16,8 @@ namespace Tools.Follower
         [Space]
         [Tooltip("Number of cycles to play (-1 for infinite)")]
         public int loops = -1;
-        public LoopType loopType = LoopType.Restart;
-        
+        public bool clamp = true;
+
         public Action OnMovingLeft;
         public Action OnMovingRight;
 
@@ -70,16 +70,10 @@ namespace Tools.Follower
         {
             if (points.Count == 0) return;
 
-            transform.position = points[^1];
+            transform.position = points[0];
 
-            _sequence = DOTween.Sequence().SetLoops(loops, loopType);
+            _sequence = DOTween.Sequence().SetLoops(loops);
 
-            _sequence.AppendCallback(() => CheckDirectionInvoke(points[^1], points[0]));
-            _sequence.Append(transform
-                .DOMove(points[0], Vector2.Distance(points[^1], points[0]) 
-                                   / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
-                .SetEase(Ease.Linear)
-            );
             for (var i = 1; i < points.Count; i++)
             {
                 var startPoint = points[i - 1];
@@ -92,6 +86,14 @@ namespace Tools.Follower
                     .SetEase(Ease.Linear)
                 );
             }
+
+            if (!clamp) return;
+            _sequence.AppendCallback(() => CheckDirectionInvoke(points[^1], points[0]));
+            _sequence.Append(transform
+                .DOMove(points[0], Vector2.Distance(points[^1], points[0])
+                                   / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
+                .SetEase(Ease.Linear)
+            );
         }
 
         private void OnDrawGizmosSelected()

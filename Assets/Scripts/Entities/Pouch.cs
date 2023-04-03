@@ -53,8 +53,6 @@ namespace Entities
             
             if (projectile.inPick)
             {
-                _mouseFollower.enabled = true;
-            
                 // Расчёт угла поворота
                 Vector2 currentPosition = transform.position;
                 _direction = throwPointAnchor - new Vector2(currentPosition.x, currentPosition.y);
@@ -77,7 +75,6 @@ namespace Entities
             }
             else
             {
-                _mouseFollower.enabled = false;
                 EmptyPouch();
             }
         }
@@ -111,6 +108,8 @@ namespace Entities
 
             projectile.GetComponent<MouseFollower>().enabled = false;
 
+            _mouseFollower.enabled = true;
+            
             _rb.isKinematic = true;
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
@@ -138,7 +137,9 @@ namespace Entities
             
             projectile.transform.parent = null;
             projectile = null;
-        
+
+            _mouseFollower.enabled = false;
+            
             _rb.isKinematic = false;
 
             _staticTrajectory.enabled = false;

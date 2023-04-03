@@ -19,8 +19,6 @@ namespace Managers
         public Button nextButton;
         public Button prevButton;
         public Button buyButton;
-        [Space]
-        public Vector2 startPosition;
         [Space] 
         public TextMeshProUGUI levelLabel;
         [Space]
@@ -102,7 +100,7 @@ namespace Managers
             {
                 Destroy(loadedLevel.gameObject);
             }
-            loadedLevel = Instantiate(level, startPosition, Quaternion.identity);
+            loadedLevel = Instantiate(level);
 
             GlobalEventManager.OnLevelLoaded?.Invoke();
             
