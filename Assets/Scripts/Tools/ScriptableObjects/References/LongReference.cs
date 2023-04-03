@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Tools.ScriptableObjects.Reference
+namespace Tools.ScriptableObjects.References
 {
     [CreateAssetMenu(fileName = "IntReference", menuName = "Custom/Reference/Long Reference")]
-    public class LongReference : ValueReference<long> { } 
+    public class LongReference : ValueReference<long> { }
 }

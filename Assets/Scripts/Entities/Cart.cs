@@ -1,97 +1,110 @@
+using Entities.Targets;
 using Managers;
 using Tools;
+using Tools.Follower;
 using UnityEngine;
 
 namespace Entities
 {
     [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(ParticleSystem))]
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Timer))]
+    [RequireComponent(typeof(PathFollower))]
     public class Cart : MonoBehaviour
     {
         [Header("Settings")] 
-        public string cartName = "None";
-        [Space] 
-        public Vector2[] positions;
-        public float velocity;
-        [Header("Current parameters")]
-        [SerializeField] 
-        private int positionIndex;
+        public string cartName;
+        [Space]
+        [Tooltip("Extra time after the projectile flight time")]
+        public float fallTime;
+        [Header("Special settings")] 
+        public AudioSource cartMoving;
+        public AudioSource cartHit;
 
+        private const float AnimationSpeedCoefficient = 0.5f;
         private const float TargetFadeTime = 0.3f;
-        private const float ErrorRate = 0.1f;
-        private const int ParticlesRate = 20;
 
-        private AudioSource _audioSource;
         private Timer _timer;
-    
+        private PathFollower _pathFollower;
+        private ParticleSystem _particleSystem;
+        private Animator _animator;
+        private static readonly int IsMovingLeft = Animator.StringToHash("IsMovingLeft");
+
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
-            _audioSource.enabled = true;
             _timer = GetComponent<Timer>();
+            _pathFollower = GetComponent<PathFollower>();
+            _animator = GetComponent<Animator>();
+            _animator.speed = _pathFollower.velocity
+                .Evaluate(Time.time, Random.Range(0.0f, 1.0f)) * AnimationSpeedCoefficient;
+            _particleSystem = GetComponent<ParticleSystem>();
         }
 
         private void OnEnable()
         {
-            GlobalEventManager.onProjectileThrow += AddTimerDelay;
+            GlobalEventManager.OnProjectileThrown += AddTimerDelay;
+            _timer.OnTimerDone += ResumeCart;
+            _pathFollower.OnMovingLeft += MoveLeft;
+            _pathFollower.OnMovingRight += MoveRight;
         }
         
         private void OnDisable()
         {
-            GlobalEventManager.onProjectileThrow -= AddTimerDelay;
+            GlobalEventManager.OnProjectileThrown -= AddTimerDelay;
+            _timer.OnTimerDone -= ResumeCart;
+            _pathFollower.OnMovingLeft -= MoveLeft;
+            _pathFollower.OnMovingRight -= MoveRight;
         }
 
-        private void FixedUpdate()
+        private void MoveLeft()
         {
-            if (!_timer.timerDone)
-            {
-                _audioSource.enabled = false;
-                return;
-            }
+            _animator.SetBool(IsMovingLeft, true);
+        }
         
-            _audioSource.enabled = true;
+        private void MoveRight()
+        {
+            _animator.SetBool(IsMovingLeft, false);
+        }
         
-            transform.localPosition = Vector2.MoveTowards(transform.localPosition, positions[positionIndex], velocity);
-            if (Vector2.Distance(transform.localPosition, positions[positionIndex]) < ErrorRate)
-            {
-                NextPosition();
-            }
+        private void PauseCart()
+        {
+            cartMoving.mute = true;
+            _animator.enabled = false;
+            _pathFollower.Pause();
+        }
+
+        private void ResumeCart()
+        {
+            cartMoving.mute = false;
+            _animator.enabled = true;
+            _pathFollower.Resume();
         }
 
         private void AddTimerDelay(Projectile projectile)
         {
-            const float extraDelay = 1.0f;
+            PauseCart();
             
-            _timer.SetBiggerDelay(projectile.flightTime + extraDelay);
+            _timer.SetBiggerDelay(projectile.flightTime + fallTime);
             _timer.timerOn = true;
-            Debug.Log($"Try set timer to {projectile.flightTime + extraDelay}s");
-        }
-        
-        private void NextPosition()
-        {
-            positionIndex++;
-            if (positionIndex == positions.Length)
-            {
-                positionIndex = 0;
-            }
+            
+            Debug.Log($"Try set timer to {projectile.flightTime + fallTime}s");
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             Debug.Log($"{collision.gameObject.name} collided with {cartName}");
-        
-            var target = collision.gameObject.GetComponent<Target>();
-            if (target == null)
+            
+            if (!collision.gameObject.TryGetComponent(out Target target))
             {
                 return;
             }
-            if (TryGetComponent(out ParticleSystem particles))
-            {
-                particles.Emit(ParticlesRate);
-            }
             
-            GlobalEventManager.onTargetHitCart?.Invoke(target);
+            GlobalEventManager.OnTargetHitCart?.Invoke(target);
+            MoneyManager.DepositMoney(target.money);
+
+            _particleSystem.Play();
+            cartHit.Play();
             
             // Destroy target
             if (target.TryGetComponent(out Collider2D targetCollider) && 

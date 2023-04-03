@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cbab48d8951a611439cd681c2b3e1303
+guid: 6ab3b305cdee64444844bcef3919d3de
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Comic Sans MS
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: cbab48d8951a611439cd681c2b3e1303, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

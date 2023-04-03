@@ -8,17 +8,9 @@ namespace Managers
     {
         public void SetLanguage(string languageName)
         {
-            if (NotDestroyable.TryGetComponent("LeanLocalization", out LeanLocalization leanLocalization))
+            if (NotDestroyable.TryGetComponent("Localization", out LeanLocalization leanLocalization))
             {
                 leanLocalization.CurrentLanguage = languageName;
-            }
-        }
-
-        public void LoadScene(string sceneName)
-        {
-            if (NotDestroyable.TryGetComponent("Transition", out SceneLoaderManager sceneLoaderManager))
-            {
-                sceneLoaderManager.LoadSceneWithTransition(sceneName);
             }
         }
 
@@ -37,7 +29,23 @@ namespace Managers
                 audioManager.musicVolumeSwitch.Value = isOn;
             }
         }
-        
+
+        public void ShowRewardedAd()
+        {
+            if (NotDestroyable.TryGetComponent("Ad", out AdManager adManager))
+            {
+                adManager.ShowRewardedAd();
+            }
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            if (NotDestroyable.TryGetComponent("Transition", out SceneLoaderManager sceneLoaderManager))
+            {
+                sceneLoaderManager.LoadSceneWithTransition(sceneName);
+            }
+        }
+            
         public void QuitApplication()
         {
             Application.Quit();

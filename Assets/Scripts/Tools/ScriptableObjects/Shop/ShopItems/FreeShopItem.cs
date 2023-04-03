@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Tools.ScriptableObjects.Shop.ShopItems
@@ -10,7 +9,7 @@ namespace Tools.ScriptableObjects.Shop.ShopItems
 
         public override void Purchase()
         {
-            throw new NotImplementedException();
+            isPurchased.Value = true;
         }
     }
 }

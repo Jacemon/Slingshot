@@ -1,9 +1,8 @@
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Entities.Levels;
 using TMPro;
-using Tools.Dictionaries;
-using Tools.ScriptableObjects;
-using Tools.ScriptableObjects.Reference;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,15 +10,15 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public IntGameObjectDictionary levels = new();
+        [SerializedDictionary("Level number", "Level prefab")]
+        public SerializedDictionary<int, GameObject> levels;
+        [Space]
         public IntReference currentLevel;
         public IntReference maxAvailableLevel;
         [Space] 
         public Button nextButton;
         public Button prevButton;
         public Button buyButton;
-        [Space]
-        public Vector2 startPosition = Vector2.zero;
         [Space] 
         public TextMeshProUGUI levelLabel;
         [Space]
@@ -28,17 +27,20 @@ namespace Managers
 
         private void Awake()
         {
+            CheckGUI();
             LoadLevel(currentLevel.Value);
         }
 
         private void OnEnable()
         {
-            maxAvailableLevel.onValueChanged += OnMaxAvailableLevelChanged;
+            maxAvailableLevel.OnValueChanged += OnMaxAvailableLevelChanged;
+            currentLevel.OnValueChanged += CheckGUI;
         }
         
         private void OnDisable()
         {
-            maxAvailableLevel.onValueChanged -= OnMaxAvailableLevelChanged;
+            maxAvailableLevel.OnValueChanged -= OnMaxAvailableLevelChanged;
+            currentLevel.OnValueChanged -= CheckGUI;
         }
 
         private void OnMaxAvailableLevelChanged()
@@ -50,7 +52,7 @@ namespace Managers
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.Value.ToString();
-    
+            
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
             nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
             buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);
@@ -73,36 +75,34 @@ namespace Managers
                 return;
             }
             
-            currentLevel.Value = levelNumber;
-            CheckGUI();
-
             // Find the left level closest to the current one
             if (!levels.ContainsKey(levelNumber))
             {
-                var closestKey = levels.Keys.Where(k => k < currentLevel.Value).Max();
-                levels[currentLevel.Value] = levels[closestKey];
+                var closestKey = levels.Keys.Where(k => k < levelNumber).Max();
+                levels[levelNumber] = levels[closestKey];
             }
 
-            // Find all the Level components and configure them
-            var levelScripts = levels[currentLevel.Value].GetComponents<Level>();
-            if (levelScripts.Length == 0)
+            // Configure Level component if exists
+            if (levels[levelNumber].TryGetComponent(out Level level))
             {
-                Debug.Log($"Level {currentLevel.Value} has not Level scripts...");
+                level.levelNumber = levelNumber;
+            }
+            else
+            {
+                Debug.Log($"Level {levelNumber} has not Level script...");
                 return;
             }
-            foreach (var level in levelScripts)
-            {
-                level.levelNumber = currentLevel.Value;
-            }
+            
+            currentLevel.Value = levelNumber;
 
             // Destroy old and create new level
             if (loadedLevel != null)
             {
                 Destroy(loadedLevel.gameObject);
             }
-            loadedLevel = Instantiate(levelScripts[0], startPosition, Quaternion.identity);
+            loadedLevel = Instantiate(level);
 
-            GlobalEventManager.onLevelLoad?.Invoke();
+            GlobalEventManager.OnLevelLoaded?.Invoke();
             
             Debug.Log($"End loading level {currentLevel.Value}...");
         }

@@ -1,4 +1,4 @@
-﻿using Tools.ScriptableObjects.Reference;
+﻿using Tools.ScriptableObjects.References;
 
 namespace Tools.ScriptableObjects.Shop.ShopItems
 {

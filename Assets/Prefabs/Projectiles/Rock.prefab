@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7743727048651214111}
   - component: {fileID: 7743727048651214110}
   - component: {fileID: 7743727048651214096}
-  - component: {fileID: 1851535335006612688}
   - component: {fileID: -3137006976606582254}
   - component: {fileID: 1717586264714110613}
   m_Layer: 6
@@ -88,9 +87,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileName: Rock
-  level: 2
+  level: 3
   damage: 1
-  damageCurve: {fileID: 1851535335006612688}
+  damageCurve:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 5
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2
+        value: 9
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 13
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 4
+        value: 17
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 5
+        value: 21
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 6
+        value: 25
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 7
+        value: 29
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 8
+        value: 33
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 9
+        value: 37
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    cornerCount: 10
+    k: 4
+    b: 1
   flightTime: 1
   stuckTime: 0.1
   finalScale: 0.3
@@ -109,8 +207,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ConstantMin: 5
-    m_ConstantMax: 10
+    m_ConstantMin: 1
+    m_ConstantMax: 3
   minMaxAngularVelocity:
     m_Mode: 3
     m_CurveMultiplier: 0
@@ -129,118 +227,6 @@ MonoBehaviour:
     m_ConstantMin: -720
     m_ConstantMax: 720
   inPick: 0
---- !u!114 &1851535335006612688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743727048651214108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cc32bae9304357a337c77d50cb6f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curveName: Damage
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 5
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 2
-      value: 9
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 3
-      value: 13
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 4
-      value: 17
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 21
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 6
-      value: 25
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 7
-      value: 29
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 8
-      value: 33
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 9
-      value: 37
-      inSlope: 4
-      outSlope: 4
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cornerCount: 10
-  k: 4
-  b: 1
 --- !u!114 &-3137006976606582254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,10 +9,5 @@ namespace Tools.ScriptableObjects.Shop.ShopItems
         public int cost;
 
         public override int ItemCost => cost;
-
-        public override void Purchase()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

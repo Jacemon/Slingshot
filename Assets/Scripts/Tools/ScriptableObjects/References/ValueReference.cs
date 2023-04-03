@@ -1,14 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Tools.ScriptableObjects.Reference
+namespace Tools.ScriptableObjects.References
 {
+    [Serializable]
     public abstract class ValueReference<T> : ScriptableObject
     {
         [SerializeField]
         private T value;
 
-        public Action onValueChanged;
+        public Action OnValueChanged;
         
         public T Value
         {
@@ -16,7 +17,7 @@ namespace Tools.ScriptableObjects.Reference
             set
             {
                 this.value = value;
-                onValueChanged?.Invoke();
+                OnValueChanged?.Invoke();
             }
         }
     }

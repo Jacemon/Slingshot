@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Tools.Follower;
-using Tools.ScriptableObjects;
-using Tools.ScriptableObjects.Reference;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Managers
@@ -30,18 +29,18 @@ namespace Managers
 
         private void OnEnable()
         {
-            projectileLevel.onValueChanged += OnProjectileLevelChanged;
+            projectileLevel.OnValueChanged += OnProjectileLevelChanged;
             
-            GlobalEventManager.onProjectileThrow += ProjectileThrown;
-            GlobalEventManager.onLevelLoad += DeleteThrownProjectiles;
+            GlobalEventManager.OnProjectileThrown += ProjectileThrown;
+            GlobalEventManager.OnLevelLoaded += DeleteThrownProjectiles;
         }
         
         private void OnDisable()
         {
-            projectileLevel.onValueChanged -= OnProjectileLevelChanged;
+            projectileLevel.OnValueChanged -= OnProjectileLevelChanged;
             
-            GlobalEventManager.onProjectileThrow -= ProjectileThrown;
-            GlobalEventManager.onLevelLoad -= DeleteThrownProjectiles;
+            GlobalEventManager.OnProjectileThrown -= ProjectileThrown;
+            GlobalEventManager.OnLevelLoaded -= DeleteThrownProjectiles;
         }
 
         private void Update()

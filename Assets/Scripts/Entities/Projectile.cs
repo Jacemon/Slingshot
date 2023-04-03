@@ -1,8 +1,12 @@
 using System.Collections;
+using DG.Tweening;
+using Entities.Targets;
 using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using UnityEngine.Serialization;
+using static UnityEngine.ParticleSystem;
 
 namespace Entities
 {
@@ -21,10 +25,10 @@ namespace Entities
         public IntLinearCurve damageCurve;
         [Space]
         public float flightTime = 1.0f;
-        public float stuckTime = 0.1f;
+        [FormerlySerializedAs("stuckTime")] public float hitTime = 0.1f;
         public float finalScale = 0.3f;
-        public ParticleSystem.MinMaxCurve minMaxVelocity;
-        public ParticleSystem.MinMaxCurve minMaxAngularVelocity;
+        public MinMaxCurve minMaxVelocity;
+        public MinMaxCurve minMaxAngularVelocity;
         [Space]
         public bool inPick;
 
@@ -45,27 +49,42 @@ namespace Entities
             _follower = GetComponent<Follower>();
             _follower.enabled = true;
 
-            transform.localScale = Vector3.zero;
-            transform.LeanScale(Vector3.one, AppearTime).setEaseOutElastic();
-            
-            damage = damageCurve.ForceEvaluate(level);
-            
             Debug.Log($"{projectileName}:{level} was spawned");
         }
 
+        private void OnEnable()
+        {
+            damage = damageCurve.ForceEvaluate(level);
+            
+            transform.localScale = Vector3.zero;
+            transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutElastic);
+        }
+        
+        private void OnDisable()
+        {
+            transform.DOKill();
+        }
+        
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null || !collision.gameObject.TryGetComponent(out Target target))
+            if (collision == null || inPick || _follower.enabled)
             {
                 return;
             }
-            target.GetDamage(damage);
+
+            if (collision.gameObject.TryGetComponent(out Target target))
+            {
+                target.GetDamage(damage);
+            }
             
             // Random angular and regular velocity
             var randomVelocity = minMaxVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-            var direction = transform.position - target.transform.position;
+            var direction = transform.position - collision.collider.bounds.center;
+            direction.Normalize();
             _rb.velocity = randomVelocity * direction;
             _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+
+            _collider2D.enabled = false;
         }
 
         private void OnMouseDown()
@@ -89,7 +108,7 @@ namespace Entities
 
         private IEnumerator ShootCoroutine(Vector2 force)
         {
-            GlobalEventManager.onProjectileThrow?.Invoke(this);
+            GlobalEventManager.OnProjectileThrown?.Invoke(this);
         
             gameObject.layer = LayerMask.NameToLayer("Middle");
         
@@ -99,18 +118,20 @@ namespace Entities
             _collider2D.enabled = false;
             _follower.enabled = false;
             
-            transform.LeanScale(new Vector2(finalScale, finalScale), flightTime).setEaseOutSine();
+            transform.DOScale(new Vector2(finalScale, finalScale), flightTime)
+                .SetEase(Ease.OutSine);
             yield return new WaitForSecondsRealtime(flightTime);
 
             _collider2D.enabled = true;
-            Debug.Log($"{projectileName} can be stuck in target");
+            Debug.Log($"{projectileName} can hit the target");
         
-            yield return new WaitForSecondsRealtime(stuckTime);
-
-            _collider2D.enabled = false;
+            yield return new WaitForSecondsRealtime(hitTime);
+            
             gameObject.layer = LayerMask.NameToLayer("Back");
             
-            transform.LeanScale(Vector2.zero, flightTime).setEaseOutSine().setDestroyOnComplete(true);
+            transform.DOScale(Vector2.zero, flightTime)
+                .SetEase(Ease.OutSine)
+                .OnComplete(() => Destroy(gameObject));
         }
     }
 }

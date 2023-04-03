@@ -1,4 +1,6 @@
-using System;
+﻿using System.Collections.Generic;
+using Entities.Levels.Generators;
+using Entities.Targets;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -14,33 +16,41 @@ namespace Entities.Levels
         public TextMeshProUGUI[] helpLabels;
         
         private Target _apple;
-
-        private void Awake()
+        
+        protected override void Awake()
         {
             Generate();
             ToggleLabel(0);
         }
-
+        
         private void OnEnable()
         {
-            GlobalEventManager.onTargetGetDamage += ShowTrainingHint;
-            GlobalEventManager.onTargetHitCart += ShowTrainingGoodEnding;
-            GlobalEventManager.onTargetHitGround += ShowTrainingBadEnding;
+            _apple.OnHealthChanged += ShowTrainingHint;
+            GlobalEventManager.OnTargetHitCart += ShowTrainingGoodEnding;
+            GlobalEventManager.OnTargetHitGround += ShowTrainingBadEnding;
         }
 
         private void OnDisable()
         {
-            GlobalEventManager.onTargetGetDamage -= ShowTrainingHint;
-            GlobalEventManager.onTargetHitCart -= ShowTrainingGoodEnding;
-            GlobalEventManager.onTargetHitGround -= ShowTrainingBadEnding;
-        }
-
-        private void Generate()
-        {
-            _apple = TargetManager.SpawnTarget(new[] { apple }, levelNumber, spawnPoint, transform);
+            _apple.OnHealthChanged -= ShowTrainingHint;
+            GlobalEventManager.OnTargetHitCart -= ShowTrainingGoodEnding;
+            GlobalEventManager.OnTargetHitGround -= ShowTrainingBadEnding;
         }
         
-        // if i < -1 disable all
+        public override void Generate()
+        {
+            var pointGenerator = new PointGenerator
+            {
+                parent = transform,
+                points = new List<Vector2> { spawnPoint },
+                randomTargets = new List<GameObject> { apple }
+            };
+            generators.Add(pointGenerator);
+            generators[0].Generate();
+            
+            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
+        }
+        
         private void ToggleLabel(int i)
         {
             foreach (var label in helpLabels)
@@ -59,20 +69,12 @@ namespace Entities.Levels
             hand.SetActive(_apple.health == _apple.maxHealth);
         }
 
-        private void ShowTrainingHint(Target target)
+        private void ShowTrainingHint()
         {
-            if (target != _apple)
-            {
-                return;
-            }
-
             switch (_apple.health)
             {
-                case 1: 
-                    ToggleLabel(1);
-                    break;
-                case 2:
-                    ToggleLabel(2);
+                case 1: case 2:
+                    ToggleLabel(_apple.health);
                     break;
                 default: 
                     ToggleLabel(-1);
@@ -82,13 +84,13 @@ namespace Entities.Levels
 
         private void ShowTrainingBadEnding(Target target)
         {
-            Generate();
+            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
             ToggleLabel(3);
         }
     
         private void ShowTrainingGoodEnding(Target target)
         {
-            Generate();
+            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
             ToggleLabel(4);
         }
     }

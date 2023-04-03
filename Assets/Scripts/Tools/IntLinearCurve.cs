@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 
 namespace Tools
 {
-    public class IntLinearCurve : MonoBehaviour // TODO: To delete
+    [Serializable]
+    public class IntLinearCurve
     {
-        public string curveName;
         public AnimationCurve curve;
         public int cornerCount;
-        [Header("y = Kx + B")]
         public int k;
         public int b;
-
+    
         public void Rebuild()
         {
             curve = new AnimationCurve();
@@ -19,7 +19,7 @@ namespace Tools
                 curve.AddKey(i, i * k + b);
             }
         }
-
+    
         public void AddCorner()
         {
             cornerCount++;
@@ -31,7 +31,7 @@ namespace Tools
             cornerCount--;
             curve.RemoveKey(cornerCount);
         }
-
+    
         public int Evaluate(int x)
         {
             return (int)curve.Evaluate(x);
@@ -39,9 +39,9 @@ namespace Tools
 
         public int ForceEvaluate(int x)
         {
-            while (curve.length - 1 < x)
+            if (curve.length - 1 < x)
             {
-                AddCorner();
+                return k * x + b;
             }
 
             return Evaluate(x);

@@ -1,5 +1,4 @@
-using Tools.ScriptableObjects;
-using Tools.ScriptableObjects.Reference;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 using UnityEngine.Audio;
 

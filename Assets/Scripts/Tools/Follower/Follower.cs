@@ -24,7 +24,7 @@ namespace Tools.Follower
             );
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (!enabled)
             {
