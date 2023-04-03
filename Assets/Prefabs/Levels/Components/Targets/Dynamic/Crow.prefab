@@ -5175,8 +5175,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     cornerCount: 0
-    k: 1
-    b: 1
+    k: 2
+    b: 2
   maxHealthCurve:
     curve:
       serializedVersion: 2
