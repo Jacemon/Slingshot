@@ -26,7 +26,7 @@ namespace Entities.Targets
         [Space] 
         public IntHealthBar healthBar; 
         public AudioSource targetHit;
-        public MinMaxCurve minMaxPitch;
+        public MinMaxCurve minMaxPitch = new(1);
         [Space] 
         public float appearScale = 1;
         public float appearTime = 1.5f;
@@ -35,7 +35,7 @@ namespace Entities.Targets
         public Action OnHealthChanged;
         
         private ParticleSystem _particleSystem;
-        private Animator _animator;
+        protected Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
         private const float ShotColliderScale = 0.6f;
@@ -45,8 +45,11 @@ namespace Entities.Targets
             health = maxHealth = maxHealthCurve.ForceEvaluate(level);
             money = moneyCurve.ForceEvaluate(level);
 
-            healthBar.Health = healthBar.MaxHealth = maxHealth;
-            
+            if (healthBar != null)
+            {
+                healthBar.Health = healthBar.MaxHealth = maxHealth;
+            }
+
             _animator = GetComponent<Animator>();
             _particleSystem = GetComponent<ParticleSystem>();
 
@@ -69,7 +72,7 @@ namespace Entities.Targets
         public virtual void GetDamage(int damage)
         {
             health -= damage;
-            healthBar.Health -= damage;
+
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
 
             targetHit.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
@@ -81,8 +84,10 @@ namespace Entities.Targets
             OnHealthChanged?.Invoke();
         }
 
-        private void CheckHealth()
+        protected virtual void CheckHealth()
         {
+            healthBar.Health = health;
+            
             if (health > 0) return;
             
             GetComponent<Rigidbody2D>().isKinematic = false;

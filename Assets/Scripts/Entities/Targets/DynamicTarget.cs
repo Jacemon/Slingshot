@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using Tools.Follower;
+﻿using Tools.Follower;
 using UnityEngine;
 
 namespace Entities.Targets
@@ -20,7 +19,6 @@ namespace Entities.Targets
         protected override void OnEnable()
         {
             base.OnEnable();
-            OnHealthChanged += CheckPathFollower;
             _pathFollower.OnMovingLeft += MoveLeft;
             _pathFollower.OnMovingRight += MoveRight;
         }
@@ -28,7 +26,6 @@ namespace Entities.Targets
         protected override void OnDisable()
         {
             base.OnDisable();
-            OnHealthChanged -= CheckPathFollower;
             _pathFollower.OnMovingLeft -= MoveLeft;
             _pathFollower.OnMovingRight -= MoveRight;
         }
@@ -47,8 +44,9 @@ namespace Entities.Targets
             flipTransform.localScale = newScale;
         }
         
-        private void CheckPathFollower()
+        protected override void CheckHealth()
         {
+            base.CheckHealth();
             _pathFollower.enabled = health > 0;
         }
     }

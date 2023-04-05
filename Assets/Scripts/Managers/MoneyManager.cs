@@ -34,6 +34,7 @@ namespace Managers
                 return;
             }
             _money.Value += depositedMoney;
+            Debug.Log($"+{depositedMoney} money");
         }
 
         public static bool WithdrawMoney(long withdrawnMoney)
@@ -43,6 +44,7 @@ namespace Managers
                 return false;
             }
             _money.Value -= withdrawnMoney;
+            Debug.Log($"-{withdrawnMoney} money");
             return true;
         }
         

@@ -1,5 +1,6 @@
 using System;
 using Entities;
+using Entities.Levels;
 using Entities.Targets;
 
 namespace Managers
@@ -14,6 +15,6 @@ namespace Managers
         public static Action<Projectile> OnProjectileThrown;
 
         // Level
-        public static Action OnLevelLoaded;
+        public static Action<Level> OnLevelLoaded;
     }
 }

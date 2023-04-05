@@ -1,3 +1,4 @@
+using Entities.Levels;
 using Entities.Targets;
 using Managers;
 using Tools;
@@ -44,7 +45,7 @@ namespace Entities
         private void OnEnable()
         {
             GlobalEventManager.OnProjectileThrown += AddTimerDelay;
-            _timer.OnTimerDone += ResumeCart;
+            GlobalEventManager.OnLevelLoaded += CheckLevel;
             _pathFollower.OnMovingLeft += MoveLeft;
             _pathFollower.OnMovingRight += MoveRight;
         }
@@ -52,11 +53,25 @@ namespace Entities
         private void OnDisable()
         {
             GlobalEventManager.OnProjectileThrown -= AddTimerDelay;
-            _timer.OnTimerDone -= ResumeCart;
+            GlobalEventManager.OnLevelLoaded -= CheckLevel;
             _pathFollower.OnMovingLeft -= MoveLeft;
             _pathFollower.OnMovingRight -= MoveRight;
         }
 
+        private void CheckLevel(Level level)
+        {
+            if (level is BossLevel)
+            {
+                PauseCart();
+                _timer.OnTimerDone -= ResumeCart;
+            }
+            else
+            {
+                ResumeCart();
+                _timer.OnTimerDone += ResumeCart;
+            }
+        }
+        
         private void MoveLeft()
         {
             _animator.SetBool(IsMovingLeft, true);

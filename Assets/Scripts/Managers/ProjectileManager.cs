@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
+using Entities.Levels;
 using Tools.Follower;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
@@ -83,7 +84,7 @@ namespace Managers
             _spawnedProjectile = Instantiate(projectile, spawnPoint, Quaternion.identity);
         }
 
-        private void DeleteThrownProjectiles()
+        private void DeleteThrownProjectiles(Level dummy)
         {
             foreach (var projectile in _thrownProjectiles.Where(projectile => projectile != null))
             {

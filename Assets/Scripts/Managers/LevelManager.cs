@@ -2,6 +2,7 @@ using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Entities.Levels;
 using TMPro;
+using Tools;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ namespace Managers
         [Space] 
         public TextMeshProUGUI levelLabel;
         [Space]
-        [SerializeField]
+        [SerializeField, ReadOnlyInspector]
         private Level loadedLevel;
 
         private void Awake()
@@ -52,7 +53,7 @@ namespace Managers
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.Value.ToString();
-            
+
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
             nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
             buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);
@@ -102,7 +103,7 @@ namespace Managers
             }
             loadedLevel = Instantiate(level);
 
-            GlobalEventManager.OnLevelLoaded?.Invoke();
+            GlobalEventManager.OnLevelLoaded?.Invoke(loadedLevel);
             
             Debug.Log($"End loading level {currentLevel.Value}...");
         }

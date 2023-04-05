@@ -5033,7 +5033,7 @@ Animator:
   m_GameObject: {fileID: 5030656357949858016}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d113576e124428447aa1ba5b7043ddeb, type: 2}
+  m_Controller: {fileID: 22100000, guid: 13751a5902d29ff4eb5e6a1db10bd217, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5129,8 +5129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {x: -1.0427182, y: -0.39599785}
-  - {x: 0.21143526, y: 0.31875378}
+  - {x: -0.34836245, y: 0.6856944}
+  - {x: -1.4490569, y: 0.6088876}
   velocity:
     m_Mode: 3
     m_CurveMultiplier: 0
@@ -5163,7 +5163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Crow
-  level: 15
+  level: 19
   money: 1
   maxHealth: 0
   health: 0
