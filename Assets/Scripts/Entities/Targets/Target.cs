@@ -35,7 +35,8 @@ namespace Entities.Targets
         public Action OnHealthChanged;
         
         private ParticleSystem _particleSystem;
-        protected Animator _animator;
+        
+        protected Animator Animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
 
         private const float ShotColliderScale = 0.6f;
@@ -50,7 +51,7 @@ namespace Entities.Targets
                 healthBar.Health = healthBar.MaxHealth = maxHealth;
             }
 
-            _animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
             _particleSystem = GetComponent<ParticleSystem>();
 
             Debug.Log($"{targetName}:{level} was spawned");
@@ -79,7 +80,7 @@ namespace Entities.Targets
             targetHit.Play();
             
             _particleSystem.Play();
-            _animator.SetTrigger(Hit);
+            Animator.SetTrigger(Hit);
 
             OnHealthChanged?.Invoke();
         }
@@ -94,9 +95,9 @@ namespace Entities.Targets
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("RearMiddle");
 
-            DOVirtual.DelayedCall(_animator.GetCurrentAnimatorStateInfo(0).length, () =>
+            DOVirtual.DelayedCall(Animator.GetCurrentAnimatorStateInfo(0).length, () =>
             {
-                if (_animator != null) _animator.enabled = false;
+                if (Animator != null) Animator.enabled = false;
             });
 
             object dummy = GetComponent<Collider2D>() switch

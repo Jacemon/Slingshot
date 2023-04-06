@@ -1,9 +1,11 @@
+using System;
 using Entities.Levels;
 using Entities.Targets;
 using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
@@ -46,6 +48,7 @@ namespace Entities
         {
             GlobalEventManager.OnProjectileThrown += AddTimerDelay;
             GlobalEventManager.OnLevelLoaded += CheckLevel;
+            _timer.OnTimerDone += ResumeCart;
             _pathFollower.OnMovingLeft += MoveLeft;
             _pathFollower.OnMovingRight += MoveRight;
         }
@@ -54,6 +57,7 @@ namespace Entities
         {
             GlobalEventManager.OnProjectileThrown -= AddTimerDelay;
             GlobalEventManager.OnLevelLoaded -= CheckLevel;
+            _timer.OnTimerDone -= ResumeCart;
             _pathFollower.OnMovingLeft -= MoveLeft;
             _pathFollower.OnMovingRight -= MoveRight;
         }
@@ -63,12 +67,12 @@ namespace Entities
             if (level is BossLevel)
             {
                 PauseCart();
-                _timer.OnTimerDone -= ResumeCart;
+                _timer.enabled = false;
             }
             else
             {
                 ResumeCart();
-                _timer.OnTimerDone += ResumeCart;
+                _timer.enabled = true;
             }
         }
         
@@ -87,6 +91,8 @@ namespace Entities
             cartMoving.mute = true;
             _animator.enabled = false;
             _pathFollower.Pause();
+            
+            Debug.Log($"Cart {cartName} paused");
         }
 
         private void ResumeCart()
@@ -94,6 +100,8 @@ namespace Entities
             cartMoving.mute = false;
             _animator.enabled = true;
             _pathFollower.Resume();
+            
+            Debug.Log($"Cart {cartName} resumed");
         }
 
         private void AddTimerDelay(Projectile projectile)
