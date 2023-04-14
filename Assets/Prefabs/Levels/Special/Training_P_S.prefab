@@ -908,7 +908,7 @@ MonoBehaviour:
   levelNumber: 0
   generators: []
   hand: {fileID: 6920130782291824761}
-  apple: {fileID: 5030656357949858016, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
+  apple: {fileID: 5030656357949858020, guid: 62a9bcaac8fae0f4fbf088bd3a465ec9, type: 3}
   spawnPoint: {x: 0, y: 8.6}
   helpLabels:
   - {fileID: 1922197996}

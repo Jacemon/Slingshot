@@ -8,7 +8,8 @@ namespace Managers
     public class SceneLoaderManager : MonoBehaviour
     {
         public float transitionTime;
-        
+        public AudioSource transitionSound;
+
         private Animator _transition;
         private static readonly int IsOpen = Animator.StringToHash("IsOpen");
 
@@ -24,15 +25,17 @@ namespace Managers
 
         private IEnumerator LoadSceneWithTransitionCoroutine(string sceneName)
         {
+            _transition.speed = 1 / transitionTime;
 
             _transition.SetBool(IsOpen, false);
-            _transition.speed = 1 / transitionTime;
+            transitionSound.Play();
 
             yield return new WaitForSecondsRealtime(transitionTime);
             SceneManager.LoadSceneAsync(sceneName).completed +=
                 _ =>
                 {
                     _transition.SetBool(IsOpen, true);
+                    transitionSound.Play();
                 };
         }
 

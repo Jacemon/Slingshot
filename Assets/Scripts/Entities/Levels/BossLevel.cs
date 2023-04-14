@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entities.Levels.Generators;
 using Entities.Targets;
+using Entities.Targets.Bosses;
 using Tools;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Entities.Levels
     [DisallowMultipleComponent]
     public class BossLevel : Level
     {
-        public GameObject boss;
+        public BossTarget boss;
         public Vector2 spawnPoint;
         public IntHealthBar bossHealthBar;
         
@@ -27,16 +28,13 @@ namespace Entities.Levels
 
         public override void Generate()
         {
-            if (boss.TryGetComponent(out BossTarget bossTarget))
-            {
-                bossTarget.healthBar = bossHealthBar;
-            }
+            boss.healthBar = bossHealthBar;
             
             var pointGenerator = new PointGenerator()
             {
                 parent = transform,
                 points = new List<Vector2> { spawnPoint },
-                randomTargets = new List<GameObject> { boss },
+                randomTargets = new List<Target> { boss },
                 level = levelNumber
             };
             generators.Add(pointGenerator);

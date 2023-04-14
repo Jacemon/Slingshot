@@ -10,7 +10,7 @@ namespace Entities.Levels
     public class TrainingLevel : Level
     {
         public GameObject hand;
-        public GameObject apple; // TODO: баг какой-то тут есть
+        public Target apple; // TODO: баг какой-то тут есть
         public Vector2 spawnPoint;
         [Space]
         public TextMeshProUGUI[] helpLabels;
@@ -49,7 +49,7 @@ namespace Entities.Levels
             {
                 parent = transform,
                 points = new List<Vector2> { spawnPoint },
-                randomTargets = new List<GameObject> { apple }
+                randomTargets = new List<Target> { apple }
             };
             generators.Add(pointGenerator);
             generators[0].Generate();

@@ -59,7 +59,7 @@ MonoBehaviour:
       type: {class: EllipseGenerator, ns: Entities.Levels.Generators, asm: Assembly-CSharp}
       data:
         randomTargets:
-        - {fileID: 5030656357949858016, guid: 82685fe67b29d1d4db0dd6325a79e8e3, type: 3}
+        - {fileID: 5030656357949858020, guid: 82685fe67b29d1d4db0dd6325a79e8e3, type: 3}
         parent: {fileID: 400266552143185749}
         autoRegenerate: 1
         generatedTargets: []

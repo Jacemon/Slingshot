@@ -11,7 +11,7 @@ namespace Managers
     public class ProjectileManager : MonoBehaviour
     {
         [Header("Settings")]
-        public List<GameObject> projectilePrefabs = new();
+        public List<Projectile> projectilePrefabs = new();
         public Vector2 spawnPoint;
         [Space] 
         public IntReference projectileLevel;
@@ -74,10 +74,7 @@ namespace Managers
         
         private void SpawnProjectile(string projectileName)
         {
-            var projectile = projectilePrefabs.Find(o => 
-                o.TryGetComponent(out Projectile projectile) 
-                && projectile.name == projectileName
-            ).GetComponent<Projectile>();
+            var projectile = projectilePrefabs.Find(p => p.name == projectileName);
             
             projectile.level = projectileLevel.Value;
             projectile.GetComponent<Follower>().followPoint = spawnPoint;

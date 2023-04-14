@@ -12,7 +12,7 @@ namespace Managers
     public class LevelManager : MonoBehaviour
     {
         [SerializedDictionary("Level number", "Level prefab")]
-        public SerializedDictionary<int, GameObject> levels;
+        public SerializedDictionary<int, Level> levels;
         [Space]
         public IntReference currentLevel;
         public IntReference maxAvailableLevel;
@@ -55,8 +55,10 @@ namespace Managers
             levelLabel.text = currentLevel.Value.ToString();
 
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
-            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value != maxAvailableLevel.Value);
-            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() && currentLevel.Value == maxAvailableLevel.Value);
+            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() 
+                                            && currentLevel.Value != maxAvailableLevel.Value);
+            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() 
+                                           && currentLevel.Value == maxAvailableLevel.Value);
         }
 
         public void LoadLevel(int levelNumber)
@@ -84,16 +86,8 @@ namespace Managers
             }
 
             // Configure Level component if exists
-            if (levels[levelNumber].TryGetComponent(out Level level))
-            {
-                level.levelNumber = levelNumber;
-            }
-            else
-            {
-                Debug.Log($"Level {levelNumber} has not Level script...");
-                return;
-            }
-            
+            levels[levelNumber].levelNumber = levelNumber;
+
             currentLevel.Value = levelNumber;
 
             // Destroy old and create new level
@@ -101,7 +95,7 @@ namespace Managers
             {
                 Destroy(loadedLevel.gameObject);
             }
-            loadedLevel = Instantiate(level);
+            loadedLevel = Instantiate(levels[levelNumber]);
 
             GlobalEventManager.OnLevelLoaded?.Invoke(loadedLevel);
             

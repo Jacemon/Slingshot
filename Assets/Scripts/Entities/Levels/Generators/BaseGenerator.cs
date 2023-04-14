@@ -11,7 +11,7 @@ namespace Entities.Levels.Generators
     public abstract class BaseGenerator : IGenerator
     {
         [Header("Base settings")]
-        public List<GameObject> randomTargets;
+        public List<Target> randomTargets;
         public Transform parent;
         public bool autoRegenerate = true;
         [HideInInspector]

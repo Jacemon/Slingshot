@@ -12,7 +12,7 @@ namespace Managers
     public class ShopManager : MonoBehaviour, IReloadable
     {
         [FormerlySerializedAs("shopPointPrefab")] 
-        public GameObject shopItemPrefab;
+        public ShopItemDisplay shopItemPrefab;
         public VerticalLayoutGroup verticalLayoutGroup;
         [Space]
         [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
@@ -40,8 +40,7 @@ namespace Managers
             {
                 if (shopItemWithDisplay.shopItemDisplay == null)
                 {
-                    shopItemWithDisplay.shopItemDisplay = Instantiate(shopItemPrefab, verticalLayoutGroup.transform)
-                        .GetComponent<ShopItemDisplay>();
+                    shopItemWithDisplay.shopItemDisplay = Instantiate(shopItemPrefab, verticalLayoutGroup.transform);
                 }
 
                 shopItemWithDisplay.shopItemDisplay.shopItem = shopItemWithDisplay.shopItem;

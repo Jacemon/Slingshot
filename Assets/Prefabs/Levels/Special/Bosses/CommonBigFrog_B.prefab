@@ -49,8 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 0
   generators: []
-  boss: {fileID: 5030656357949858016, guid: 5d0c2be7269d37c4b9ac4e494a45704b, type: 3}
-  spawnPoint: {x: 0, y: 0}
+  boss: {fileID: -7269278460340322970, guid: 76408d83a5b16ac4da02626ad86f4f28, type: 3}
+  spawnPoint: {x: 0, y: -2}
   bossHealthBar: {fileID: 1537481375002460373}
   references:
     version: 2
@@ -130,7 +130,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1996668811
   m_SortingLayer: -2
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e31054265c52bd44fa82728e2a22d513, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -200,7 +200,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8186042878259940709}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
