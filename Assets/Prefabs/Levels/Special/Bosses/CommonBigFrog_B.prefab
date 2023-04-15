@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ca5732b46e41018f9577d39695f058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 0
+  levelNumber: 10
   generators: []
   boss: {fileID: -7269278460340322970, guid: 76408d83a5b16ac4da02626ad86f4f28, type: 3}
-  spawnPoint: {x: 0, y: -2}
+  spawnPoint: {x: 0, y: -3.5}
   bossHealthBar: {fileID: 1537481375002460373}
   references:
     version: 2

@@ -11,30 +11,60 @@ namespace Entities.Targets.Bosses
         [Space] 
         public float jumpTime;
         public float waitTime;
+        private static readonly int Jump = Animator.StringToHash("Jump");
+
+        private Sequence _sequence;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            OnStageChanged += ClearTween;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            OnStageChanged -= ClearTween;
+            ClearTween();
+        }
+
+        public void ClearTween()
+        {
+            transform.DOKill();
+            _sequence.Kill();
+        }
         
-        public void Jump()
+        public void JumpStage()
         {
             Animator.speed = 1 / jumpTime;
             
-            Animator.SetTrigger("Jump");
-
-            DOVirtual.DelayedCall(Animator.GetCurrentAnimatorStateInfo(0).length, () => Animator.enabled = false);
-            DOVirtual.DelayedCall(Animator.GetCurrentAnimatorStateInfo(0).length + waitTime, () => Animator.enabled = true);
-            
-            transform.DOMoveX(
-                Random.Range(xRange.x, xRange.y), 
-                jumpTime);
-            transform
+            var jumpY = transform
                 .DOMoveY(
-                    transform.position.y + jumpHeight, 
+                    transform.position.y + jumpHeight,
                     jumpTime / 2)
-                .SetEase(Ease.InOutSine)
-                .OnComplete( () =>
+                .SetEase(Ease.InSine)
+                .OnComplete(() =>
                     transform
                         .DOMoveY(
-                            transform.position.y - jumpHeight, 
+                            transform.position.y - jumpHeight,
                             jumpTime / 2)
+                        .SetEase(Ease.OutSine)
                 );
+            
+            _sequence = DOTween.Sequence().SetLoops(-1);
+
+            _sequence.AppendCallback(() => Animator.SetTrigger(Jump));
+            _sequence.AppendCallback(() =>
+                {
+                    transform.DOMoveX(
+                        Random.Range(xRange.x, xRange.y),
+                        jumpTime);
+                }
+            );
+            _sequence.Append(jumpY);
+            _sequence.AppendInterval(waitTime);
         }
     }
 }

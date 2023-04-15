@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Tools;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Entities.Targets.Bosses
 {
-    public class BossTarget : Target //TODO: abstract
+    public abstract class BossTarget : Target //TODO: abstract
     {
         public List<Stage> stages;
         [ReadOnlyInspector]
         public Stage currentStage;
 
+        public Action OnStageChanged;
+        
         [Serializable]
         public class Stage
         {
@@ -69,9 +70,11 @@ namespace Entities.Targets.Bosses
         {
             if (currentStage.Equals(stage)) return;
             
+            OnStageChanged?.Invoke();
+            
             currentStage = stage;
             currentStage.stageAction?.Invoke();
-            
+
             Debug.Log($"{targetName} Boss -> stage (<{currentStage.startHealthPercent})");
         }
     }

@@ -134,8 +134,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: -724066260, guid: 6571ba1bda5796543b8cbd90847021f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5394,7 +5394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: BigFrog
-  level: 0
+  level: 10
   money: 0
   maxHealth: 0
   health: 0
@@ -5444,14 +5444,26 @@ MonoBehaviour:
   - startHealthPercent: 1
     stageAction:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: -7269278460340322970}
+          m_TargetAssemblyTypeName: Entities.Targets.Bosses.BigFrog, Assembly-CSharp
+          m_MethodName: JumpStage
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - startHealthPercent: 0.7
     stageAction:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: -7269278460340322970}
           m_TargetAssemblyTypeName: Entities.Targets.Bosses.BigFrog, Assembly-CSharp
-          m_MethodName: Jump
+          m_MethodName: JumpStage
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5475,9 +5487,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   xRange: {x: -2, y: 2}
-  jumpHeight: 20
-  jumpTime: 2
-  waitTime: 1
+  jumpHeight: 15
+  jumpTime: 1
+  waitTime: 3
 --- !u!1 &5498918696006592198
 GameObject:
   m_ObjectHideFlags: 0
@@ -5633,8 +5645,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1996668811
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 2116845184, guid: 6571ba1bda5796543b8cbd90847021f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
