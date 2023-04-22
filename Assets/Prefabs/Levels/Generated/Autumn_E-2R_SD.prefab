@@ -208,6 +208,7 @@ Transform:
   - {fileID: 2977628496069799554}
   - {fileID: 5049005542355577967}
   - {fileID: 7134446093539067961}
+  - {fileID: 3083589295020826916}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -235,7 +236,7 @@ MonoBehaviour:
       type: {class: DynamicRectangleGenerator, ns: Entities.Levels.Generators.DynamicGenerators, asm: Assembly-CSharp}
       data:
         randomTargets:
-        - {fileID: 5030656357949858016, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+        - {fileID: -7428359753690675145, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
         parent: {fileID: 2977628496677427847}
         autoRegenerate: 1
         generatedTargets: []
@@ -318,7 +319,7 @@ MonoBehaviour:
       type: {class: DynamicRectangleGenerator, ns: Entities.Levels.Generators.DynamicGenerators, asm: Assembly-CSharp}
       data:
         randomTargets:
-        - {fileID: 5030656357949858016, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
+        - {fileID: -7428359753690675145, guid: b822ecb3f95ef1149bc21d65edf431e9, type: 3}
         parent: {fileID: 2977628496677427847}
         autoRegenerate: 1
         generatedTargets: []
@@ -488,4 +489,66 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1082100049867203245, guid: af19752ed0c09d546875634cab471d00, type: 3}
   m_PrefabInstance: {fileID: 7784120863964899988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8469189844486237712
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2977628496677427847}
+    m_Modifications:
+    - target: {fileID: 4666123254695773179, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_Name
+      value: AutumnMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+--- !u!4 &3083589295020826916 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6864479150222823220, guid: ec2dc369b640c434aafac47aae49ee63, type: 3}
+  m_PrefabInstance: {fileID: 8469189844486237712}
   m_PrefabAsset: {fileID: 0}
