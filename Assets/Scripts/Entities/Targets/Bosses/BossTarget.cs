@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using Tools;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Entities.Targets.Bosses
 {
-    public abstract class BossTarget : Target //TODO: abstract
+    public abstract class BossTarget : Target
     {
         public List<Stage> stages;
         [ReadOnlyInspector]
@@ -58,11 +59,26 @@ namespace Entities.Targets.Bosses
         {
             healthBar.Health = health;
 
-            for (var i = 0; i < stages.Count; i++)
+            var healthPercent = (float)health / maxHealth;
+            
+            int i;
+            for (i = 0; i < stages.Count; i++)
             {
-                if (stages[i].startHealthPercent >= (float)health / maxHealth) continue;
+                if (stages[i].startHealthPercent < healthPercent)
+                {
+                    break;
+                }
+            }
+
+            if (i > 0)
+            {
                 ChangeStage(stages[i - 1]);
-                break;
+            }
+
+            if (health <= 0)
+            {
+                MoneyManager.DepositMoney(money);
+                LateDestroy();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Entities.Targets;
 using Tools.Interfaces;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Entities.Levels.Generators
         public List<Target> randomTargets;
         public Transform parent;
         public bool autoRegenerate = true;
+        public float regenerateTime;
         [HideInInspector]
         public List<Target> generatedTargets = new();
         [Header("Target settings")]
@@ -22,6 +24,8 @@ namespace Entities.Levels.Generators
         [Space]
         public MinMaxCurve minMaxScale = new(1);
 
+        public Action OnGenerated;
+        
         public void Generate()
         {
             StartGenerate();
@@ -42,7 +46,14 @@ namespace Entities.Levels.Generators
                 {
                     if (target.health > 0) return;
                     generatedTargets.Remove(target);
-                    if (generatedTargets.Count == 0) Generate();
+                    if (generatedTargets.Count == 0)
+                    {
+                        DOVirtual.DelayedCall(regenerateTime, () =>
+                        {
+                            Generate();
+                            OnGenerated?.Invoke();
+                        });
+                    }
                 };
             }
         }

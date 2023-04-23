@@ -8,12 +8,25 @@ namespace Entities.Targets.Bosses
         [Header("BigFrog Settings")]
         public Vector2 xRange = new(-2, 2);
         public float jumpHeight = 20f;
-        [Space] 
         public float jumpTime;
-        public float waitTime;
+        public float jumpWaitTime;
+        [Space] 
+        public float hideHeight = 5f;
+        public float hideTime;
+        public float hideWaitTime;
+        
         private static readonly int Jump = Animator.StringToHash("Jump");
 
+        private Collider2D _collider2d;
+        
         private Sequence _sequence;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _collider2d = GetComponent<Collider2D>();
+        }
 
         protected override void OnEnable()
         {
@@ -40,31 +53,65 @@ namespace Entities.Targets.Bosses
         {
             Animator.speed = 1 / jumpTime;
             
-            var jumpY = transform
-                .DOMoveY(
-                    transform.position.y + jumpHeight,
-                    jumpTime / 2)
-                .SetEase(Ease.InSine)
-                .OnComplete(() =>
-                    transform
-                        .DOMoveY(
-                            transform.position.y - jumpHeight,
-                            jumpTime / 2)
-                        .SetEase(Ease.OutSine)
-                );
-            
-            _sequence = DOTween.Sequence().SetLoops(-1);
+            var positionY = transform.position.y;
 
+            _sequence = DOTween.Sequence().SetLoops(-1);
+            
             _sequence.AppendCallback(() => Animator.SetTrigger(Jump));
             _sequence.AppendCallback(() =>
                 {
                     transform.DOMoveX(
                         Random.Range(xRange.x, xRange.y),
-                        jumpTime);
+                        jumpTime); // Random jump X
                 }
             );
-            _sequence.Append(jumpY);
-            _sequence.AppendInterval(waitTime);
+            _sequence.Append(
+                transform
+                    .DOMoveY(
+                        positionY + jumpHeight,
+                        jumpTime / 2)
+                    .SetEase(Ease.InSine) // Jump up
+            );
+            _sequence.Append(
+                transform
+                    .DOMoveY(
+                        positionY,
+                        jumpTime / 2)
+                    .SetEase(Ease.OutSine) // Jump down
+            );
+            _sequence.AppendInterval(jumpWaitTime);
+        }
+
+        public void HideStage()
+        {
+            var positionY = transform.position.y;
+            
+            _sequence = DOTween.Sequence().SetLoops(-1);
+
+            _sequence.AppendCallback(() =>
+                {
+                    transform.DOMoveX(
+                        Random.Range(xRange.x, xRange.y),
+                        hideTime);
+                }
+            );
+            _sequence.AppendCallback(() => _collider2d.enabled = false);
+            _sequence.Append(
+                transform
+                    .DOMoveY(
+                        positionY - hideHeight,
+                        hideTime / 2)
+                    .SetEase(Ease.InSine) // Hide
+            );
+            _sequence.Append(
+                transform
+                    .DOMoveY(
+                        positionY,
+                        hideTime / 2)
+                    .SetEase(Ease.OutSine) // Show
+            );
+            _sequence.AppendCallback(() => _collider2d.enabled = true);
+            _sequence.AppendInterval(hideWaitTime);
         }
     }
 }

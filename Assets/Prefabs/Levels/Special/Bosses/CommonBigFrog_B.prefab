@@ -51,6 +51,7 @@ MonoBehaviour:
   levelNumber: 10
   generators: []
   boss: {fileID: -7269278460340322970, guid: 76408d83a5b16ac4da02626ad86f4f28, type: 3}
+  respawnTime: 5
   spawnPoint: {x: 0, y: -3.5}
   bossHealthBar: {fileID: 1537481375002460373}
   references:
