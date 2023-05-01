@@ -11,7 +11,7 @@ namespace Entities.Levels.Generators.DynamicGenerators
         [Header("Dynamic settings")]
         public MinMaxCurve pointsCount = new(2);
         
-        protected override void StartGenerate()
+        protected override void Generate()
         {
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
             var localRectangle = parent != null ? new Rect(

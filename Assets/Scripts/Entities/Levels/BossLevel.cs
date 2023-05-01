@@ -44,13 +44,17 @@ namespace Entities.Levels
             _pointGenerator.OnGenerated -= Reload;
         }
 
-        public override void Generate()
+        public override void StartGenerate() // TODO: mb add _pointGenerator to generators?
         {
             boss.healthBar = bossHealthBar;
             
-            _pointGenerator.Generate();
+            _pointGenerator.StartGenerate();
 
             Reload();
+        }
+        
+        public override void StopGenerate() { 
+            _pointGenerator.StopGenerate();
         }
 
         public void Reload()

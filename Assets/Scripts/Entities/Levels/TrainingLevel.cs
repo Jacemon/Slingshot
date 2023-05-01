@@ -43,7 +43,7 @@ namespace Entities.Levels
             GlobalEventManager.OnTargetHitGround -= ShowTrainingBadEnding;
         }
         
-        public override void Generate()
+        public override void StartGenerate()
         {
             var pointGenerator = new PointGenerator
             {
@@ -52,7 +52,7 @@ namespace Entities.Levels
                 randomTargets = new List<Target> { apple }
             };
             generators.Add(pointGenerator);
-            generators[0].Generate();
+            generators[0].StartGenerate();
             
             UpdateApple();
         }

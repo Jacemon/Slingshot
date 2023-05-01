@@ -15,7 +15,7 @@ namespace Entities.Levels.Generators
         public int targetsAmount;
         public float spaceBetween;
         
-        protected override void StartGenerate()
+        protected override void Generate()
         {
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
             generatedTargets = TargetManager.SpawnTargetsByEllipse(

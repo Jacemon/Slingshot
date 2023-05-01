@@ -12,7 +12,7 @@ namespace Entities.Levels.Generators
         [Header("Points settings")]
         public List<Vector2> points = new();
 
-        protected override void StartGenerate()
+        protected override void Generate()
         {
             List<Vector2> globalPoints = new();
             

@@ -49,6 +49,8 @@ namespace Entities.Targets.Bosses
         {
             transform.DOKill();
             _sequence.Kill();
+            //transform.DOMove(_startPosition, 1);
+            
             transform.position = _startPosition;
         }
         
@@ -117,6 +119,11 @@ namespace Entities.Targets.Bosses
             );
             _sequence.AppendCallback(() => _collider2d.enabled = true);
             _sequence.AppendInterval(hideWaitTime);
+        }
+
+        public void DeathStage()
+        {
+            _collider2d.enabled = false;
         }
     }
 }

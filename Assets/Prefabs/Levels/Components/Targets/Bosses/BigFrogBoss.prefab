@@ -5659,7 +5659,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -7269278460340322970}
           m_TargetAssemblyTypeName: Entities.Targets.Bosses.BigFrog, Assembly-CSharp
-          m_MethodName: HideStage
+          m_MethodName: DeathStage
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

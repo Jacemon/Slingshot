@@ -2,6 +2,7 @@
 {
     public interface IGenerator
     {
-        void Generate();
+        void StartGenerate();
+        void StopGenerate();
     }
 }

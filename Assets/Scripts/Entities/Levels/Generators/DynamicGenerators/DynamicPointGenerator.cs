@@ -11,7 +11,7 @@ namespace Entities.Levels.Generators.DynamicGenerators
         [Header("Dynamic settings")] 
         public int amount = 1;
         
-        protected override void StartGenerate()
+        protected override void Generate()
         {
             List<Vector2> globalPoints = new();
             
