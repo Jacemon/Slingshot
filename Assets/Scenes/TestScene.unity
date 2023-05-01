@@ -123,63 +123,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &197887243
+--- !u!1001 &746206207
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185749, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241988, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400266552143185750, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+    - target: {fileID: 4927523153820241989, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
       propertyPath: m_Name
-      value: Sakura_3E_S
+      value: CommonBigFrog_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 5769899846028629278, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5769899846028629278, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 92ba37fdf2f18ea43b63f142fb8a277c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 02920c79f37fa1246be595f30b8bbb32, type: 3}
 --- !u!1001 &1391014504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -358,7 +366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1531259700
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ namespace Entities.Levels
     public class TrainingLevel : Level
     {
         public GameObject hand;
-        public Target apple; // TODO: баг какой-то тут есть
+        public Target apple; // TODO: баг какой-то тут есть, а может уже и нет, проверю как-нибудь потом
         public Vector2 spawnPoint;
         [Space]
         public TextMeshProUGUI[] helpLabels;

@@ -20,11 +20,13 @@ namespace Entities.Targets.Bosses
         private Collider2D _collider2d;
         
         private Sequence _sequence;
-
+        private Vector3 _startPosition;
+        
         protected override void Awake()
         {
             base.Awake();
 
+            _startPosition = transform.position;
             _collider2d = GetComponent<Collider2D>();
         }
 
@@ -47,6 +49,7 @@ namespace Entities.Targets.Bosses
         {
             transform.DOKill();
             _sequence.Kill();
+            transform.position = _startPosition;
         }
         
         public void JumpStage()
@@ -85,6 +88,8 @@ namespace Entities.Targets.Bosses
         public void HideStage()
         {
             var positionY = transform.position.y;
+
+            transform.DOMoveZ(5, 0);
             
             _sequence = DOTween.Sequence().SetLoops(-1);
 

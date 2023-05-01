@@ -5247,7 +5247,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 0.6
     m_ConstantMax: 1.5
-  appearScale: 0.9839251
+  appearScale: 1
   appearTime: 1.5
   destroyTime: 2
 --- !u!199 &5850777044229197107

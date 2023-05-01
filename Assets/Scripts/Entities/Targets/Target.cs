@@ -35,6 +35,7 @@ namespace Entities.Targets
         public Action OnHealthChanged;
         
         private ParticleSystem _particleSystem;
+        private Rigidbody2D _rigidbody2D;
         
         protected Animator Animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
@@ -53,6 +54,7 @@ namespace Entities.Targets
 
             Animator = GetComponent<Animator>();
             _particleSystem = GetComponent<ParticleSystem>();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
 
             Debug.Log($"{targetName}:{level} was spawned");
         }
@@ -91,7 +93,7 @@ namespace Entities.Targets
             
             if (health > 0) return;
             
-            GetComponent<Rigidbody2D>().isKinematic = false;
+            _rigidbody2D.isKinematic = false;
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("RearMiddle");
 

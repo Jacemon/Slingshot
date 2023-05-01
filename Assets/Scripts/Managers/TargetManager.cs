@@ -35,7 +35,12 @@ namespace Managers
             target.level = targetLevel;
             target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
 
-            return Instantiate(target, spawnPoint, Quaternion.identity, parent);
+            var spawnedTarget = Instantiate(target, spawnPoint, Quaternion.identity, parent);
+            var position = spawnedTarget.transform.localPosition; // TODO: fix local position in generators or this??
+            position.z = target.transform.position.z; // todo and here
+            spawnedTarget.transform.localPosition = position; // todo here too
+            
+            return spawnedTarget;
         }
         
         public static List<Target> SpawnTargetsByFunction(
