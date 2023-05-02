@@ -62,7 +62,7 @@ namespace Entities.Levels.Generators
 
         public void StopGenerate()
         {
-            _regenerator.Kill();
+            _regenerator?.Kill();
         }
         
         public virtual void DrawGizmos() { }
