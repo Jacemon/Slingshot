@@ -14,8 +14,8 @@ namespace Entities.Levels.Generators
         [Space]
         public int targetsAmount;
         public float spaceBetween;
-        
-        protected override void StartGenerate()
+
+        protected override void Generate()
         {
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
             generatedTargets = TargetManager.SpawnTargetsByEllipse(
@@ -38,13 +38,13 @@ namespace Entities.Levels.Generators
 
             var scale = parent != null ? parent.localScale : new Vector3(1, 1, 1);
             Vector2 yUp, yDown, xLeft, xRight;
-            
+
             yUp = yDown = xLeft = xRight = parent != null ? parent.TransformPoint(centerPoint) : centerPoint;
             yUp.y += spawnSecondRadius * scale.y;
             yDown.y -= spawnSecondRadius * scale.y;
             xRight.x += spawnRadius * scale.x;
             xLeft.x -= spawnRadius * scale.x;
-            
+
             Gizmos.DrawLine(yUp, yDown);
             Gizmos.DrawLine(xRight, xLeft);
         }

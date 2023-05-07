@@ -16,11 +16,8 @@ namespace Managers
 
         private void Update()
         {
-            if (!showFps)
-            {
-                return;
-            }
-            var fps = (int)(1.0f/Time.deltaTime);
+            if (!showFps) return;
+            var fps = (int)(1.0f / Time.deltaTime);
             fpsLabel.text = fps.ToString();
         }
     }

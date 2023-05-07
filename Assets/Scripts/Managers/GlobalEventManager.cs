@@ -1,5 +1,6 @@
 using System;
 using Entities;
+using Entities.Levels;
 using Entities.Targets;
 
 namespace Managers
@@ -9,11 +10,11 @@ namespace Managers
         // Target
         public static Action<Target> OnTargetHitCart;
         public static Action<Target> OnTargetHitGround;
-    
+
         // Projectile
         public static Action<Projectile> OnProjectileThrown;
 
         // Level
-        public static Action OnLevelLoaded;
+        public static Action<Level> OnLevelLoaded;
     }
 }

@@ -116,7 +116,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1996668811
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 51c933fdc543ff94b9e1d97d95cd3c23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetName: Apple
-  level: 0
+  level: 2
   money: 1
   maxHealth: 3
   health: 0
@@ -5247,7 +5247,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_ConstantMin: 0.7
     m_ConstantMax: 2
-  appearScale: 0.7897063
+  appearScale: 1
   appearTime: 1.5
   destroyTime: 2
 --- !u!199 &5850777044229197107
@@ -5290,7 +5290,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1996668811
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0

@@ -10,7 +10,7 @@ namespace Managers
         public TextMeshProUGUI moneyLabel;
         
         private static LongReference _money;
-        
+
         private void Awake()
         {
             _money = money;
@@ -19,9 +19,9 @@ namespace Managers
 
         private void OnEnable()
         {
-           _money.OnValueChanged += ReloadMoney;
+            _money.OnValueChanged += ReloadMoney;
         }
-        
+
         private void OnDisable()
         {
             _money.OnValueChanged -= ReloadMoney;
@@ -29,23 +29,19 @@ namespace Managers
 
         public static void DepositMoney(long depositedMoney)
         {
-            if (depositedMoney < 0)
-            {
-                return;
-            }
+            if (depositedMoney < 0) return;
             _money.Value += depositedMoney;
+            Debug.Log($"+{depositedMoney} money");
         }
 
         public static bool WithdrawMoney(long withdrawnMoney)
         {
-            if (_money.Value < withdrawnMoney)
-            {
-                return false;
-            }
+            if (_money.Value < withdrawnMoney) return false;
             _money.Value -= withdrawnMoney;
+            Debug.Log($"-{withdrawnMoney} money");
             return true;
         }
-        
+
         private void ReloadMoney()
         {
             moneyLabel.text = FormatInteger(_money.Value);
@@ -55,7 +51,7 @@ namespace Managers
         {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
             var n = 0;
-            
+
             while (n < names.Length - 1 && digit >= 1000)
             {
                 digit /= 1000;

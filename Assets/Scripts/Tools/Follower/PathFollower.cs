@@ -5,7 +5,6 @@ using Tools.Interfaces;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
-using Sequence = DG.Tweening.Sequence;
 
 namespace Tools.Follower
 {
@@ -17,13 +16,13 @@ namespace Tools.Follower
         [Tooltip("Number of cycles to play (-1 for infinite)")]
         public int loops = -1;
         public bool clamp = true;
+        
+        private ParticleSystem _particleSystem;
+        private Sequence _sequence;
 
         public Action OnMovingLeft;
         public Action OnMovingRight;
 
-        private Sequence _sequence;
-        private ParticleSystem _particleSystem;
-        
         private void OnEnable()
         {
             Tween();
@@ -34,16 +33,39 @@ namespace Tools.Follower
             transform.DOKill();
             _sequence.Kill();
         }
-        
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+
+            if (points.Count == 0) return;
+
+            var prevPoint = points[0];
+            for (var i = 1; i < points.Count; i++)
+            {
+                Gizmos.DrawLine(prevPoint, points[i]);
+                prevPoint = points[i];
+            }
+
+            Gizmos.DrawLine(points[0], points[^1]);
+        }
+
+        public void Reload()
+        {
+            transform.DOKill();
+            _sequence.Kill();
+            Tween();
+        }
+
         /// <returns>
-        /// true - left,
-        /// false - right
+        ///     true - left,
+        ///     false - right
         /// </returns>
         public static bool CheckDirection(Vector2 startPoint, Vector2 endPoint)
         {
             return startPoint.x > endPoint.x;
         }
-        
+
         private void CheckDirectionInvoke(Vector2 startPoint, Vector2 endPoint)
         {
             (CheckDirection(startPoint, endPoint) ? OnMovingLeft : OnMovingRight)?.Invoke();
@@ -59,13 +81,6 @@ namespace Tools.Follower
             _sequence.Play();
         }
 
-        public void Reload()
-        {
-            transform.DOKill();
-            _sequence.Kill();
-            Tween();
-        }
-        
         private void Tween()
         {
             if (points.Count == 0) return;
@@ -78,10 +93,10 @@ namespace Tools.Follower
             {
                 var startPoint = points[i - 1];
                 var endPoint = points[i];
-                
+
                 _sequence.AppendCallback(() => CheckDirectionInvoke(startPoint, endPoint));
                 _sequence.Append(transform
-                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint) 
+                    .DOMove(endPoint, Vector2.Distance(startPoint, endPoint)
                                       / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
                     .SetEase(Ease.Linear)
                 );
@@ -94,21 +109,6 @@ namespace Tools.Follower
                                    / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
                 .SetEase(Ease.Linear)
             );
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.green;
-            
-            if (points.Count == 0) return;
-
-            var prevPoint = points[0];
-            for (var i = 1; i < points.Count; i++)
-            {
-                Gizmos.DrawLine(prevPoint, points[i]);
-                prevPoint = points[i];
-            }
-            Gizmos.DrawLine(points[0], points[^1]);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Tools
         public float flightTime;
         [Header("Special settings")]
         public int lineCount = 20;
-    
+
         private LineRenderer _lineRenderer;
 
         private void Awake()
@@ -33,7 +33,7 @@ namespace Tools
             float t;
             var time = flightTime;
             var dt = time / lineCount;
-            for (i = 0, t = 0.0f; i <= lineCount; i++, t+= dt)
+            for (i = 0, t = 0.0f; i <= lineCount; i++, t += dt)
             {
                 var nextPos = new Vector3(vx * t, vy * t + Physics2D.gravity.y * t * t / 2);
                 _lineRenderer.SetPosition(i, transform.position + nextPos);

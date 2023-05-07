@@ -2,8 +2,8 @@ using System;
 using DG.Tweening;
 using Tools;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using static UnityEngine.ParticleSystem;
+using Random = UnityEngine.Random;
 
 namespace Entities.Targets
 {
@@ -13,7 +13,7 @@ namespace Entities.Targets
     [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
     {
-        [Header("Settings")] 
+        [Header("Settings")]
         public string targetName;
         public int level;
         [Space]
@@ -23,32 +23,36 @@ namespace Entities.Targets
         [Header("Special settings")]
         public IntLinearCurve moneyCurve;
         public IntLinearCurve maxHealthCurve;
-        [Space] 
-        public IntHealthBar healthBar; 
+        [Space]
+        public IntHealthBar healthBar;
         public AudioSource targetHit;
-        public MinMaxCurve minMaxPitch;
-        [Space] 
+        public MinMaxCurve minMaxPitch = new(1);
+        [Space]
         public float appearScale = 1;
         public float appearTime = 1.5f;
         public float destroyTime = 2f;
 
+        private ParticleSystem _particleSystem;
+        private Rigidbody2D _rigidbody2D;
+
+        protected Animator Animator;
+
         public Action OnHealthChanged;
         
-        private ParticleSystem _particleSystem;
-        private Animator _animator;
         private static readonly int Hit = Animator.StringToHash("Hit");
-
-        private const float ShotColliderScale = 0.6f;
         
+        private const float ShotColliderScale = 0.6f;
+
         protected virtual void Awake()
         {
             health = maxHealth = maxHealthCurve.ForceEvaluate(level);
             money = moneyCurve.ForceEvaluate(level);
 
-            healthBar.Health = healthBar.MaxHealth = maxHealth;
-            
-            _animator = GetComponent<Animator>();
+            if (healthBar != null) healthBar.Health = healthBar.MaxHealth = maxHealth;
+
+            Animator = GetComponent<Animator>();
             _particleSystem = GetComponent<ParticleSystem>();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
 
             Debug.Log($"{targetName}:{level} was spawned");
         }
@@ -59,7 +63,7 @@ namespace Entities.Targets
             transform.DOScale(appearScale, appearTime).SetEase(Ease.OutExpo);
             OnHealthChanged += CheckHealth;
         }
-        
+
         protected virtual void OnDisable()
         {
             transform.DOKill();
@@ -69,29 +73,31 @@ namespace Entities.Targets
         public virtual void GetDamage(int damage)
         {
             health -= damage;
-            healthBar.Health -= damage;
+
             Debug.Log($"{targetName} get {damage} damage ({health}/{maxHealth})");
 
             targetHit.pitch = minMaxPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             targetHit.Play();
-            
+
             _particleSystem.Play();
-            _animator.SetTrigger(Hit);
+            Animator.SetTrigger(Hit);
 
             OnHealthChanged?.Invoke();
         }
 
-        private void CheckHealth()
+        protected virtual void CheckHealth()
         {
+            healthBar.Health = health;
+
             if (health > 0) return;
-            
-            GetComponent<Rigidbody2D>().isKinematic = false;
+
+            _rigidbody2D.isKinematic = false;
             Debug.Log($"{targetName} shot down");
             gameObject.layer = LayerMask.NameToLayer("RearMiddle");
 
-            DOVirtual.DelayedCall(_animator.GetCurrentAnimatorStateInfo(0).length, () =>
+            DOVirtual.DelayedCall(Animator.GetCurrentAnimatorStateInfo(0).length, () =>
             {
-                if (_animator != null) _animator.enabled = false;
+                if (Animator != null) Animator.enabled = false;
             });
 
             object dummy = GetComponent<Collider2D>() switch
@@ -106,14 +112,13 @@ namespace Entities.Targets
         {
             LateDestroy(destroyTime);
         }
+
         public void LateDestroy(float time)
         {
             if (transform != null)
-            {
                 transform.DOScale(Vector2.zero, time)
                     .SetEase(Ease.InBack)
                     .OnComplete(() => Destroy(gameObject));
-            }
         }
     }
 }

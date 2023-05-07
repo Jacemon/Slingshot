@@ -6,9 +6,9 @@ namespace Tools
     [RequireComponent(typeof(SpriteShapeController))]
     public class StringVisualizer : MonoBehaviour
     {
-        public GameObject firstCorner;
-        public GameObject secondCorner;
-        
+        public Transform firstCorner;
+        public Transform secondCorner;
+
         private SpriteShapeController _spriteShapeController;
 
         private void Awake()
@@ -19,8 +19,8 @@ namespace Tools
 
         public void Update()
         {
-            _spriteShapeController.spline.SetPosition(0, transform.InverseTransformPoint(firstCorner.transform.position));
-            _spriteShapeController.spline.SetPosition(1, transform.InverseTransformPoint(secondCorner.transform.position));
+            _spriteShapeController.spline.SetPosition(0, transform.InverseTransformPoint(firstCorner.position));
+            _spriteShapeController.spline.SetPosition(1, transform.InverseTransformPoint(secondCorner.position));
         }
     }
 }

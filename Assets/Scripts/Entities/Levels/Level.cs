@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using Entities.Levels.Generators;
 using Tools.Interfaces;
 using UnityEngine;
@@ -16,21 +15,31 @@ namespace Entities.Levels
 
         protected virtual void Awake()
         {
-            Generate();
+            StartGenerate();
         }
 
-        public virtual void Generate()
+        protected virtual void OnDestroy()
         {
-            generators?.ForEach(g =>
-            {
-                ((BaseGenerator)g).level = levelNumber;
-                g.Generate();
-            });
+            StopGenerate();
         }
 
         private void OnDrawGizmosSelected()
         {
             generators?.ForEach(g => ((BaseGenerator)g).DrawGizmos());
+        }
+
+        public virtual void StartGenerate()
+        {
+            generators?.ForEach(g =>
+            {
+                ((BaseGenerator)g).level = levelNumber;
+                g.StartGenerate();
+            });
+        }
+
+        public virtual void StopGenerate()
+        {
+            generators?.ForEach(g => g.StopGenerate());
         }
     }
 }

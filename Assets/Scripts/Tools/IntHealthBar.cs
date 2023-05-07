@@ -11,18 +11,18 @@ namespace Tools
         public Canvas healthBarCanvas;
         public bool alwaysVisible;
 
-        public Action OnHealthChanged;
-
         private int _health;
         private int _maxHealth;
-        
+
+        public Action OnHealthChanged;
+
         public int MaxHealth
         {
             get => _maxHealth;
             set
             {
                 _maxHealth = value > 0 ? value : 0;
-                
+
                 healthBarSlider.maxValue = _maxHealth;
             }
         }
@@ -36,7 +36,7 @@ namespace Tools
                 {
                     _health = _maxHealth;
                     healthBarCanvas.enabled = alwaysVisible;
-                } 
+                }
                 else if (value <= 0)
                 {
                     _health = 0;
@@ -47,9 +47,9 @@ namespace Tools
                     _health = value;
                     healthBarCanvas.enabled = true;
                 }
-                
+
                 healthBarSlider.value = _health;
-                
+
                 OnHealthChanged?.Invoke();
             }
         }

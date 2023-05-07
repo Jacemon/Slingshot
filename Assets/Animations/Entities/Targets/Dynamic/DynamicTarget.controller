@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: DynamicTargetMoving
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9b843b3b869ff2f418df24b53de0ac5b, type: 2}
+  m_Motion: {fileID: 7400000, guid: e0e60263ad4b91e40919625df7be24d2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -58,7 +58,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Target
+  m_Name: DynamicTarget
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Hit
@@ -123,7 +123,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e14e4d36b1885884581c1b3037be15bf, type: 2}
+  m_Motion: {fileID: 7400000, guid: a3671d8c91d02f24ea091eca53e97476, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

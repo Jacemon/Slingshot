@@ -1,6 +1,6 @@
 ﻿namespace Tools.Interfaces
 {
-    public interface IReloadable 
+    public interface IReloadable
     {
         void Reload();
     }

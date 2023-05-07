@@ -12,31 +12,25 @@ namespace Entities.Levels.Generators
         [Header("Points settings")]
         public List<Vector2> points = new();
 
-        protected override void StartGenerate()
+        protected override void Generate()
         {
             List<Vector2> globalPoints = new();
-            
+
             if (parent != null)
-            {
                 foreach (var point in points)
-                {
                     globalPoints.Add(parent.TransformPoint(point));
-                }
-            }
             else
-            {
                 globalPoints = points;
-            }
-            
+
             generatedTargets = TargetManager.SpawnTargetsByPoints(
                 globalPoints,
                 randomTargets,
                 level,
-                parent, 
+                parent,
                 minMaxScale
             );
         }
-        
+
 #if UNITY_EDITOR
         public override void DrawGizmos()
         {

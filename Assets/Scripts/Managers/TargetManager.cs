@@ -11,43 +11,46 @@ namespace Managers
 {
     public class TargetManager : MonoBehaviour
     {
+        private static int maxTries = 200;
         [Header("Spawn settings")]
         public int maxTriesToSpawn;
-        
-        private static int maxTries = 200;
-        
+
         private void Awake()
         {
             maxTries = maxTriesToSpawn;
         }
-        
+
         #region Static
 
         public static Target SpawnTarget(
             Vector2 spawnPoint,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
         )
         {
-            if (targets[Random.Range(0, targets.Count)].TryGetComponent(out Target target))
-            {
-                target.level = targetLevel;
-                target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-            }
-            return Instantiate(target, spawnPoint, Quaternion.identity, parent);
+            var target = targets[Random.Range(0, targets.Count)];
+            target.level = targetLevel;
+            target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
+
+            var spawnedTarget = Instantiate(target, spawnPoint, Quaternion.identity, parent);
+            var position = spawnedTarget.transform.localPosition; // TODO: fix local position in generators or this(??)
+            position.z = target.transform.position.z; // todo and here
+            spawnedTarget.transform.localPosition = position; // todo here too
+
+            return spawnedTarget;
         }
-        
+
         public static List<Target> SpawnTargetsByFunction(
             Func<List<Vector2>> generationFunction,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default)
         {
             var existingCoordinates = generationFunction.Invoke();
-            
+
             List<Target> generatedTargets = new();
             existingCoordinates.ForEach(coordinate =>
             {
@@ -58,7 +61,7 @@ namespace Managers
 
         public static List<Target> SpawnTargetsByPoints(
             List<Vector2> points,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
@@ -71,12 +74,12 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         public static List<Target> SpawnTargetsByRectangle(
-            Rect rectangle, 
+            Rect rectangle,
             int amount,
             float spaceBetween,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
@@ -96,7 +99,7 @@ namespace Managers
             float semiMajor,
             int amount,
             float spaceBetween,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
@@ -111,12 +114,12 @@ namespace Managers
         }
 
         #endregion
-        
+
         #region Dynamic
-        
-        public static DynamicTarget SpawnDynamicTarget(
+
+        public static Target SpawnDynamicTarget(
             List<Vector2> path,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
@@ -128,18 +131,19 @@ namespace Managers
                 target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
                 target.GetComponent<PathFollower>().points = path;
             }
+
             return Instantiate(target, parent);
         }
-        
-        public static List<DynamicTarget> SpawnDynamicTargetsByFunction(
+
+        public static List<Target> SpawnDynamicTargetsByFunction(
             Func<List<Vector2>> generationFunction,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             int amount,
             Transform parent = null,
             MinMaxCurve minMaxScale = default)
         {
-            var dynamicTargets = new List<DynamicTarget>();
+            var dynamicTargets = new List<Target>();
             for (var i = 0; i < amount; i++)
             {
                 var path = generationFunction.Invoke();
@@ -148,11 +152,11 @@ namespace Managers
 
             return dynamicTargets;
         }
-        
-        public static List<DynamicTarget> SpawnDynamicTargetsByPoints(
+
+        public static List<Target> SpawnDynamicTargetsByPoints(
             List<Vector2> points,
             int amount,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
@@ -166,20 +170,20 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
-        public static List<DynamicTarget> SpawnDynamicTargetsByRectangle(
-            Rect rectangle, 
+
+        public static List<Target> SpawnDynamicTargetsByRectangle(
+            Rect rectangle,
             int amount,
             MinMaxCurve pointsAmount,
             float spaceBetween,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
         )
         {
             return SpawnDynamicTargetsByFunction(
-                () => GetRandomRectanglePoints(rectangle, 
+                () => GetRandomRectanglePoints(rectangle,
                     (int)pointsAmount.Evaluate(Time.time, Random.Range(0.0f, 1.0f)), spaceBetween, maxTries),
                 targets,
                 targetLevel,
@@ -187,22 +191,22 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
-        public static List<DynamicTarget> SpawnDynamicTargetsByEllipse(
+
+        public static List<Target> SpawnDynamicTargetsByEllipse(
             Vector2 center,
             float semiMinor,
             float semiMajor,
             int amount,
             MinMaxCurve pointsAmount,
             float spaceBetween,
-            List<GameObject> targets,
+            List<Target> targets,
             int targetLevel,
             Transform parent = null,
             MinMaxCurve minMaxScale = default
         )
         {
             return SpawnDynamicTargetsByFunction(
-                () => GetRandomEllipsePoints(center, semiMinor, semiMajor, 
+                () => GetRandomEllipsePoints(center, semiMinor, semiMajor,
                     (int)pointsAmount.Evaluate(Time.time, Random.Range(0.0f, 1.0f)), spaceBetween, maxTries),
                 targets,
                 targetLevel,
@@ -210,7 +214,7 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         #endregion
     }
 }

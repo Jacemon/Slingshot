@@ -9,10 +9,7 @@ namespace Tools
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                onBack!.Invoke();
-            }
+            if (Input.GetKeyDown(KeyCode.Escape)) onBack!.Invoke();
         }
     }
 }

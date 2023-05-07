@@ -10,73 +10,104 @@ namespace Entities.Levels
     public class TrainingLevel : Level
     {
         public GameObject hand;
-        public GameObject apple;
+        public Target apple; // TODO: баг какой-то тут есть, а может уже и нет, проверю как-нибудь потом
         public Vector2 spawnPoint;
         [Space]
         public TextMeshProUGUI[] helpLabels;
-        
+
         private Target _apple;
+        private Animator _handAnimator;
+
+        private bool _isHit;
+
+        private static readonly int ShowPouchHint = Animator.StringToHash("ShowPouchHint");
+        private static readonly int ShowBuyLevelHint = Animator.StringToHash("ShowBuyLevelHint");
         
         protected override void Awake()
         {
-            Generate();
+            base.Awake();
+
+            _handAnimator = hand.GetComponent<Animator>();
             ToggleLabel(0);
+            ShowTrainingHint();
         }
-        
+
         private void OnEnable()
         {
-            _apple.OnHealthChanged += ShowTrainingHint;
             GlobalEventManager.OnTargetHitCart += ShowTrainingGoodEnding;
             GlobalEventManager.OnTargetHitGround += ShowTrainingBadEnding;
         }
 
         private void OnDisable()
         {
-            _apple.OnHealthChanged -= ShowTrainingHint;
             GlobalEventManager.OnTargetHitCart -= ShowTrainingGoodEnding;
             GlobalEventManager.OnTargetHitGround -= ShowTrainingBadEnding;
         }
-        
-        public override void Generate()
+
+        public override void StartGenerate()
         {
             var pointGenerator = new PointGenerator
             {
                 parent = transform,
                 points = new List<Vector2> { spawnPoint },
-                randomTargets = new List<GameObject> { apple }
+                randomTargets = new List<Target> { apple }
             };
             generators.Add(pointGenerator);
-            generators[0].Generate();
-            
-            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
+            generators[0].StartGenerate();
+
+            UpdateApple();
         }
-        
+
+        private void UpdateApple()
+        {
+            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
+            _apple.OnHealthChanged += ShowTrainingHint;
+        }
+
         private void ToggleLabel(int i)
         {
-            foreach (var label in helpLabels)
-            {
-                label.enabled = false;
-            }
+            foreach (var label in helpLabels) label.enabled = false;
 
-            if (i >= 0)
-            {
-                helpLabels[i].enabled = true;
-            }
-        }
-
-        private void Update()
-        {
-            hand.SetActive(_apple.health == _apple.maxHealth);
+            if (i >= 0) helpLabels[i].enabled = true;
         }
 
         private void ShowTrainingHint()
         {
+            // if (_apple.health == _apple.maxHealth)
+            // {
+            //     ToggleLabel(0);
+            //     _handAnimator.SetBool(ShowPouchHint, true);
+            // }
+            // else if (_apple.health <= 0)
+            // {
+            //     if (_isHit)
+            //     {
+            //         ToggleLabel(4);
+            //         _handAnimator.SetBool(ShowBuyLevelHint, _apple.health <= 0);
+            //         _isHit = false;
+            //         UpdateApple();
+            //     }
+            //     else
+            //     {
+            //         _isHit = true;
+            //         ToggleLabel(-1);
+            //     }
+            // }
+            // else
+            // {
+            //     ToggleLabel(_apple.health);
+            // }
+            _handAnimator.SetBool(ShowPouchHint, false);
             switch (_apple.health)
             {
-                case 1: case 2:
+                case 1:
+                case 2:
                     ToggleLabel(_apple.health);
                     break;
-                default: 
+                case 3:
+                    _handAnimator.SetBool(ShowPouchHint, true);
+                    break;
+                default:
                     ToggleLabel(-1);
                     break;
             }
@@ -84,13 +115,13 @@ namespace Entities.Levels
 
         private void ShowTrainingBadEnding(Target target)
         {
-            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
+            UpdateApple();
             ToggleLabel(3);
         }
-    
+
         private void ShowTrainingGoodEnding(Target target)
         {
-            _apple = ((PointGenerator)generators[0]).generatedTargets[0];
+            UpdateApple();
             ToggleLabel(4);
         }
     }
