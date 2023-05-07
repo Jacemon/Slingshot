@@ -5,22 +5,23 @@ namespace Entities.Targets.Bosses
 {
     public class BigFrog : BossTarget
     {
+
         [Header("BigFrog Settings")]
         public Vector2 xRange = new(-2, 2);
         public float jumpHeight = 20f;
         public float jumpTime;
         public float jumpWaitTime;
-        [Space] 
+        [Space]
         public float hideHeight = 5f;
         public float hideTime;
         public float hideWaitTime;
-        
-        private static readonly int Jump = Animator.StringToHash("Jump");
 
         private Collider2D _collider2d;
         
         private Sequence _sequence;
         private Vector3 _startPosition;
+
+        private static readonly int Jump = Animator.StringToHash("Jump");
         
         protected override void Awake()
         {
@@ -40,7 +41,7 @@ namespace Entities.Targets.Bosses
         protected override void OnDisable()
         {
             base.OnDisable();
-            
+
             OnStageChanged -= ClearTween;
             ClearTween();
         }
@@ -50,18 +51,18 @@ namespace Entities.Targets.Bosses
             transform.DOKill();
             _sequence.Kill();
             //transform.DOMove(_startPosition, 1);
-            
+
             transform.position = _startPosition;
         }
-        
+
         public void JumpStage()
         {
             Animator.speed = 1 / jumpTime;
-            
+
             var positionY = transform.position.y;
 
             _sequence = DOTween.Sequence().SetLoops(-1);
-            
+
             _sequence.AppendCallback(() => Animator.SetTrigger(Jump));
             _sequence.AppendCallback(() =>
                 {
@@ -92,7 +93,7 @@ namespace Entities.Targets.Bosses
             var positionY = transform.position.y;
 
             transform.DOMoveZ(5, 0);
-            
+
             _sequence = DOTween.Sequence().SetLoops(-1);
 
             _sequence.AppendCallback(() =>

@@ -8,7 +8,7 @@ namespace Tools
     {
         public Transform firstCorner;
         public Transform secondCorner;
-        
+
         private SpriteShapeController _spriteShapeController;
 
         private void Awake()

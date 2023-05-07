@@ -15,7 +15,7 @@ namespace Entities.Levels
         public float respawnTime = 5;
         public Vector2 spawnPoint;
         public IntHealthBar bossHealthBar;
-        
+
         private BossTarget _bossTarget;
 
         private PointGenerator _pointGenerator;
@@ -30,7 +30,7 @@ namespace Entities.Levels
                 level = levelNumber,
                 regenerateTime = respawnTime
             };
-            
+
             base.Awake();
         }
 
@@ -44,23 +44,24 @@ namespace Entities.Levels
             _pointGenerator.OnGenerated -= Reload;
         }
 
-        public override void StartGenerate() // TODO: mb add _pointGenerator to generators?
-        {
-            boss.healthBar = bossHealthBar;
-            
-            _pointGenerator.StartGenerate();
-
-            Reload();
-        }
-        
-        public override void StopGenerate() { 
-            _pointGenerator.StopGenerate();
-        }
-
         public void Reload()
         {
             _bossTarget = (BossTarget)_pointGenerator.generatedTargets[0];
             _bossTarget.healthBar = bossHealthBar;
+        }
+
+        public override void StartGenerate() // TODO: mb add _pointGenerator to generators?
+        {
+            boss.healthBar = bossHealthBar;
+
+            _pointGenerator.StartGenerate();
+
+            Reload();
+        }
+
+        public override void StopGenerate()
+        {
+            _pointGenerator.StopGenerate();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Tools.ScriptableObjects.References
         private T value;
 
         public Action OnValueChanged;
-        
+
         public T Value
         {
             get => value;

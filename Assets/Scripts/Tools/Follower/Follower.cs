@@ -9,7 +9,7 @@ namespace Tools.Follower
         public Vector2 followPoint;
 
         private Rigidbody2D _rb;
-    
+
         protected virtual void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -26,11 +26,8 @@ namespace Tools.Follower
 
         private void OnDrawGizmosSelected()
         {
-            if (!enabled)
-            {
-                return;
-            }
-        
+            if (!enabled) return;
+
             Gizmos.color = Color.green;
             Gizmos.DrawLine(followPoint, transform.position);
         }

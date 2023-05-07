@@ -8,7 +8,7 @@ namespace Tools.ScriptableObjects.Shop.ShopItems
         public Sprite itemIcon;
         public string itemNameKey;
         public BoolReference isPurchased;
-        
+
         public abstract int ItemCost { get; }
 
         public abstract void Purchase();

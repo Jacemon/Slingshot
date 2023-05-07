@@ -15,7 +15,7 @@ namespace Entities
         public float throwSpeed = 7.0f;
         public Vector2 throwPointAnchor;
         public float throwPointOffset = 0.7f;
-        [Header("Special settings")] 
+        [Header("Special settings")]
         public AudioSource pouchPulling;
         public float pouchPullingPitchMin;
         public float pouchPullingPitchMultiplier;
@@ -40,17 +40,14 @@ namespace Entities
             _collider2D = GetComponent<Collider2D>();
             _mouseFollower = GetComponent<MouseFollower>();
             _mouseFollower.enabled = false;
-        
+
             _staticTrajectory = GetComponent<StaticTrajectory>();
         }
 
         private void Update()
         {
-            if (!pouchFill)
-            {
-                return;
-            }
-            
+            if (!pouchFill) return;
+
             if (projectile.inPick)
             {
                 // Расчёт угла поворота
@@ -64,9 +61,9 @@ namespace Entities
                 // Расчёт скорости с которой он может полететь
                 velocity = Vector2.Distance(currentPosition, throwPointAnchor) * throwSpeed;
 
-                pouchPulling.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, throwPointAnchor) * 
+                pouchPulling.pitch = pouchPullingPitchMin + Vector2.Distance(currentPosition, throwPointAnchor) *
                     pouchPullingPitchMultiplier;
-            
+
                 // Установка значений для расчёта траектории
                 _staticTrajectory.velocity = velocity;
                 _staticTrajectory.flightTime = projectile.flightTime;
@@ -82,26 +79,29 @@ namespace Entities
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision != null && collision.gameObject.TryGetComponent(out Projectile projectileToFill))
-            {
                 FillPouch(projectileToFill);
-            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(throwPointAnchor, 0.1f);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(new Vector2(throwPointAnchor.x, throwPointAnchor.y - throwPointOffset), 0.1f);
         }
 
         private void FillPouch(Projectile projectileToFill)
         {
-            if (pouchFill || !projectileToFill.inPick)
-            {
-                return;
-            }
-        
+            if (pouchFill || !projectileToFill.inPick) return;
+
             pouchFill = true;
 
             pouchPulling.mute = false;
-            
+
             GetComponent<Collider2D>().enabled = false;
-        
+
             projectile = projectileToFill;
-        
+
             var projectileTransform = projectile.transform;
             projectileTransform.parent = transform;
             projectileTransform.localPosition = Vector3.zero;
@@ -109,7 +109,7 @@ namespace Entities
             projectile.GetComponent<MouseFollower>().enabled = false;
 
             _mouseFollower.enabled = true;
-            
+
             _rb.isKinematic = true;
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
@@ -120,37 +120,29 @@ namespace Entities
         private void EmptyPouch()
         {
             pouchFill = false;
-            
+
             pouchPulling.mute = true;
-            
+
             if (transform.position.y < throwPointAnchor.y - throwPointOffset)
             {
                 _rb.velocity = _direction * velocity;
-                
+
                 pouchShoot.pitch = minMaxPouchShootPitch.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
                 pouchShoot.Play();
-                
+
                 projectile.Shoot(_direction * velocity);
             }
-        
+
             _collider2D.enabled = true;
-            
+
             projectile.transform.parent = null;
             projectile = null;
 
             _mouseFollower.enabled = false;
-            
+
             _rb.isKinematic = false;
 
             _staticTrajectory.enabled = false;
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(throwPointAnchor, 0.1f);
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(new Vector2(throwPointAnchor.x, throwPointAnchor.y - throwPointOffset), 0.1f);
         }
     }
 }

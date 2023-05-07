@@ -16,14 +16,15 @@ namespace Managers
         [Space]
         public IntReference currentLevel;
         public IntReference maxAvailableLevel;
-        [Space] 
+        [Space]
         public Button nextButton;
         public Button prevButton;
         public Button buyButton;
-        [Space] 
+        [Space]
         public TextMeshProUGUI levelLabel;
         [Space]
-        [SerializeField, ReadOnlyInspector]
+        [SerializeField]
+        [ReadOnlyInspector]
         private Level loadedLevel;
 
         private void Awake()
@@ -37,7 +38,7 @@ namespace Managers
             maxAvailableLevel.OnValueChanged += OnMaxAvailableLevelChanged;
             currentLevel.OnValueChanged += CheckGUI;
         }
-        
+
         private void OnDisable()
         {
             maxAvailableLevel.OnValueChanged -= OnMaxAvailableLevelChanged;
@@ -49,22 +50,22 @@ namespace Managers
             LoadLevel(maxAvailableLevel.Value);
             Debug.Log($"MaxAvailableLevel: -> {maxAvailableLevel.Value}");
         }
-        
+
         private void CheckGUI()
         {
             levelLabel.text = currentLevel.Value.ToString();
 
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
-            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() 
+            nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max()
                                             && currentLevel.Value != maxAvailableLevel.Value);
-            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max() 
+            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max()
                                            && currentLevel.Value == maxAvailableLevel.Value);
         }
 
         public void LoadLevel(int levelNumber)
         {
             Debug.Log($"Start loading level {levelNumber}...");
-            
+
             if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
             {
                 Debug.Log("Edge");
@@ -77,7 +78,7 @@ namespace Managers
                 Debug.Log("Not available level");
                 return;
             }
-            
+
             // Find the left level closest to the current one
             if (!levels.ContainsKey(levelNumber))
             {
@@ -91,14 +92,11 @@ namespace Managers
             currentLevel.Value = levelNumber;
 
             // Destroy old and create new level
-            if (loadedLevel != null)
-            {
-                Destroy(loadedLevel.gameObject);
-            }
+            if (loadedLevel != null) Destroy(loadedLevel.gameObject);
             loadedLevel = Instantiate(levels[levelNumber]);
 
             GlobalEventManager.OnLevelLoaded?.Invoke(loadedLevel);
-            
+
             Debug.Log($"End loading level {currentLevel.Value}...");
         }
 

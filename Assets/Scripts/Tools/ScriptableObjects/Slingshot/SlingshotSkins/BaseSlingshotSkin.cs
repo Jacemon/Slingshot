@@ -12,16 +12,16 @@ namespace Tools.ScriptableObjects.Slingshot.SlingshotSkins
         public Sprite pouchSprite;
         public SpriteShape stringSpriteShape;
 
-        public override int GetHashCode()
-        {
-            return slingshotName == null ? base.GetHashCode() : slingshotName.GetHashCode();
-        }
-
         public bool Equals(BaseSlingshotSkin other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return slingshotName == other.slingshotName;
+        }
+
+        public override int GetHashCode()
+        {
+            return slingshotName == null ? base.GetHashCode() : slingshotName.GetHashCode();
         }
 
         public override bool Equals(object obj)

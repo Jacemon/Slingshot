@@ -10,7 +10,7 @@ namespace Managers
         // Target
         public static Action<Target> OnTargetHitCart;
         public static Action<Target> OnTargetHitGround;
-    
+
         // Projectile
         public static Action<Projectile> OnProjectileThrown;
 

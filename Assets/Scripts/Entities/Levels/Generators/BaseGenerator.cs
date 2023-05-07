@@ -24,18 +24,20 @@ namespace Entities.Levels.Generators
         [Space]
         public MinMaxCurve minMaxScale = new(1);
 
+        private Tween _regenerator;
+
         public Action OnGenerated;
 
-        private Tween _regenerator;
-        
         public void StartGenerate()
         {
             Generate();
-            
-            if (autoRegenerate)
-            {
-                RegenerateSubscription();
-            }
+
+            if (autoRegenerate) RegenerateSubscription();
+        }
+
+        public void StopGenerate()
+        {
+            _regenerator?.Kill();
         }
 
         protected abstract void Generate();
@@ -43,28 +45,21 @@ namespace Entities.Levels.Generators
         protected virtual void RegenerateSubscription()
         {
             foreach (var target in generatedTargets)
-            {
                 target.OnHealthChanged += () =>
                 {
                     if (target.health > 0) return;
                     generatedTargets.Remove(target);
                     if (generatedTargets.Count == 0)
-                    {
                         _regenerator = DOVirtual.DelayedCall(regenerateTime, () =>
                         {
                             StartGenerate();
                             OnGenerated?.Invoke();
                         });
-                    }
                 };
-            }
         }
 
-        public void StopGenerate()
+        public virtual void DrawGizmos()
         {
-            _regenerator?.Kill();
         }
-        
-        public virtual void DrawGizmos() { }
     }
 }

@@ -5,7 +5,6 @@ using Managers;
 using Tools;
 using Tools.Follower;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static UnityEngine.ParticleSystem;
 
 namespace Entities
@@ -25,18 +24,18 @@ namespace Entities
         public IntLinearCurve damageCurve;
         [Space]
         public float flightTime = 1.0f;
-        [FormerlySerializedAs("stuckTime")] public float hitTime = 0.1f;
+        public float hitTime = 0.1f;
         public float finalScale = 0.3f;
         public MinMaxCurve minMaxVelocity;
         public MinMaxCurve minMaxAngularVelocity;
         [Space]
         public bool inPick;
-
-        private Rigidbody2D _rb;
-        private Collider2D _collider2D;
-        private MouseFollower _mouseFollower;
-        private Follower _follower;
         
+        private Collider2D _collider2D;
+        private Follower _follower;
+        private MouseFollower _mouseFollower;
+        private Rigidbody2D _rb;
+
         private const float AppearTime = 0.5f;
         
         private void Awake()
@@ -55,28 +54,22 @@ namespace Entities
         private void OnEnable()
         {
             damage = damageCurve.ForceEvaluate(level);
-            
+
             transform.localScale = Vector3.zero;
             transform.DOScale(Vector3.one, AppearTime).SetEase(Ease.OutElastic);
         }
-        
+
         private void OnDisable()
         {
             transform.DOKill();
         }
-        
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision == null || inPick || _follower.enabled)
-            {
-                return;
-            }
+            if (collision == null || inPick || _follower.enabled) return;
 
-            if (collision.gameObject.TryGetComponent(out Target target))
-            {
-                target.GetDamage(damage);
-            }
-            
+            if (collision.gameObject.TryGetComponent(out Target target)) target.GetDamage(damage);
+
             // Random angular and regular velocity
             var randomVelocity = minMaxVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             var direction = transform.position - collision.collider.bounds.center;
@@ -109,26 +102,26 @@ namespace Entities
         private IEnumerator ShootCoroutine(Vector2 force)
         {
             GlobalEventManager.OnProjectileThrown?.Invoke(this);
-        
+
             gameObject.layer = LayerMask.NameToLayer("Middle");
-        
+
             _rb.isKinematic = false;
             _rb.velocity = force;
             _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
             _collider2D.enabled = false;
             _follower.enabled = false;
-            
+
             transform.DOScale(new Vector2(finalScale, finalScale), flightTime)
                 .SetEase(Ease.OutSine);
             yield return new WaitForSecondsRealtime(flightTime);
 
             _collider2D.enabled = true;
             Debug.Log($"{projectileName} can hit the target");
-        
+
             yield return new WaitForSecondsRealtime(hitTime);
-            
+
             gameObject.layer = LayerMask.NameToLayer("Back");
-            
+
             transform.DOScale(Vector2.zero, flightTime)
                 .SetEase(Ease.OutSine)
                 .OnComplete(() => Destroy(gameObject));

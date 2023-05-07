@@ -23,17 +23,13 @@ namespace Managers
         private void OnEnable()
         {
             foreach (var slingshotSkin in slingshotSkins)
-            {
                 slingshotSkin.Value.OnValueChanged += () => PutOnSkin(slingshotSkin.Key.slingshotName);
-            }
         }
-        
+
         private void OnDisable()
         {
             foreach (var slingshotSkin in slingshotSkins)
-            {
                 slingshotSkin.Value.OnValueChanged -= () => PutOnSkin(slingshotSkin.Key.slingshotName);
-            }
         }
 
         private void PutOnSkin(string skinName)
@@ -44,7 +40,7 @@ namespace Managers
             {
                 slingshot.baseSlingshotSkin = slingshotSkin.Key;
                 slingshot.Reload();
-                
+
                 currentSkin.Value = slingshot.baseSlingshotSkin.slingshotName;
                 Debug.Log($"Skin {skinName} was set");
             }

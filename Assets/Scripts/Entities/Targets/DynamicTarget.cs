@@ -6,10 +6,11 @@ namespace Entities.Targets
     [RequireComponent(typeof(PathFollower))]
     public class DynamicTarget : Target
     {
-        [Header("Dynamic settings")] 
+        [Header("Dynamic settings")]
         public Transform flipTransform;
+
         private PathFollower _pathFollower;
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -36,14 +37,14 @@ namespace Entities.Targets
             newScale.x = Mathf.Abs(newScale.x);
             flipTransform.localScale = newScale;
         }
-        
+
         private void MoveRight()
         {
             var newScale = flipTransform.localScale;
             newScale.x = -Mathf.Abs(newScale.x);
             flipTransform.localScale = newScale;
         }
-        
+
         protected override void CheckHealth()
         {
             base.CheckHealth();

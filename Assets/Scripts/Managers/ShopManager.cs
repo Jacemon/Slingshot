@@ -4,30 +4,22 @@ using Tools.Interfaces;
 using Tools.ScriptableObjects.Shop;
 using Tools.ScriptableObjects.Shop.ShopItems;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
 {
     public class ShopManager : MonoBehaviour, IReloadable
     {
-        [FormerlySerializedAs("shopPointPrefab")] 
         public ShopItemDisplay shopItemPrefab;
         public VerticalLayoutGroup verticalLayoutGroup;
         [Space]
         [Tooltip("Shop Item Display can be null, instead it will be displayed in the Vertical Layout Group")]
         public List<ShopItemWithDisplay> shopItemWithDisplays;
-        [Space] 
+        [Space]
         public Animator shopAnimator;
         public float shopAnimationSpeed = 1f;
+        
         private static readonly int IsOpen = Animator.StringToHash("IsOpen");
-
-        [Serializable]
-        public class ShopItemWithDisplay
-        {
-            public BaseShopItem shopItem;
-            public ShopItemDisplay shopItemDisplay;
-        }
 
         private void Awake()
         {
@@ -39,9 +31,7 @@ namespace Managers
             foreach (var shopItemWithDisplay in shopItemWithDisplays)
             {
                 if (shopItemWithDisplay.shopItemDisplay == null)
-                {
                     shopItemWithDisplay.shopItemDisplay = Instantiate(shopItemPrefab, verticalLayoutGroup.transform);
-                }
 
                 shopItemWithDisplay.shopItemDisplay.shopItem = shopItemWithDisplay.shopItem;
                 shopItemWithDisplay.shopItemDisplay.buyButton.onClick.RemoveAllListeners();
@@ -55,16 +45,17 @@ namespace Managers
         {
             var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemNameKey == key).shopItem;
             if (shopItem != null &&
-                ((shopItem.isPurchased != null && shopItem.isPurchased.Value) || 
-                MoneyManager.WithdrawMoney(shopItem.ItemCost)))
+                ((shopItem.isPurchased != null && shopItem.isPurchased.Value) ||
+                 MoneyManager.WithdrawMoney(shopItem.ItemCost)))
             {
-                    shopItem.Purchase();
-                    Debug.Log($"{key} was purchased");
+                shopItem.Purchase();
+                Debug.Log($"{key} was purchased");
             }
             else
             {
                 Debug.Log($"{key} was not purchased");
             }
+
             Reload();
         }
 
@@ -72,6 +63,13 @@ namespace Managers
         {
             shopAnimator.speed = shopAnimationSpeed;
             shopAnimator.SetBool(IsOpen, isOpen);
+        }
+
+        [Serializable]
+        public class ShopItemWithDisplay
+        {
+            public BaseShopItem shopItem;
+            public ShopItemDisplay shopItemDisplay;
         }
     }
 }

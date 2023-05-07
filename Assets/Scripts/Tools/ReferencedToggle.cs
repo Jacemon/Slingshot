@@ -8,17 +8,17 @@ namespace Tools
     public class ReferencedToggle : MonoBehaviour
     {
         public BoolReference isOn;
-        [Space] 
+        [Space]
         public Image graphic;
         public Sprite onSprite;
         public Sprite offSprite;
 
         private Toggle _toggle;
-        
+
         public void Awake()
         {
             _toggle = GetComponent<Toggle>();
-            
+
             ReloadData();
         }
 
@@ -27,7 +27,7 @@ namespace Tools
             isOn.OnValueChanged += ReloadData;
             _toggle.onValueChanged.AddListener(OnToggleChanged);
         }
-        
+
         private void OnDisable()
         {
             isOn.OnValueChanged -= ReloadData;
@@ -38,7 +38,7 @@ namespace Tools
         {
             isOn.Value = value;
         }
-        
+
         private void ReloadData()
         {
             _toggle.isOn = isOn.Value;

@@ -15,7 +15,7 @@ namespace Tools
                 Destroy(gameObject);
                 return;
             }
-            
+
             NotDestroyableGameObjects[key] = gameObject;
             DontDestroyOnLoad(NotDestroyableGameObjects[key]);
         }
@@ -27,14 +27,11 @@ namespace Tools
 
         public static bool TryGetComponent<T>(string key, out T component)
         {
-            if (TryGetGameObject(key, out var gameObject))
-            {
-                return gameObject.TryGetComponent(out component);
-            }
+            if (TryGetGameObject(key, out var gameObject)) return gameObject.TryGetComponent(out component);
             component = default;
             return false;
         }
-        
+
         public static bool TryGetGameObject(string key, out GameObject gameObject)
         {
             return NotDestroyableGameObjects.TryGetValue(key, out gameObject);

@@ -11,16 +11,15 @@ namespace Managers
 {
     public class TargetManager : MonoBehaviour
     {
+        private static int maxTries = 200;
         [Header("Spawn settings")]
         public int maxTriesToSpawn;
-        
-        private static int maxTries = 200;
-        
+
         private void Awake()
         {
             maxTries = maxTriesToSpawn;
         }
-        
+
         #region Static
 
         public static Target SpawnTarget(
@@ -36,13 +35,13 @@ namespace Managers
             target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
 
             var spawnedTarget = Instantiate(target, spawnPoint, Quaternion.identity, parent);
-            var position = spawnedTarget.transform.localPosition; // TODO: fix local position in generators or this??
+            var position = spawnedTarget.transform.localPosition; // TODO: fix local position in generators or this(??)
             position.z = target.transform.position.z; // todo and here
             spawnedTarget.transform.localPosition = position; // todo here too
-            
+
             return spawnedTarget;
         }
-        
+
         public static List<Target> SpawnTargetsByFunction(
             Func<List<Vector2>> generationFunction,
             List<Target> targets,
@@ -51,7 +50,7 @@ namespace Managers
             MinMaxCurve minMaxScale = default)
         {
             var existingCoordinates = generationFunction.Invoke();
-            
+
             List<Target> generatedTargets = new();
             existingCoordinates.ForEach(coordinate =>
             {
@@ -75,9 +74,9 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         public static List<Target> SpawnTargetsByRectangle(
-            Rect rectangle, 
+            Rect rectangle,
             int amount,
             float spaceBetween,
             List<Target> targets,
@@ -115,9 +114,9 @@ namespace Managers
         }
 
         #endregion
-        
+
         #region Dynamic
-        
+
         public static Target SpawnDynamicTarget(
             List<Vector2> path,
             List<Target> targets,
@@ -132,9 +131,10 @@ namespace Managers
                 target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
                 target.GetComponent<PathFollower>().points = path;
             }
+
             return Instantiate(target, parent);
         }
-        
+
         public static List<Target> SpawnDynamicTargetsByFunction(
             Func<List<Vector2>> generationFunction,
             List<Target> targets,
@@ -152,7 +152,7 @@ namespace Managers
 
             return dynamicTargets;
         }
-        
+
         public static List<Target> SpawnDynamicTargetsByPoints(
             List<Vector2> points,
             int amount,
@@ -170,9 +170,9 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         public static List<Target> SpawnDynamicTargetsByRectangle(
-            Rect rectangle, 
+            Rect rectangle,
             int amount,
             MinMaxCurve pointsAmount,
             float spaceBetween,
@@ -183,7 +183,7 @@ namespace Managers
         )
         {
             return SpawnDynamicTargetsByFunction(
-                () => GetRandomRectanglePoints(rectangle, 
+                () => GetRandomRectanglePoints(rectangle,
                     (int)pointsAmount.Evaluate(Time.time, Random.Range(0.0f, 1.0f)), spaceBetween, maxTries),
                 targets,
                 targetLevel,
@@ -191,7 +191,7 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         public static List<Target> SpawnDynamicTargetsByEllipse(
             Vector2 center,
             float semiMinor,
@@ -206,7 +206,7 @@ namespace Managers
         )
         {
             return SpawnDynamicTargetsByFunction(
-                () => GetRandomEllipsePoints(center, semiMinor, semiMajor, 
+                () => GetRandomEllipsePoints(center, semiMinor, semiMajor,
                     (int)pointsAmount.Evaluate(Time.time, Random.Range(0.0f, 1.0f)), spaceBetween, maxTries),
                 targets,
                 targetLevel,
@@ -214,7 +214,7 @@ namespace Managers
                 parent,
                 minMaxScale);
         }
-        
+
         #endregion
     }
 }

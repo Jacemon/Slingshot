@@ -1,5 +1,4 @@
-﻿using Tools.ScriptableObjects.References;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Editor
@@ -12,11 +11,11 @@ namespace Editor
         {
             EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, label);
-            
+
             var valueProperty = property.FindPropertyRelative("value"); // TODO: null
-            
+
             EditorGUI.PropertyField(position, valueProperty, label, true);
-            
+
             EditorGUI.EndProperty();
         }
     }

@@ -15,34 +15,35 @@ namespace Entities.Levels
         [Space]
         public TextMeshProUGUI[] helpLabels;
 
-        private bool _isHit; 
-            
         private Target _apple;
         private Animator _handAnimator;
+
+        private bool _isHit;
+
         private static readonly int ShowPouchHint = Animator.StringToHash("ShowPouchHint");
         private static readonly int ShowBuyLevelHint = Animator.StringToHash("ShowBuyLevelHint");
-
+        
         protected override void Awake()
         {
             base.Awake();
-            
+
             _handAnimator = hand.GetComponent<Animator>();
             ToggleLabel(0);
             ShowTrainingHint();
         }
-        
+
         private void OnEnable()
         {
             GlobalEventManager.OnTargetHitCart += ShowTrainingGoodEnding;
             GlobalEventManager.OnTargetHitGround += ShowTrainingBadEnding;
         }
-        
+
         private void OnDisable()
         {
             GlobalEventManager.OnTargetHitCart -= ShowTrainingGoodEnding;
             GlobalEventManager.OnTargetHitGround -= ShowTrainingBadEnding;
         }
-        
+
         public override void StartGenerate()
         {
             var pointGenerator = new PointGenerator
@@ -53,7 +54,7 @@ namespace Entities.Levels
             };
             generators.Add(pointGenerator);
             generators[0].StartGenerate();
-            
+
             UpdateApple();
         }
 
@@ -62,18 +63,12 @@ namespace Entities.Levels
             _apple = ((PointGenerator)generators[0]).generatedTargets[0];
             _apple.OnHealthChanged += ShowTrainingHint;
         }
-        
+
         private void ToggleLabel(int i)
         {
-            foreach (var label in helpLabels)
-            {
-                label.enabled = false;
-            }
+            foreach (var label in helpLabels) label.enabled = false;
 
-            if (i >= 0)
-            {
-                helpLabels[i].enabled = true;
-            }
+            if (i >= 0) helpLabels[i].enabled = true;
         }
 
         private void ShowTrainingHint()
@@ -105,13 +100,14 @@ namespace Entities.Levels
             _handAnimator.SetBool(ShowPouchHint, false);
             switch (_apple.health)
             {
-                case 1: case 2:
+                case 1:
+                case 2:
                     ToggleLabel(_apple.health);
                     break;
                 case 3:
                     _handAnimator.SetBool(ShowPouchHint, true);
                     break;
-                default: 
+                default:
                     ToggleLabel(-1);
                     break;
             }
@@ -122,7 +118,7 @@ namespace Entities.Levels
             UpdateApple();
             ToggleLabel(3);
         }
-    
+
         private void ShowTrainingGoodEnding(Target target)
         {
             UpdateApple();

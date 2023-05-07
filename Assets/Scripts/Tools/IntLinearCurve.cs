@@ -10,16 +10,13 @@ namespace Tools
         public int cornerCount;
         public int k;
         public int b;
-    
+
         public void Rebuild()
         {
             curve = new AnimationCurve();
-            for (var i = 0; i < cornerCount; i++)
-            {
-                curve.AddKey(i, i * k + b);
-            }
+            for (var i = 0; i < cornerCount; i++) curve.AddKey(i, i * k + b);
         }
-    
+
         public void AddCorner()
         {
             cornerCount++;
@@ -31,7 +28,7 @@ namespace Tools
             cornerCount--;
             curve.RemoveKey(cornerCount);
         }
-    
+
         public int Evaluate(int x)
         {
             return (int)curve.Evaluate(x);
@@ -39,10 +36,7 @@ namespace Tools
 
         public int ForceEvaluate(int x)
         {
-            if (curve.length - 1 < x)
-            {
-                return k * x + b;
-            }
+            if (curve.length - 1 < x) return k * x + b;
 
             return Evaluate(x);
         }

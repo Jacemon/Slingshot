@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Entities.Levels.Generators;
 using Tools.Interfaces;
 using UnityEngine;
@@ -24,6 +23,11 @@ namespace Entities.Levels
             StopGenerate();
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            generators?.ForEach(g => ((BaseGenerator)g).DrawGizmos());
+        }
+
         public virtual void StartGenerate()
         {
             generators?.ForEach(g =>
@@ -33,13 +37,9 @@ namespace Entities.Levels
             });
         }
 
-        public virtual void StopGenerate() { 
-            generators?.ForEach(g => g.StopGenerate());
-        }
-
-        private void OnDrawGizmosSelected()
+        public virtual void StopGenerate()
         {
-            generators?.ForEach(g => ((BaseGenerator)g).DrawGizmos());
+            generators?.ForEach(g => g.StopGenerate());
         }
     }
 }

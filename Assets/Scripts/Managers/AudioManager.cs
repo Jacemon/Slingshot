@@ -12,7 +12,7 @@ namespace Managers
         public float musicVolume;
         [Range(0, 1)]
         public float effectsVolume;
-        
+
         public BoolReference musicVolumeSwitch;
         public BoolReference effectsVolumeSwitch;
         
