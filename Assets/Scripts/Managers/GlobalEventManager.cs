@@ -13,6 +13,7 @@ namespace Managers
 
         // Projectile
         public static Action<Projectile> OnProjectileThrown;
+        public static Action<Projectile, Target> OnProjectileHitTarget;
 
         // Level
         public static Action<Level> OnLevelLoaded;

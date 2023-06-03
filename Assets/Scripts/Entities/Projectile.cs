@@ -78,6 +78,8 @@ namespace Entities
             _rb.angularVelocity = minMaxAngularVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
 
             _collider2D.enabled = false;
+
+            GlobalEventManager.OnProjectileHitTarget?.Invoke(this, target);
         }
 
         private void OnMouseDown()
