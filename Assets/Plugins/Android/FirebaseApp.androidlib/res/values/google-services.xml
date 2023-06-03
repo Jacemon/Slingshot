@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
-  <string name="gcm_defaultSenderId" translatable="false">1002138882065</string>
-  <string name="google_storage_bucket" translatable="false">ja-and-mo-slingshot.appspot.com</string>
-  <string name="project_id" translatable="false">ja-and-mo-slingshot</string>
-  <string name="google_api_key" translatable="false">AIzaSyA0QI_dOUn82yyXj-u5EPBtLQH-kG2Vnsg</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA0QI_dOUn82yyXj-u5EPBtLQH-kG2Vnsg</string>
-  <string name="google_app_id" translatable="false">1:1002138882065:android:37f64da82fbd01960b61b0</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">160429775506</string>
+  <string name="google_storage_bucket" translatable="false">jaandmo-slingshot.appspot.com</string>
+  <string name="project_id" translatable="false">jaandmo-slingshot</string>
+  <string name="google_api_key" translatable="false">AIzaSyBfLq5kkCgO-E6TeItrZdmJM_MXuWqA8FQ</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBfLq5kkCgO-E6TeItrZdmJM_MXuWqA8FQ</string>
+  <string name="google_app_id" translatable="false">1:160429775506:android:e8cfbec3422cc03b27644b</string>
+  <string name="default_web_client_id" translatable="false">160429775506-34hs23i7h9v3vng8b0c1f9o17osu9jlo.apps.googleusercontent.com</string>
 </resources>
