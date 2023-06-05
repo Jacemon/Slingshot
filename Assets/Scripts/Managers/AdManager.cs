@@ -10,7 +10,7 @@ namespace Managers
         public IntReference maxAvailableLevel;
 
 #if UNITY_ANDROID
-        private const string AppKey = "194a10405";
+        private const string AppKey = "1a488ecbd";
 #elif UNITY_IOS
         private const string AppKey = "";
 #else
