@@ -49,7 +49,15 @@ namespace Managers
                  MoneyManager.WithdrawMoney(shopItem.ItemCost)))
             {
                 shopItem.Purchase();
-                Debug.Log($"{key} was purchased");
+                if (!shopItem.isPurchased.Value)
+                {
+                    GlobalEventManager.OnItemPurchased?.Invoke(shopItem);
+                    Debug.Log($"{key} was purchased");
+                }
+                else
+                {
+                    Debug.Log($"{key} was selected");
+                }
             }
             else
             {

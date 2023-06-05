@@ -84,6 +84,7 @@ namespace Managers
             if (IronSource.Agent.isInterstitialReady())
             {
                 IronSource.Agent.showInterstitial();
+                GlobalEventManager.OnInterstitialAdImpression?.Invoke();
                 Debug.Log("Interstitial ad is ready and shown");
             }
             else
@@ -97,6 +98,7 @@ namespace Managers
             if (IronSource.Agent.isRewardedVideoAvailable())
             {
                 IronSource.Agent.showRewardedVideo();
+                GlobalEventManager.OnRewardedAdImpression?.Invoke();
                 Debug.Log("Rewarded ad is ready and shown");
             }
             else

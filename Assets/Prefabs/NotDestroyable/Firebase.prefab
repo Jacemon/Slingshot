@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9414b72c46b34943ac3276b88610397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialComplete: {fileID: 11400000, guid: b237c5804a45552408bcb0fc6ff7bef3, type: 2}
+  firstPlay: {fileID: 11400000, guid: 4d799927cdb4c1f4c8db13f4f412bec3, type: 2}
 --- !u!114 &7514857709335353993
 MonoBehaviour:
   m_ObjectHideFlags: 0
