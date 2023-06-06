@@ -3,6 +3,7 @@ using Entities.Levels.Generators;
 using Entities.Targets;
 using Managers;
 using TMPro;
+using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Entities.Levels
@@ -14,7 +15,9 @@ namespace Entities.Levels
         public Vector2 spawnPoint;
         [Space]
         public TextMeshProUGUI[] helpLabels;
-
+        [Space]
+        public BoolReference tutorialComplete; 
+        
         private Target _apple;
         private Animator _handAnimator;
 
@@ -123,6 +126,12 @@ namespace Entities.Levels
         {
             UpdateApple();
             ToggleLabel(4);
+
+            if (!tutorialComplete.Value)
+            {
+                tutorialComplete.Value = true;
+                GlobalEventManager.OnTutorialComplete?.Invoke();
+            }
         }
     }
 }

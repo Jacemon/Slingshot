@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "160429775506",
+    "project_id": "jaandmo-slingshot",
+    "storage_bucket": "jaandmo-slingshot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160429775506:android:e8cfbec3422cc03b27644b",
+        "android_client_info": {
+          "package_name": "com.jaandmo.slingshot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160429775506-34hs23i7h9v3vng8b0c1f9o17osu9jlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfLq5kkCgO-E6TeItrZdmJM_MXuWqA8FQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160429775506-34hs23i7h9v3vng8b0c1f9o17osu9jlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

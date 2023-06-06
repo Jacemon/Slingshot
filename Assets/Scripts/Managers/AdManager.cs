@@ -10,7 +10,7 @@ namespace Managers
         public IntReference maxAvailableLevel;
 
 #if UNITY_ANDROID
-        private const string AppKey = "194a10405";
+        private const string AppKey = "1a488ecbd";
 #elif UNITY_IOS
         private const string AppKey = "";
 #else
@@ -84,6 +84,7 @@ namespace Managers
             if (IronSource.Agent.isInterstitialReady())
             {
                 IronSource.Agent.showInterstitial();
+                GlobalEventManager.OnInterstitialAdImpression?.Invoke();
                 Debug.Log("Interstitial ad is ready and shown");
             }
             else
@@ -97,6 +98,7 @@ namespace Managers
             if (IronSource.Agent.isRewardedVideoAvailable())
             {
                 IronSource.Agent.showRewardedVideo();
+                GlobalEventManager.OnRewardedAdImpression?.Invoke();
                 Debug.Log("Rewarded ad is ready and shown");
             }
             else

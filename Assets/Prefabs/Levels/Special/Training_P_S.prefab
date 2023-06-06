@@ -917,6 +917,7 @@ MonoBehaviour:
   - {fileID: 276864932}
   - {fileID: 1317339629}
   - {fileID: 669461236}
+  tutorialComplete: {fileID: 11400000, guid: b237c5804a45552408bcb0fc6ff7bef3, type: 2}
   references:
     version: 2
     RefIds: []

@@ -65,6 +65,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6067994f5f6c09643994f59b430c248b, type: 2}
   floatReferences: []
   boolReferences:
+  - {fileID: 11400000, guid: 4d799927cdb4c1f4c8db13f4f412bec3, type: 2}
+  - {fileID: 11400000, guid: b237c5804a45552408bcb0fc6ff7bef3, type: 2}
   - {fileID: 11400000, guid: a126f20a56709d142a6e4718d6d35c68, type: 2}
   - {fileID: 11400000, guid: 4adc7864a5a69f540a854dce355f68e5, type: 2}
   - {fileID: 11400000, guid: 5308a5009c137e74ebed6e4be283d93f, type: 2}
