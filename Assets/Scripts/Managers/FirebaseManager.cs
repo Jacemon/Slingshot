@@ -27,7 +27,8 @@ namespace Managers
             GlobalEventManager.OnTutorialComplete += TutorialComplete;
             GlobalEventManager.OnInterstitialAdImpression += InterstitialAdImpression;
             GlobalEventManager.OnRewardedAdImpression += RewardedAdImpression;
-            GlobalEventManager.OnItemPurchased += ItemPurchased;
+            //GlobalEventManager.OnItemPurchased += ItemPurchased;
+            GlobalEventManager.OnItemPurchased += ItemPurchasedWithoutParameters;
             GlobalEventManager.OnProjectileThrown += ProjectileThrown;
             GlobalEventManager.OnProjectileHitTarget += ProjectileHitTarget;
             GlobalEventManager.OnTargetHitGround += TargetHitGround;
@@ -40,7 +41,8 @@ namespace Managers
             GlobalEventManager.OnTutorialComplete -= TutorialComplete;
             GlobalEventManager.OnInterstitialAdImpression -= InterstitialAdImpression;
             GlobalEventManager.OnRewardedAdImpression -= RewardedAdImpression;
-            GlobalEventManager.OnItemPurchased -= ItemPurchased;
+            //GlobalEventManager.OnItemPurchased -= ItemPurchased;
+            GlobalEventManager.OnItemPurchased -= ItemPurchasedWithoutParameters;
             GlobalEventManager.OnProjectileThrown -= ProjectileThrown;
             GlobalEventManager.OnProjectileHitTarget -= ProjectileHitTarget;
             GlobalEventManager.OnTargetHitGround -= TargetHitGround;
@@ -98,7 +100,21 @@ namespace Managers
                     break;
             }
         }
-        
+
+        private void ItemPurchasedWithoutParameters(BaseShopItem shopItem) // TODO: delete -> ItemPurchased()
+        {
+            switch (shopItem)
+            {
+                case LeveledShopItem leveledShopItem:
+                    FirebaseAnalytics.LogEvent($"{FirebaseAnalytics.EventPurchase}_{leveledShopItem.name}" +
+                                               $"_{leveledShopItem.itemLevel.Value}, ");
+                    break;
+                default:
+                    FirebaseAnalytics.LogEvent($"{FirebaseAnalytics.EventPurchase}_{shopItem.name}");
+                    break;
+            }
+        }
+
         // private void LevelUp(Level level)
         // {
         //     FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventLevelUp, new Parameter("level", level.levelNumber));
