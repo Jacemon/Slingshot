@@ -68,7 +68,11 @@ namespace Entities
         {
             if (collision == null || inPick || _follower.enabled) return;
 
-            if (collision.gameObject.TryGetComponent(out Target target)) target.GetDamage(damage);
+            if (collision.gameObject.TryGetComponent(out Target target))
+            {
+                target.GetDamage(damage);
+                GlobalEventManager.OnProjectileHitTarget?.Invoke(this, target);
+            }
 
             // Random angular and regular velocity
             var randomVelocity = minMaxVelocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
@@ -79,7 +83,6 @@ namespace Entities
 
             _collider2D.enabled = false;
 
-            GlobalEventManager.OnProjectileHitTarget?.Invoke(this, target);
         }
 
         private void OnMouseDown()

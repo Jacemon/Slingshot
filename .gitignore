@@ -78,4 +78,5 @@ crashlytics-build.properties
 !*.obj
 
 # Debug
+*_BackUpThisFolder_ButDontShipItWithYourGame/
 *_BurstDebugInformation_DoNotShip/
