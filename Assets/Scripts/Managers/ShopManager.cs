@@ -44,26 +44,30 @@ namespace Managers
         private void Buy(string key)
         {
             var shopItem = shopItemWithDisplays.Find(item => item.shopItem.itemNameKey == key).shopItem;
-            if (shopItem != null &&
-                ((shopItem.isPurchased != null && shopItem.isPurchased.Value) ||
-                 MoneyManager.WithdrawMoney(shopItem.ItemCost)))
+
+            if (shopItem != null)
             {
-                shopItem.Purchase();
-                if (!shopItem.isPurchased.Value)
+                if (shopItem.isPurchased != null && shopItem.isPurchased.Value)
                 {
-                    GlobalEventManager.OnItemPurchased?.Invoke(shopItem);
+                    shopItem.Purchase();
+                    Debug.Log($"{key} was selected");
+                }
+                else if (MoneyManager.WithdrawMoney(shopItem.ItemCost))
+                {
+                    shopItem.Purchase();
                     Debug.Log($"{key} was purchased");
+
                 }
                 else
                 {
-                    Debug.Log($"{key} was selected");
+                    Debug.Log($"{key} was not purchased");
                 }
             }
             else
             {
-                Debug.Log($"{key} was not purchased");
+                Debug.Log($"{key} was not exist");
             }
-
+            
             Reload();
         }
 
