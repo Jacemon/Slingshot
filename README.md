@@ -4,3 +4,5 @@
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/JU5_UBPNmic/0.jpg)](http://www.youtube.com/watch?v=JU5_UBPNmic)
 
 [Скачать Slingshot.apk](https://github.com/Jacemon/Slingshot/raw/main/Slingshot.apk)
+
+[Slingshot in Google Play](https://play.google.com/store/apps/details?id=com.jaandmo.slingshot)
