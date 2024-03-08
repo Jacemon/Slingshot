@@ -3,12 +3,13 @@ using System.Linq;
 using Entities;
 using Entities.Levels;
 using Tools.Follower;
+using Tools.Interactive;
 using Tools.ScriptableObjects.References;
 using UnityEngine;
 
 namespace Managers
 {
-    public class ProjectileManager : MonoBehaviour
+    public class ProjectileManager : InteractiveGameObject
     {
         [Header("Settings")]
         public List<Projectile> projectilePrefabs = new();
@@ -20,6 +21,7 @@ namespace Managers
         
         private readonly List<Projectile> _thrownProjectiles = new();
         private Projectile _spawnedProjectile;
+        private bool _interactive = true;
         
         private static readonly int IsFilled = Animator.StringToHash("IsFilled");
 
@@ -48,6 +50,11 @@ namespace Managers
             GlobalEventManager.OnProjectileThrown -= ProjectileThrown;
             GlobalEventManager.OnLevelLoaded -= DeleteThrownProjectiles;
         }
+        public override void SetInteractive(bool interactive)
+        {
+            _interactive = interactive;
+            RespawnProjectile();
+        }
 
         private void OnProjectileLevelChanged()
         {
@@ -55,7 +62,7 @@ namespace Managers
 
             Debug.Log($"Projectile level: -> {projectileLevel.Value}");
         }
-
+        
         private void ProjectileThrown(Projectile projectile)
         {
             SpawnProjectile(projectile.projectileName);
@@ -79,6 +86,7 @@ namespace Managers
             projectile.level = projectileLevel.Value;
             projectile.GetComponent<Follower>().followPoint = spawnPoint;
             _spawnedProjectile = Instantiate(projectile, spawnPoint, Quaternion.identity);
+            _spawnedProjectile.SetInteractive(_interactive);
         }
 
         private void DeleteThrownProjectiles(Level dummy)

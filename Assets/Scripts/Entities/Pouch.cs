@@ -1,5 +1,6 @@
 using Tools;
 using Tools.Follower;
+using Tools.Interactive;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -9,7 +10,7 @@ namespace Entities
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(MouseFollower))]
     [RequireComponent(typeof(StaticTrajectory))]
-    public class Pouch : MonoBehaviour
+    public class Pouch : InteractiveGameObject
     {
         [Header("Settings")]
         public float throwSpeed = 7.0f;
@@ -33,6 +34,7 @@ namespace Entities
         private StaticTrajectory _staticTrajectory;
         
         private Vector2 _direction;
+        private bool _interactive; // TODO
 
         private void Awake()
         {
@@ -88,6 +90,11 @@ namespace Entities
             Gizmos.DrawWireSphere(throwPointAnchor, 0.1f);
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(new Vector2(throwPointAnchor.x, throwPointAnchor.y - throwPointOffset), 0.1f);
+        }
+        
+        public override void SetInteractive(bool interactive)
+        {
+            _interactive = interactive;
         }
 
         private void FillPouch(Projectile projectileToFill)

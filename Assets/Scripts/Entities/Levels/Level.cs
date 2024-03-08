@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entities.Levels.Generators;
 using Tools.Interfaces;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Entities.Levels
         [SerializeReference]
         public List<IGenerator> generators = new();
 
+        public Action<bool> LevelComplete;
+        
         protected virtual void Awake()
         {
             StartGenerate();
@@ -23,6 +26,10 @@ namespace Entities.Levels
             StopGenerate();
         }
 
+        public virtual void StartLevel() { }
+        public virtual void WinLevel() { }
+        public virtual void LoseLevel() { }
+        
         private void OnDrawGizmosSelected()
         {
             generators?.ForEach(g => ((BaseGenerator)g).DrawGizmos());

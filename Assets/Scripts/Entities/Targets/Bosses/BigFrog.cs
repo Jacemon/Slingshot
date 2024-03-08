@@ -5,7 +5,6 @@ namespace Entities.Targets.Bosses
 {
     public class BigFrog : BossTarget
     {
-
         [Header("BigFrog Settings")]
         public Vector2 xRange = new(-2, 2);
         public float jumpHeight = 20f;

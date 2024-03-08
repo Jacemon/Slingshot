@@ -4,6 +4,7 @@ using Entities.Targets;
 using Managers;
 using Tools;
 using Tools.Follower;
+using Tools.Interactive;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -13,7 +14,7 @@ namespace Entities
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Follower))]
     [RequireComponent(typeof(MouseFollower))]
-    public class Projectile : MonoBehaviour
+    public class Projectile : InteractiveGameObject
     {
         [Header("Settings")]
         public string projectileName;
@@ -36,6 +37,8 @@ namespace Entities
         private MouseFollower _mouseFollower;
         private Rigidbody2D _rb;
 
+        private bool _interactive = true;
+        
         private const float AppearTime = 0.5f;
         
         private void Awake()
@@ -87,6 +90,8 @@ namespace Entities
 
         private void OnMouseDown()
         {
+            if (!_interactive) return;
+            
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
             _mouseFollower.enabled = inPick = true;
@@ -95,8 +100,15 @@ namespace Entities
 
         private void OnMouseUp()
         {
+            if (!_interactive) return;
+            
             _mouseFollower.enabled = inPick = false;
             _follower.enabled = true;
+        }
+        
+        public override void SetInteractive(bool interactive)
+        {
+            _interactive = interactive;
         }
 
         public void Shoot(Vector2 force)

@@ -20,15 +20,15 @@ namespace Entities.Targets
         protected override void OnEnable()
         {
             base.OnEnable();
-            _pathFollower.OnMovingLeft += MoveLeft;
-            _pathFollower.OnMovingRight += MoveRight;
+            _pathFollower.MovingLeft += MoveLeft;
+            _pathFollower.MovingRight += MoveRight;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            _pathFollower.OnMovingLeft -= MoveLeft;
-            _pathFollower.OnMovingRight -= MoveRight;
+            _pathFollower.MovingLeft -= MoveLeft;
+            _pathFollower.MovingRight -= MoveRight;
         }
 
         private void MoveLeft()

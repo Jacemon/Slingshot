@@ -1,4 +1,5 @@
 ﻿MainMenu/PlayButton,"Play"
+MainMenu/PlayArcadeButton,"Play Arcade"
 Levels/TrainingLevel/StartHelpLabel,"Drag the stone into the slingshot and let go when you aim at the apple"
 Levels/TrainingLevel/RemainingOneHelpLabel,"It's the last time left! Shoot when the cart is under the apple"
 Levels/TrainingLevel/RemainingTwoHelpLabel,"Hit the apple two more times"

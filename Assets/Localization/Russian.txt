@@ -1,4 +1,5 @@
 ﻿MainMenu/PlayButton,"Играть"
+MainMenu/PlayArcadeButton,"Играть в Аркаду"
 Levels/TrainingLevel/StartHelpLabel,"Перетяни камень в рогатку, и отпусти, когда прицелишься в яблоко"
 Levels/TrainingLevel/RemainingOneHelpLabel,"Остался последний раз! Выстрели, когда тележка будет под яблоком"
 Levels/TrainingLevel/RemainingTwoHelpLabel,"Попади в яблоко ещё два раза"

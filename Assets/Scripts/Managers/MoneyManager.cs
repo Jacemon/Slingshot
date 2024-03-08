@@ -47,7 +47,7 @@ namespace Managers
             moneyLabel.text = FormatInteger(_money.Value);
         }
 
-        public static string FormatInteger(decimal digit)
+        public static string FormatInteger(decimal digit) // TODO: Move to Format class
         {
             string[] names = { "", "K", "M", "B", "T", "Qa", "Qi" };
             var n = 0;

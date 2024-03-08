@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Entities.Levels;
@@ -27,9 +28,12 @@ namespace Managers
         [ReadOnlyInspector]
         private Level loadedLevel;
 
+        public Action<Level, bool> LevelComplete;
+        
         private void Awake()
         {
             CheckGUI();
+            OnMaxAvailableLevelChanged();
             LoadLevel(currentLevel.Value);
         }
 
@@ -47,35 +51,48 @@ namespace Managers
 
         private void OnMaxAvailableLevelChanged()
         {
-            LoadLevel(maxAvailableLevel.Value);
+            if (maxAvailableLevel.Value > levels.Keys.Max())
+            {
+                maxAvailableLevel.Value = levels.Keys.Max();
+            } else if (maxAvailableLevel.Value < levels.Keys.Min())
+            {
+                maxAvailableLevel.Value = levels.Keys.Min();
+            }
+            // LoadLevel(maxAvailableLevel.Value);
             Debug.Log($"MaxAvailableLevel: -> {maxAvailableLevel.Value}");
         }
 
-        private void CheckGUI()
+        private void CheckGUI() // TODO move to LevelUIController
         {
             levelLabel.text = currentLevel.Value.ToString();
 
             prevButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Min());
             nextButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max()
                                             && currentLevel.Value != maxAvailableLevel.Value);
-            buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max()
-                                           && currentLevel.Value == maxAvailableLevel.Value);
+            // buyButton.gameObject.SetActive(currentLevel.Value != levels.Keys.Max()
+            //                                && currentLevel.Value == maxAvailableLevel.Value);
         }
-
+        
         public void LoadLevel(int levelNumber)
         {
             Debug.Log($"Start loading level {levelNumber}...");
 
-            if (levelNumber < levels.Keys.Min() || levelNumber > levels.Keys.Max())
+            if (levelNumber < levels.Keys.Min())
             {
-                Debug.Log("Edge");
+                Debug.Log("Min edge");
+                LoadLevel(levels.Keys.Min());
+                return;
+            } 
+            if (levelNumber > levels.Keys.Max())
+            {
+                Debug.Log("Max edge");
+                LoadLevel(levels.Keys.Max());
                 return;
             }
-
             if (levelNumber > maxAvailableLevel.Value)
             {
-                currentLevel.Value = maxAvailableLevel.Value;
                 Debug.Log("Not available level");
+                LoadLevel(maxAvailableLevel.Value);
                 return;
             }
 
@@ -92,14 +109,39 @@ namespace Managers
             currentLevel.Value = levelNumber;
 
             // Destroy old and create new level
+            if (loadedLevel != null)
+            {
+                loadedLevel.LevelComplete -= CheckLevelComplete;
+            }
             if (loadedLevel != null) Destroy(loadedLevel.gameObject);
             loadedLevel = Instantiate(levels[levelNumber]);
-
+            loadedLevel.LevelComplete += CheckLevelComplete;
+            
             GlobalEventManager.OnLevelLoaded?.Invoke(loadedLevel);
 
             Debug.Log($"End loading level {currentLevel.Value}...");
         }
 
+        private void CheckLevelComplete(bool complete)
+        {
+            LevelComplete?.Invoke(loadedLevel, complete);
+            
+            if (complete && maxAvailableLevel.Value == currentLevel.Value)
+            {
+                maxAvailableLevel.Value++;
+            }
+        }
+
+        public void StartLevel()
+        {
+            loadedLevel.StartLevel();
+        }
+        
+        public void ReloadLevel()
+        {
+            LoadLevel(currentLevel.Value);
+        }
+        
         public void NextLevel()
         {
             LoadLevel(currentLevel.Value + 1);

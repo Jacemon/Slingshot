@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Tools.Interfaces;
 using UnityEngine;
@@ -10,7 +11,18 @@ namespace Tools.Follower
 {
     public class PathFollower : MonoBehaviour, IReloadable
     {
-        public List<Vector2> points = new();
+        public enum PointType
+        {
+            Vector2,
+            Vector3,
+            GameObject
+        }
+        
+        public PointType pointType;
+        public List<Vector2> vector2Points = new();
+        public List<Vector3> vector3Points = new();
+        public List<GameObject> gameObjectPoints = new();
+        
         public MinMaxCurve velocity = 1;
         [Space]
         [Tooltip("Number of cycles to play (-1 for infinite)")]
@@ -19,9 +31,9 @@ namespace Tools.Follower
         
         private ParticleSystem _particleSystem;
         private Sequence _sequence;
-
-        public Action OnMovingLeft;
-        public Action OnMovingRight;
+        
+        public Action MovingLeft;
+        public Action MovingRight;
 
         private void OnEnable()
         {
@@ -36,20 +48,43 @@ namespace Tools.Follower
 
         private void OnDrawGizmosSelected()
         {
+            PointsCast();
+            
             Gizmos.color = Color.green;
 
-            if (points.Count == 0) return;
+            if (vector3Points.Count == 0) return;
 
-            var prevPoint = points[0];
-            for (var i = 1; i < points.Count; i++)
+            var prevPoint = vector3Points[0];
+            for (var i = 1; i < vector3Points.Count; i++)
             {
-                Gizmos.DrawLine(prevPoint, points[i]);
-                prevPoint = points[i];
+                Gizmos.DrawLine(prevPoint, vector3Points[i]);
+                prevPoint = vector3Points[i];
             }
 
-            Gizmos.DrawLine(points[0], points[^1]);
+            Gizmos.DrawLine(vector3Points[0], vector3Points[^1]);
         }
 
+        private void PointsCast()
+        {
+            switch (pointType)
+            {
+                case PointType.Vector2:
+                    vector3Points = new List<Vector3>();
+                    foreach (var vector2Point in vector2Points)
+                    {
+                        vector3Points.Add(vector2Point);
+                    }
+                    break;
+                case PointType.GameObject:
+                    vector3Points = new List<Vector3>();
+                    foreach (var gameObjectPoint in gameObjectPoints)
+                    {
+                        vector3Points.Add(gameObjectPoint.transform.position);
+                    }
+                    break;
+            }
+        }
+        
         public void Reload()
         {
             transform.DOKill();
@@ -68,7 +103,7 @@ namespace Tools.Follower
 
         private void CheckDirectionInvoke(Vector2 startPoint, Vector2 endPoint)
         {
-            (CheckDirection(startPoint, endPoint) ? OnMovingLeft : OnMovingRight)?.Invoke();
+            (CheckDirection(startPoint, endPoint) ? MovingLeft : MovingRight)?.Invoke();
         }
 
         public void Pause()
@@ -83,16 +118,18 @@ namespace Tools.Follower
 
         private void Tween()
         {
-            if (points.Count == 0) return;
+            PointsCast();
+            
+            if (vector3Points.Count == 0) return;
 
-            transform.position = points[0];
+            transform.position = vector3Points[0];
 
             _sequence = DOTween.Sequence().SetLoops(loops);
 
-            for (var i = 1; i < points.Count; i++)
+            for (var i = 1; i < vector3Points.Count; i++)
             {
-                var startPoint = points[i - 1];
-                var endPoint = points[i];
+                var startPoint = vector3Points[i - 1];
+                var endPoint = vector3Points[i];
 
                 _sequence.AppendCallback(() => CheckDirectionInvoke(startPoint, endPoint));
                 _sequence.Append(transform
@@ -103,9 +140,9 @@ namespace Tools.Follower
             }
 
             if (!clamp) return;
-            _sequence.AppendCallback(() => CheckDirectionInvoke(points[^1], points[0]));
+            _sequence.AppendCallback(() => CheckDirectionInvoke(vector3Points[^1], vector3Points[0]));
             _sequence.Append(transform
-                .DOMove(points[0], Vector2.Distance(points[^1], points[0])
+                .DOMove(vector3Points[0], Vector2.Distance(vector3Points[^1], vector3Points[0])
                                    / velocity.Evaluate(Time.time, Random.Range(0.0f, 1.0f)))
                 .SetEase(Ease.Linear)
             );

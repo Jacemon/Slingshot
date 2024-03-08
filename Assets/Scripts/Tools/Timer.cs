@@ -12,7 +12,7 @@ namespace Tools
 
         public Action OnTimerDone;
 
-        private void Update()
+        protected virtual void Update()
         {
             if (!timerOn) return;
             timerDone = false;

@@ -48,8 +48,8 @@ namespace Entities
             GlobalEventManager.OnProjectileThrown += AddTimerDelay;
             GlobalEventManager.OnLevelLoaded += CheckLevel;
             _timer.OnTimerDone += ResumeCart;
-            _pathFollower.OnMovingLeft += MoveLeft;
-            _pathFollower.OnMovingRight += MoveRight;
+            _pathFollower.MovingLeft += MoveLeft;
+            _pathFollower.MovingRight += MoveRight;
         }
 
         private void OnDisable()
@@ -57,8 +57,8 @@ namespace Entities
             GlobalEventManager.OnProjectileThrown -= AddTimerDelay;
             GlobalEventManager.OnLevelLoaded -= CheckLevel;
             _timer.OnTimerDone -= ResumeCart;
-            _pathFollower.OnMovingLeft -= MoveLeft;
-            _pathFollower.OnMovingRight -= MoveRight;
+            _pathFollower.MovingLeft -= MoveLeft;
+            _pathFollower.MovingRight -= MoveRight;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

@@ -36,12 +36,12 @@ namespace Entities.Levels
 
         private void OnEnable()
         {
-            _pointGenerator.OnGenerated += Reload;
+            _pointGenerator.Generated += Reload;
         }
 
         private void OnDisable()
         {
-            _pointGenerator.OnGenerated -= Reload;
+            _pointGenerator.Generated -= Reload;
         }
 
         public void Reload()

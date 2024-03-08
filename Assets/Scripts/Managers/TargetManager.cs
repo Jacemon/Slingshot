@@ -129,7 +129,7 @@ namespace Managers
             {
                 target.level = targetLevel;
                 target.appearScale = minMaxScale.Evaluate(Time.time, Random.Range(0.0f, 1.0f));
-                target.GetComponent<PathFollower>().points = path;
+                target.GetComponent<PathFollower>().vector2Points = path;
             }
 
             return Instantiate(target, parent);
